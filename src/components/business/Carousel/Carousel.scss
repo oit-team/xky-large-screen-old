@@ -1,0 +1,40 @@
+.page-carousel {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  --slide-object-fit: contain;
+  --slide-first-child-flex: 1;
+
+  .page-carousel__wrapper {
+    display: flex;
+    flex-direction: column;
+    background: black;
+
+    & > *:first-child {
+      flex: var(--slide-first-child-flex) !important;
+    }
+
+    .v-image {
+      flex: 1;
+
+      .v-image__image {
+        background-size: var(--slide-object-fit);
+      }
+    }
+
+    .plyr {
+      flex: 1;
+
+      .plyr__poster {
+        pointer-events: none;
+      }
+
+      .vc-plyr__video {
+        background: inherit;
+        object-fit: var(--slide-object-fit);
+      }
+    }
+  }
+}
