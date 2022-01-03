@@ -7,14 +7,6 @@
 <script>
 export default {
   name: 'Home',
-  components: {},
-  created() {
-    console.log('created')
-  },
-  mounted() {
-    console.log('mounted')
-  },
-  deactivated() {},
 }
 </script>
 
