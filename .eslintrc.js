@@ -45,6 +45,8 @@ module.exports = {
     }],
     // 允许下划线命名
     'no-underscore-dangle': 'off',
+    // 关闭换行符检测
+    'linebreak-style': 'off',
   },
 
   overrides: [
