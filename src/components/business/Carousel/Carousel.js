@@ -73,7 +73,7 @@ export default {
   data: () => ({
     data: {
       carousel: c,
-      resouces: r,
+      resources: r,
     },
     realIndex: 0,
     show: true,
@@ -90,7 +90,8 @@ export default {
         class: 'page-carousel',
         props: {
           options: {
-            // loop: true,
+            // 倒带模式
+            rewind: true,
           },
         },
         on: {
@@ -140,13 +141,13 @@ export default {
             realIndex: this.realIndex,
             item,
             config,
-            resouces: this.data.resouces,
+            resouces: this.data.resources,
           },
           on: {
             next: () => {
               const allReady = this.$refs[refKey].every(blockItem => blockItem.readyNext)
-              // 前往下一个轮播内容，如果没有下一个，则回到第一个
-              if (allReady && !this.$swiper.slideNext()) this.$swiper.slideTo(0)
+              // 前往下一个轮播内容
+              if (allReady) this.$swiper.slideNext()
             },
             close: () => {
               this.show = false

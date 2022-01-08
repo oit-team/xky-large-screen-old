@@ -47,6 +47,10 @@ module.exports = {
     'no-underscore-dangle': 'off',
     // 关闭换行符检测
     'linebreak-style': 'off',
+    // 允许对函数参数重新赋值
+    'no-param-reassign': 'off',
+    // 关闭单个模块使用默认导出
+    'import/prefer-default-export': 'off',
   },
 
   overrides: [
@@ -79,7 +83,7 @@ module.exports = {
         'vue/attributes-order': 'off',
         // 组件属性排序
         'vue/order-in-components': ['warn', {
-          'order': [
+          order: [
             'el',
             'name',
             'key',
@@ -114,6 +118,12 @@ module.exports = {
         }],
         // 警告未使用的组件
         'vue/no-unused-components': 'warn',
+        // 不强制单行元素换行
+        'vue/singleline-html-element-content-newline': 'off',
+        // 不强制组件prop提供默认值
+        'vue/require-default-prop': 'off',
+        // 允许单个文件存在多个组件
+        'vue/one-component-per-file': 'off',
       },
     },
   ],

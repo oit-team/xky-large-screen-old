@@ -2,6 +2,7 @@ import { convertToUnit } from '@/utils/helper'
 
 export default {
   computed: {
+    // 具有自适应的元素大小样式
     measurableStyles() {
       const styles = {}
       const size = convertToUnit(this.size)

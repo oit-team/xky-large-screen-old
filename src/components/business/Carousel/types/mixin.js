@@ -6,7 +6,7 @@ export default {
     realIndex: Number,
     item: Object,
     config: Object,
-    resouces: Array,
+    resources: Array,
   },
 
   data() {

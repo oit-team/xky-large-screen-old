@@ -1,4 +1,32 @@
+// 此文件下禁止定义样式，否则会生成重复样式
+// 具体参考 https://vuetifyjs.com/zh-Hans/features/sass-variables
+
+// 字体样式
+$body-font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+// 字体大小
+$font-size-root: 16px;
+// 禁用颜色类
+$color-pack: false;
+
+// 亮色主题
+$material-light: (
+  app-bar: #d9d9d9,
+);
+// 暗色主题
+$material-dark: (
+  app-bar: #3f3f3f,
+  chips: #3f3f3f,
+);
+
+// 按钮尺寸
+$btn-sizes: (
+  default: 32,
+);
+
+// 禁用vuetify提供的工具库
+// 工具库声明文件在 vuetify/src/styles/settings/_utilities.scss
 $utilities: (
+  // Display utilities
   "overflow": false,
   "overflow-x": false,
   "overflow-y": false,
@@ -6,6 +34,7 @@ $utilities: (
   "float": false,
   "float:rtl": false,
   "float:ltr": false,
+  // Flex utilities
   "flex": false,
   "flex-direction": false,
   "flex-grow": false,
@@ -16,6 +45,7 @@ $utilities: (
   "align-content": false,
   "align-self": false,
   "order": false,
+  // Margin utilities
   "margin": false,
   "margin-x": false,
   "margin-y": false,
@@ -25,6 +55,7 @@ $utilities: (
   "margin-left": false,
   "margin-start": false,
   "margin-end": false,
+  // Negative margin utilities
   "negative-margin": false,
   "negative-margin-x": false,
   "negative-margin-y": false,
@@ -34,6 +65,7 @@ $utilities: (
   "negative-margin-left": false,
   "negative-margin-start": false,
   "negative-margin-end": false,
+  // Padding utilities
   "padding": false,
   "padding-x": false,
   "padding-y": false,
@@ -43,6 +75,7 @@ $utilities: (
   "padding-left": false,
   "padding-start": false,
   "padding-end": false,
+  // Border
   "rounded": false,
   "rounded-top": false,
   "rounded-right": false,
@@ -52,6 +85,7 @@ $utilities: (
   "rounded-top-right": false,
   "rounded-bottom-right": false,
   "rounded-bottom-left": false,
+  // Text
   "text-align": false,
   "text-decoration": false,
   "white-space": false,

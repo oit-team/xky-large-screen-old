@@ -9,6 +9,10 @@ export default {
 
   mixins: [Measurable],
 
+  props: {
+    size: [String, Number],
+  },
+
   render(h) {
     return VImg.options.render.call(this, h)
   },
