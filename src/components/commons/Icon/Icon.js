@@ -1,12 +1,20 @@
 import { VIcon } from 'vuetify/lib/components'
-
-// const { props } = VIcon.options
+import { convertToUnit } from '../../../utils/helper'
 
 // @vue/component
 export default {
   name: 'VcIcon',
 
-  extends: VIcon,
+  inheritAttrs: false,
 
-  props: {},
+  render(h) {
+    const data = {
+      props: {
+        ...this.$attrs,
+        size: convertToUnit(this.$attrs.size),
+      },
+    }
+
+    return h(VIcon, data, this.$slots.default)
+  },
 }

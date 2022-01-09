@@ -93,7 +93,7 @@
           <!--          </vc-btn>-->
         </div>
       </section>
-      <section class="flex overflow-auto flex-1 px-8 pt-6 bg-gray">
+      <section class="flex overflow-auto flex-1 pt-6 bg-gray">
         <!--        <div>-->
         <!--          <div class="flex clothing-list">-->
         <!--            <clothing-price-card-->

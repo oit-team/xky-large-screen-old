@@ -30,8 +30,8 @@ module.exports = {
       // 忽略含有字符串的行
       ignoreStrings: true,
     }],
-    // 在可以省略括号的地方强制不使用括号
-    'arrow-parens': ['error', 'as-needed'],
+    // 箭头函数不强制是否使用括号
+    'arrow-parens': 'off',
     // 警告未使用的变量
     'no-unused-vars': 'warn',
     // 关闭函数命名检测
@@ -55,7 +55,7 @@ module.exports = {
 
   overrides: [
     {
-      files: '**/*.vue',
+      files: '**/*.{vue,js}',
       rules: {
         // 不需要自闭和标签空格
         'vue/html-closing-bracket-spacing': ['warn', {

@@ -12,13 +12,14 @@ export default {
 
   data: () => ({
     options: {},
+    len: 19,
   }),
 
   computed: {
     clothingList() {
       return chunk(
         Array
-          .from({ length: 30 })
+          .from({ length: this.len })
           .map((v, i) => i),
         2,
       )
@@ -35,7 +36,7 @@ export default {
       momentumVelocityRatio: 1.5,
       virtual: {
         slides: this.clothingList,
-        renderSlide: this.genSlideContent,
+        renderSlide: this.genSlideContent.bind(this),
         addSlidesBefore: 6,
         addSlidesAfter: 6,
       },
@@ -43,20 +44,41 @@ export default {
         // TODO 自由模式下滚动结束对齐到第一列
         transitionEnd: () => {
         },
+        slideChange: (e) => {
+          console.log(e)
+          if (!this.$swiper) return
+          // this.len += 15
+          // 问题：当slide里只有一个项目时，即使后续添加了新项，也不会刷新
+          // 解决：清理最后一个slide缓存，使其重新加载
+          const last = Object.keys(this.$swiper.virtual.cache).at(-1)
+          const lastSlide = this.$swiper.virtual.cache[last]?.[0]
+          if (lastSlide?.__vue__?.$children?.length === 1) {
+            this.$swiper.virtual.removeSlide(this.clothingList.length - 1)
+            delete this.$swiper.virtual.cache[last]
+          }
+
+          this.$swiper.virtual.slides = this.clothingList
+        },
       },
     }
+  },
+
+  mounted() {
+    this.$swiper = this.$refs.swiper.$swiper
   },
 
   methods: {
     genGoodsList() {
       return this.$createElement(Swiper, {
-        class: 'flex-1',
+        ref: 'swiper',
+        class: 'flex-1 px-8',
         props: {
           options: this.options,
         },
-      }, this.genSlideContent())
+      }, [this.$createElement('div', { class: 'absolute left-full z-20' }, '测试')])
     },
     genSlideContent(slide, index) {
+      if (!slide) return undefined
       const { $vuetify } = this
 
       const Slide = Vue.extend({
@@ -66,19 +88,17 @@ export default {
           // 暂时选择直接修改值来解决
           this.$vuetify = $vuetify
         },
+        // eslint-disable-next-line arrow-body-style
         render: () => {
-          const item = this.$createElement(ClothingPriceCard, {
+          const child = slide.map(i => this.$createElement(ClothingPriceCard, {
             class: 'mb-4',
           }, [
+            // this.$createElement('div', i),
             this.genTrashBtn(this.$createElement),
-          ])
-
+          ]))
           return this.$createElement('div', {
             class: 'swiper-slide flex flex-col',
-          }, [
-            item,
-            item,
-          ])
+          }, child)
         },
       })
       return new Slide().$mount().$el
@@ -89,6 +109,9 @@ export default {
           <vc-icon size="18" color="#d9d9d9">fas fa-trash-alt</vc-icon>
         </vc-btn>
       )
+    },
+    loadData() {
+
     },
   },
 
