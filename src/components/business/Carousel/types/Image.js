@@ -39,21 +39,20 @@ export default {
       this.timer = setTimeout(() => {
         this.readyNext = true
         this.$emit('next')
-      }, this.config.duration)
+      }, this.config.duration || 5000)
     },
   },
 
   render(h) {
     const {
       src,
-      lazySrc,
       fit,
     } = this.item
 
     return h(VImg, {
       props: {
         src,
-        lazySrc,
+        lazySrc: src,
       },
       style: {
         '--slide-object-fit': fit,

@@ -9,8 +9,6 @@ import mixin from './mixin'
 // 双击判定时间(ms)
 const INTERVAL = 300
 
-const debugState = (index, state) => console.debug(`[${index}] 播放状态 ==> ${state}`)
-
 export default {
   name: 'video-type',
 
@@ -31,22 +29,20 @@ export default {
         this.stopPlay()
       }
     },
-    'carousel.show': function (value) {
-      if (value) {
-        this.active && this.player.play()
-      } else {
-        setTimeout(() => this.stopPlay(), 500)
-      }
-    },
-  },
-
-  created() {
+    // 'carousel.show': function (value) {
+    //   if (value) {
+    //     this.active && this.player.play()
+    //   } else {
+    //     // 轮播关闭后延迟暂停视频
+    //     setTimeout(() => this.stopPlay(), 500)
+    //   }
+    // },
   },
 
   mounted() {
     this.player = new Plyr(this.$el, {
-      // controls: this.genControls(),
-      // autoplay: true,
+      // 自动播放
+      // autoplay: this.autoplay,
       // loop: {
       //   active: true,
       // },
@@ -63,11 +59,26 @@ export default {
 
     this.hideControls()
     this.bindPlyrListeners()
+    // BUG：activated钩子未正常调用，解决：主动调用activated钩子
+    this.$nextTick(this.$options.activated[0])
+  },
+
+  activated() {
+    const { autoplay } = this.$route.query
+    // 首次自动播放 0：禁用 1：启用
+    this.autoplay = !autoplay || Boolean(Number(autoplay))
+    // 设置循环播放
+    this.player.loop = Boolean(this.config.loop)
     // 自动播放
-    this.active && this.player.play()
+    this.autoplay && this.handleTogglePlay(true)
   },
 
   deactivated() {
+    // 轮播关闭后延迟暂停视频
+    setTimeout(() => this.handleTogglePlay(false), 500)
+  },
+
+  destroyed() {
     this.player.destroy()
   },
 
@@ -75,9 +86,7 @@ export default {
     genVideo() {
       return this.$createElement('video', {
         attrs: {
-          // src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',
-          // src: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4',
-          src: this.resouces[this.index].src,
+          src: this.item.src,
           'data-poster': this.item.poster,
         },
         class: 'vc-plyr__video',
@@ -105,19 +114,19 @@ export default {
       const hideControls = this.hideControls.bind(this)
 
       this.player.on('pause', () => {
-        debugState(this.index, 'pause')
+        this._debugState('pause')
         showControls()
       })
       this.player.on('stalled', () => {
-        debugState(this.index, 'stalled')
+        this._debugState('stalled')
         showControls()
       })
       this.player.on('playing', () => {
-        debugState(this.index, 'playing')
+        this._debugState('playing')
         hideControls()
       })
       this.player.on('ended', () => {
-        debugState(this.index, 'ended')
+        this._debugState('ended')
         hideControls()
         this.slideNext()
       })
@@ -150,6 +159,17 @@ export default {
     slideNext() {
       this.readyNext = true
       this.$emit('next')
+    },
+    handleTogglePlay(value) {
+      if (value) {
+        console.log('play')
+        this.active && setTimeout(() => this.player.play())
+      } else {
+        this.stopPlay()
+      }
+    },
+    _debugState(state) {
+      console.debug(`[${this.index}] 播放状态 ==> ${state}`)
     },
   },
 

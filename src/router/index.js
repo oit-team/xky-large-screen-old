@@ -14,6 +14,11 @@ const routes = [
     name: 'Carousel',
     component: () => import('@/views/Carousel.vue'),
   },
+  {
+    path: '/video',
+    name: 'Video',
+    component: () => import('@/views/Video.vue'),
+  },
 ]
 
 const router = new VueRouter({

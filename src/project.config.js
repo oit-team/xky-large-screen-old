@@ -8,5 +8,5 @@ module.exports = {
     success: '#4CAF50',
     warning: '#FFC107',
   },
-  viewportWidth: 1125, // UI设计稿的宽度
+  viewportWidth: 1080, // UI设计稿的宽度
 }

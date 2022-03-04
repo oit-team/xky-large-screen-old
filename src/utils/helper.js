@@ -52,14 +52,21 @@ export const formatDate = (date, format = 'yyyy/MM/dd') => {
     's+': _date.getSeconds(),
   }
 
-  Object.entries(o).forEach(([key, value]) => {
-    if (new RegExp(`(${key})`).test(_format)) {
-      _format = _format.replace(
-        RegExp.$1,
-        RegExp.$1.length === 1 ? value : (`00${value}`).substr(value.length),
-      )
-    }
-  })
+  Object.entries(o)
+    .forEach(([key, value]) => {
+      if (new RegExp(`(${key})`).test(_format)) {
+        _format = _format.replace(
+          RegExp.$1,
+          RegExp.$1.length === 1 ? value : (`00${value}`).substr(value.length),
+        )
+      }
+    })
 
   return _format
+}
+
+export function getSmallImage(img) {
+  // 暂时不用
+  // return img.replace(/(.*)\./, '$1_s.')
+  return img.replace(/(.*)\./, '$1.')
 }

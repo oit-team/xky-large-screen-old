@@ -10,6 +10,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.15.3",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@vue/composition-api": "^1.4.3",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
     "lodash": "^4.17.15",

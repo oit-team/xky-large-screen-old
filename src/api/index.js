@@ -16,7 +16,7 @@ const axios = Axios.create(axiosConfig)
  * 请求拦截器
  */
 axios.interceptors.request.use(config => {
-  config.headers.token = localStorage.accessToken
+  config.headers.token = localStorage.token
 
   return config
 }, error => Promise.reject(error))
@@ -43,13 +43,12 @@ export function post(url, params = {}, config = {}) {
   } = { ...defaultConfig, ...config }
 
   const userData = {
-    userId: localStorage.userId,
-    brandId: localStorage.brandId,
+    brandId: localStorage.getItem('brandId'),
   }
 
   const formattedParams = {
     head: {
-      aid: userData.userId,
+      aid: '0',
       ver: '1.0',
       ln: 'cn',
       mod: 'app',

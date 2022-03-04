@@ -70,6 +70,7 @@ const corePlugins = [
   'userSelect',
   'translate',
   'transform',
+  'scale',
 ]
 
 const variants = (() => {

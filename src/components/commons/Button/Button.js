@@ -1,5 +1,7 @@
 import { VBtn } from 'vuetify/lib/components'
 
+import './Button.scss'
+
 const { props } = VBtn.options
 
 // @vue/component

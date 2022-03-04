@@ -1,5 +1,4 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import { VFadeTransition } from 'vuetify/lib/components'
 
 import Image from './types/Image'
 import Video from './types/Video'
@@ -7,60 +6,6 @@ import Video from './types/Video'
 import './Carousel.scss'
 import 'swiper/css/swiper.css'
 
-const r = []
-
-for (let i = 0, l = 4; i < l; i++) {
-  r.push({
-    id: i,
-    src: `http://res.gaodanyi.com:8102/upload/gdy/dp/gdy00${i + 1}.MP4`,
-  })
-}
-
-const c = []
-for (let i = 0, l = 4; i < l; i++) {
-  if (i % 2 === 0) {
-    c.push({
-      items: [
-        {
-          src: `http://res.gaodanyi.com:8102/upload/gdy/dp/gdy00${i + 1}.MP4`,
-          type: 'video',
-          fit: 'cover',
-          // poster: 'http://res.gaodanyi.com:8102/upload/gdy/dp/gdy002.png',
-        },
-        {
-          src: `http://res.gaodanyi.com:8102/upload/gdy/dp/gdy00${i + 1}.png`,
-          type: 'image',
-          fit: 'cover',
-        },
-      ],
-      divide: '80%',
-      duration: 0,
-    })
-  } else {
-    c.push({
-      items: [
-        {
-          src: `http://res.gaodanyi.com:8102/upload/gdy/dp/gdy00${i}.png`,
-          type: 'image',
-          fit: 'cover',
-        },
-        {
-          src: `http://res.gaodanyi.com:8102/upload/gdy/dp/gdy00${i + 1}.MP4`,
-          type: 'video',
-          // poster: 'http://res.gaodanyi.com:8102/upload/gdy/dp/gdy002.png',
-          fit: 'contain',
-        },
-      ],
-      divide: '250px',
-      duration: 3000,
-    })
-  }
-}
-
-/**
- * TODO :
- * 1.定义每个项目的填充模式 object-fit
- */
 export default {
   name: 'page-carousel',
 
@@ -70,13 +15,14 @@ export default {
     }
   },
 
+  props: {
+    options: Array,
+    // 资源是键值对，键对应资源ID
+    resources: Object,
+  },
+
   data: () => ({
-    data: {
-      carousel: c,
-      resources: r,
-    },
     realIndex: 0,
-    show: true,
   }),
 
   mounted() {
@@ -89,29 +35,25 @@ export default {
         ref: 'swiper',
         class: 'page-carousel',
         props: {
-          options: {
-            // 倒带模式
-            rewind: true,
-          },
+          options: {},
         },
         on: {
           slideChangeTransitionEnd: () => {
             this.realIndex = this.$swiper.realIndex
           },
         },
-        directives: [{
-          name: 'show',
-          value: this.show,
-        }],
+        nativeOn: {
+          touchmove: e => e.preventDefault(),
+        },
       }, this.genSwiperSlide())
     },
     genSwiperSlide() {
       // eslint-disable-next-line arrow-body-style
-      return this.data.carousel.map((config, index) => {
+      return this.options.map((config, index) => {
         return this.$createElement(SwiperSlide, {
           class: 'page-carousel__wrapper',
           style: {
-            '--slide-first-child-flex': `0 0 ${config.divide}`,
+            '--slide-first-child-flex': `0 0 ${config.divider * 100}%`,
           },
         }, this.genContainer(config, index))
       })
@@ -119,19 +61,25 @@ export default {
     genContainer(config, index) {
       const refKey = `slide${index}`
 
-      const itemsRender = config.items.map(item => {
-        let component = null
-
-        switch (item.type) {
-          case 'image':
-            component = Image
-            break
-          case 'video':
-            component = Video
-            break
-          default:
-            return undefined
+      return config.items.map(item => {
+        const switchComponent = (type) => {
+          switch (type) {
+            case 'image':
+              return Image
+            case 'video':
+              return Video
+          }
+          return undefined
         }
+
+        const component = switchComponent(item.type)
+        if (!component) return undefined
+
+        if (this.options.length === 1 && item.type === 'video') {
+          config.loop = true
+        }
+
+        item.src ??= this.resources[item.srcId].resUrl
 
         return this.$createElement(component, {
           ref: refKey,
@@ -141,29 +89,29 @@ export default {
             realIndex: this.realIndex,
             item,
             config,
-            resouces: this.data.resources,
           },
           on: {
             next: () => {
+              // 禁用下一个
+              if (config.disabledNext) return
               const allReady = this.$refs[refKey].every(blockItem => blockItem.readyNext)
-              // 前往下一个轮播内容
-              if (allReady) this.$swiper.slideNext()
+              // 前往下一个轮播内容，如果没有下一个，则回到第一个
+              if (allReady && !this.$swiper.slideNext()) this.$swiper.slideTo(0)
             },
             close: () => {
-              this.show = false
+              this.$emit('close')
             },
           },
         }, item.type)
       })
-
-      return itemsRender
     },
     slideNext() {
       this.$swiper.slideNext()
     },
   },
 
-  render(h) {
-    return h(VFadeTransition, [this.genSwiper()])
+  render() {
+    // return h(VFadeTransition, [this.genSwiper()])
+    return this.genSwiper()
   },
 }

@@ -49,6 +49,22 @@ module.exports = {
     'linebreak-style': 'off',
     // 允许对函数参数重新赋值
     'no-param-reassign': 'off',
+    // 不强制要求箭头函数体是否使用大括号
+    'arrow-body-style': 'off',
+    // 允许按位运算符
+    'no-bitwise': 'off',
+    // 不强制提供默认case
+    'default-case': 'off',
+    // 允许返回包裹在括号中的赋值语句
+    'no-return-assign': 'error',
+    // 限制代码行数
+    'max-lines': ['error', 1000],
+    // 限制嵌套层数
+    'max-depth': ['error', 5],
+    // 限制函数嵌套层数
+    'max-nested-callbacks': ['error', 5],
+    // 允许使用全局变量
+    'no-restricted-globals': 'off',
     // 关闭单个模块使用默认导出
     'import/prefer-default-export': 'off',
   },
