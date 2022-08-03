@@ -15,7 +15,7 @@
             >
               <v-img
                 class="img"
-                :src="src"
+                :src="getSmallImage(src)"
                 height="100%"
                 contain
               />
@@ -222,6 +222,7 @@ import ProductPreview from '@/components/business/ProductPreview/ProductPreview.
 import { mapState } from 'vuex'
 import { chunk, isEmpty, keyBy } from 'lodash'
 import { getCategory, getProductList } from '@/api/product'
+import { getSmallImage } from '@/utils/helper'
 import { enterShopPage } from '../api/frame'
 
 const TABS = {
@@ -394,6 +395,7 @@ export default {
   },
 
   methods: {
+    getSmallImage,
     setSwiperOptions() {
       this.options = {
         on: {

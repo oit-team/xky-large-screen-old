@@ -1,12 +1,16 @@
 <template>
   <v-fade-transition>
     <div v-show="value" class="product-preview" @click="$emit('input', !value)">
-      <swiper ref="swiper" :options="swiperOption">
+      <swiper ref="swiper" :options="swiperOption" @touchmove.native.prevent>
         <swiper-slide v-for="item of $store.state.selectedProduct.imgResources" :key="item">
           <v-img :src="item" height="100%"/>
         </swiper-slide>
 
-        <div slot="pagination" class="swiper-pagination"></div>
+        <div
+          v-show="$store.state.selectedProduct.imgResources.length > 1"
+          slot="pagination"
+          class="swiper-pagination"
+        ></div>
       </swiper>
     </div>
   </v-fade-transition>
@@ -59,9 +63,17 @@ export default {
   .swiper-container {
     height: 100%;
 
+    .swiper-pagination {
+      bottom: 100px;
+    }
+
     ::v-deep .swiper-pagination-bullet {
       width: 24px;
       height: 24px;
+    }
+
+    ::v-deep .swiper-pagination-bullet-active {
+      --swiper-pagination-color: black;
     }
   }
 }

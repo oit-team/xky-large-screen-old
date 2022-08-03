@@ -66,7 +66,5 @@ export const formatDate = (date, format = 'yyyy/MM/dd') => {
 }
 
 export function getSmallImage(img) {
-  // 暂时不用
-  // return img.replace(/(.*)\./, '$1_s.')
-  return img.replace(/(.*)\./, '$1.')
+  return img.replace(/(.*)\./, '$1_x.')
 }
