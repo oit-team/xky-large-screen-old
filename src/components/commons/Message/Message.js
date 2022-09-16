@@ -1,10 +1,11 @@
-import { VSnackbar, VBtn } from 'vuetify/lib/components'
+import { VBtn, VSnackbar } from 'vuetify/lib/components'
 import Vue from 'vue'
 
 const MESSAGE_TYPE = ['success', 'warning', 'info', 'error']
 
 const Message = function (options) {
-  if (typeof options === 'string') options = { message: options }
+  if (typeof options === 'string')
+    options = { message: options }
 
   const instance = new Vue({
     data: () => ({
@@ -63,9 +64,10 @@ const Message = function (options) {
   })
 }
 
-MESSAGE_TYPE.forEach(type => {
-  Message[type] = options => {
-    if (typeof options === 'string') options = { message: options }
+MESSAGE_TYPE.forEach((type) => {
+  Message[type] = (options) => {
+    if (typeof options === 'string')
+      options = { message: options }
 
     options.color = type
     return Message(options)

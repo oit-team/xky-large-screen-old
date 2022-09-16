@@ -6,16 +6,18 @@
     :width="width"
     @click="preview"
   >
-    <div class="flex relative z-10 flex-col text-center bg-white">
+    <div class="flex relative z-10 flex-col text-center bg-white h-full">
       <div>
         <v-img
-          height="230"
+          height="280"
           :src="getSmallImage(item.imgResources[0])"
           :lazy-src="getSmallImage(item.imgResources[0])"
         />
       </div>
-      <div class="px-2 my-1 text-xs font-bold truncate">{{ item.collName }}</div>
-      <div class="grid grid-cols-3">
+      <div class="px-2 text-xs font-bold truncate leading-6">
+        {{ item.collName }}
+      </div>
+      <div class="flex-1 grid grid-cols-3 gap-2 p-2">
         <v-img
           v-for="(productItem, index) of product"
           :key="`${productItem.id}-${index}`"

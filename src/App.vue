@@ -2,10 +2,10 @@
   <v-app>
     <v-main>
       <!-- 将页面设置为9比16的尺寸 -->
-      <v-responsive :aspect-ratio="9/16">
+      <v-responsive :aspect-ratio="9 / 16">
         <v-fade-transition origin="center center" leave-absolute>
           <keep-alive>
-            <router-view/>
+            <router-view />
           </keep-alive>
         </v-fade-transition>
       </v-responsive>
@@ -24,10 +24,9 @@ export default {
     // 从url中获取参数
     const queryObject = new URLSearchParams(location.href.split('?')[1])
     const query = {}
-    // eslint-disable-next-line no-restricted-syntax
-    for (const key of queryObject.keys()) {
+
+    for (const key of queryObject.keys())
       query[key] = queryObject.get(key)
-    }
 
     // 保存到localStorage
     localStorage.setItem('token', query.token ?? '')

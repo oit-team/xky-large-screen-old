@@ -17,12 +17,18 @@ export default {
         styles.height = size
         styles.width = size
       }
-      if (height) styles.height = height
-      if (width) styles.width = width
-      if (minHeight) styles.minHeight = minHeight
-      if (minWidth) styles.minWidth = minWidth
-      if (maxHeight) styles.maxHeight = maxHeight
-      if (maxWidth) styles.maxWidth = maxWidth
+      if (height)
+        styles.height = height
+      if (width)
+        styles.width = width
+      if (minHeight)
+        styles.minHeight = minHeight
+      if (minWidth)
+        styles.minWidth = minWidth
+      if (maxHeight)
+        styles.maxHeight = maxHeight
+      if (maxWidth)
+        styles.maxWidth = maxWidth
 
       return styles
     },

@@ -1,13 +1,13 @@
 <template>
   <div>
-    <swiper>
-      <swiper-slide>
-        <video ref="video" class="h-full w-full" src="http://res.gaodanyi.com:8102/upload/gdy/dp/gdy001.MP4"></video>
-      </swiper-slide>
-      <swiper-slide>
-        <v-img src="http://picsum.photos/900"/>
-      </swiper-slide>
-    </swiper>
+    <Swiper>
+      <SwiperSlide>
+        <video ref="video" class="h-full w-full" src="http://res.gaodanyi.com:8102/upload/gdy/dp/gdy001.MP4" />
+      </SwiperSlide>
+      <SwiperSlide>
+        <v-img src="http://picsum.photos/900" />
+      </SwiperSlide>
+    </Swiper>
   </div>
 </template>
 

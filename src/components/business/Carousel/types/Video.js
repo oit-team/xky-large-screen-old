@@ -25,9 +25,8 @@ export default {
       // 切换播放
       this.player.togglePlay(value)
       // 重置播放
-      if (!value) {
+      if (!value)
         this.stopPlay()
-      }
     },
     // 'carousel.show': function (value) {
     //   if (value) {
@@ -86,7 +85,7 @@ export default {
     genVideo() {
       return this.$createElement('video', {
         attrs: {
-          src: this.item.src,
+          'src': this.item.src,
           'data-poster': this.item.poster,
         },
         class: 'vc-plyr__video',
@@ -162,14 +161,14 @@ export default {
     },
     handleTogglePlay(value) {
       if (value) {
-        console.log('play')
+        console.info('play')
         this.active && setTimeout(() => this.player.play())
       } else {
         this.stopPlay()
       }
     },
     _debugState(state) {
-      console.debug(`[${this.index}] 播放状态 ==> ${state}`)
+      console.info(`[${this.index}] 播放状态 ==> ${state}`)
     },
   },
 

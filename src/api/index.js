@@ -15,7 +15,7 @@ const axios = Axios.create(axiosConfig)
 /**
  * 请求拦截器
  */
-axios.interceptors.request.use(config => {
+axios.interceptors.request.use((config) => {
   config.headers.token = localStorage.token
 
   return config
@@ -62,10 +62,9 @@ export function post(url, params = {}, config = {}) {
 
   return axios
     .post(url, formattedParams, __config)
-    .then(res => {
-      if (res.data && res.data.head.status === API_STATUS.OK) {
+    .then((res) => {
+      if (res.data && res.data.head.status === API_STATUS.OK)
         return res.data
-      }
 
       tips && Message.error(res.data.head.msg)
       return Promise.reject(res.data)

@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import ProductList from './ProductList'
 import ClothingPriceCard from '../Clothing/PriceCard.vue'
+import ProductList from './ProductList'
 
 export default {
   name: 'ShoppingCart',
@@ -15,7 +15,8 @@ export default {
 
   methods: {
     genSlideContent(slide) {
-      if (!slide) return undefined
+      if (!slide)
+        return undefined
       const { $vuetify } = this
 
       const Slide = Vue.extend({

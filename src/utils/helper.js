@@ -9,14 +9,13 @@ import projectConfig from '@/project.config'
 export function convertToUnit(str, unit = 'px') {
   let size
 
-  if (str === null || str === undefined || str === '') {
+  if (str === null || str === undefined || str === '')
     return undefined
-  }
-  if (Number.isNaN(+str)) {
+
+  if (Number.isNaN(+str))
     size = String(str)
-  } else {
+  else
     size = `${Number(str)}${unit}`
-  }
 
   if (/([0-9]+(\.?[0-9]+)?)px$/.test(size)) {
     const num = parseFloat(size)
@@ -36,13 +35,14 @@ export function convertToUnit(str, unit = 'px') {
 export const formatDate = (date, format = 'yyyy/MM/dd') => {
   let _date = date
   let _format = format
-  if (_date === undefined) return ''
+  if (_date === undefined)
+    return ''
   // 此处将横杠"-"替换成"/"是为了处理ios端兼容
   _date = new Date(typeof _date === 'string' ? _date.replace(/-/g, '/') : _date)
-  if (_date.toString() === 'Invalid Date') return ''
-  if (/(y+)/.test(_format)) {
+  if (_date.toString() === 'Invalid Date')
+    return ''
+  if (/(y+)/.test(_format))
     _format = _format.replace(RegExp.$1, (`${_date.getFullYear()}`).substr(4 - RegExp.$1.length))
-  }
 
   const o = {
     'M+': _date.getMonth() + 1,
@@ -65,6 +65,6 @@ export const formatDate = (date, format = 'yyyy/MM/dd') => {
   return _format
 }
 
-export function getSmallImage(img) {
-  return img.replace(/(.*)\./, '$1_x.')
+export function getSmallImage(img, size = 's') {
+  return img.replace(/(.*)\./, `$1_${size}.`)
 }

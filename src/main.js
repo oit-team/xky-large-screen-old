@@ -9,8 +9,8 @@ import store from './store'
 import '@/components/commons'
 
 import '@fortawesome/fontawesome-free/css/all.css'
-// eslint-disable-next-line import/no-extraneous-dependencies
-import 'tailwindcss/tailwind.css'
+
+import 'windi.css'
 import '@/styles/index.scss'
 
 // 组合式API

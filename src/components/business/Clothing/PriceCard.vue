@@ -9,13 +9,19 @@
         transition="none"
       />
       <div class="px-1">
-        <div class="mt-2 text-xs font-bold truncate">{{ item.styleNo }}</div>
-        <div class="mt-1 text-xs text-gray-500 truncate">{{ item.styleName }}</div>
-        <div class="my-2 text-xs font-bold text-red-500">￥{{ item.stylePrice }}</div>
+        <div class="mt-2 text-xs font-bold truncate">
+          {{ item.styleNo }}
+        </div>
+        <div class="mt-1 text-xs text-gray-500 truncate">
+          {{ item.styleName }}
+        </div>
+        <div class="my-2 text-xs font-bold text-red-500">
+          ￥{{ item.stylePrice }}
+        </div>
       </div>
     </v-card>
     <div class="text-center">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

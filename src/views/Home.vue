@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full home">
+  <div class="home">
     <header class="flex overflow-hidden bg-gray header">
       <div class="relative">
         <div @click="zoomPreview()">
@@ -15,7 +15,7 @@
             >
               <v-img
                 class="img"
-                :src="getSmallImage(src)"
+                :src="src"
                 height="100%"
                 contain
               />
@@ -41,13 +41,15 @@
       <div class="flex overflow-hidden flex-col mt-12 mb-6">
         <div v-if="selectedProduct.collLabel" class="mx-8 space-x-8">
           <v-chip
-            v-for="(item, index) of selectedProduct.collLabel.replaceAll('，', ',').split(',')"
+            v-for="(item, index) of collLabels"
             :key="index"
             class="px-6 h-10 text-2xl text-white"
             label
             dark
           >
-            <vc-icon class="mr-2">#</vc-icon>
+            <vc-icon class="mr-2">
+              #
+            </vc-icon>
             <span>{{ item }}</span>
           </v-chip>
         </div>
@@ -55,13 +57,13 @@
         <div class="flex-1">
           <!-- eslint-disable vue/no-v-html -->
           <p
-            v-html="selectedProduct.collInterpretation"
             class="description mx-8 mt-12 text-xl overflow-hidden"
-          ></p>
+            v-html="selectedProduct.collInterpretation"
+          />
         </div>
 
         <div class="flex overflow-x-auto px-8 space-x-4">
-          <clothing-price-card
+          <ClothingPriceCard
             v-for="item of selectedProduct.commoditys"
             :key="item.id"
             :item="item"
@@ -69,120 +71,120 @@
             width="150"
           >
             <template v-if="hasCart(item)">
-              <vc-btn class="mt-2" block color="success" @click="removeFormCart(item)">已添加</vc-btn>
+              <vc-btn class="mt-2" block color="success" @click="removeFormCart(item)">
+                已添加
+              </vc-btn>
             </template>
             <template v-else>
-              <vc-btn class="mt-2" block @click="addToCart(item)">试试看</vc-btn>
+              <vc-btn class="mt-2" block @click="addToCart(item)">
+                试试看
+              </vc-btn>
             </template>
-          </clothing-price-card>
+          </ClothingPriceCard>
         </div>
       </div>
     </header>
 
-    <main class="flex flex-col flex-1">
-      <section class="flex category">
-        <v-item-group v-model="withSelectedCategory" class="flex overflow-x-auto flex-1 p-4 mr-4">
-          <v-item
-            v-for="item of obsCategoryList"
-            v-slot="{ active, toggle }"
-            :key="item.styleName"
-            :value="item.styleName"
+    <section class="flex category">
+      <v-item-group v-model="withSelectedCategory" class="flex items-center overflow-x-auto flex-1 p-4 mr-4">
+        <v-item
+          v-for="item of obsCategoryList"
+          v-slot="{ active, toggle }"
+          :key="item.styleName"
+          :value="item.styleName"
+        >
+          <ClothingCategory
+            :active="active"
+            :item="item"
+            @click="toggle"
+          />
+        </v-item>
+      </v-item-group>
+      <div class="flex items-stretch p-4 pb-8 space-x-2">
+        <vc-btn class="h-full text-left vertical-btn" dark @click="tab = TABS.COLLOCATION">
+          <vc-icon class="mb-2">
+            fas fa-user
+          </vc-icon>
+          <span class="flex-1 vertical-text">自助挑选</span>
+        </vc-btn>
+        <div class="relative">
+          <v-badge
+            class="z-10 h-full"
+            :content="shoppingCartList.length || '0'"
+            color="#c00000"
+            offset-x="12"
+            offset-y="12"
           >
-            <clothing-category
-              :active="active"
-              :item="item"
-              @click="toggle"
-            />
-          </v-item>
-        </v-item-group>
-        <div class="flex items-stretch p-4 pb-8 space-x-2">
-          <vc-btn class="h-full text-left vertical-btn" dark @click="tab = TABS.COLLOCATION">
-            <vc-icon class="mb-2">fas fa-user</vc-icon>
-            <span class="flex-1 vertical-text">自助挑选</span>
-          </vc-btn>
-          <div class="relative">
-            <v-badge
-              class="z-10 h-full"
-              :content="shoppingCartList.length || '0'"
-              color="#c00000"
-              offset-x="12"
-              offset-y="12"
+            <vc-btn class="relative h-full text-left vertical-btn" @click="tab = TABS.SHOPPING_CART">
+              <vc-icon class="mb-2">
+                fas fa-shopping-cart
+              </vc-icon>
+              <span class="flex-1 vertical-text">我的试穿</span>
+            </vc-btn>
+          </v-badge>
+          <div
+            v-click-outside="() => changeBtn(false)"
+            class="absolute left-0 -bottom-7 px-0"
+          >
+            <vc-btn
+              v-if="!deleteConfirm"
+              text
+              @click="changeBtn(true)"
             >
-              <vc-btn class="relative h-full text-left vertical-btn" @click="tab = TABS.SHOPPING_CART">
-                <vc-icon class="mb-2">fas fa-shopping-cart</vc-icon>
-                <span class="flex-1 vertical-text">我的试穿</span>
-              </vc-btn>
-            </v-badge>
-            <div
-              v-click-outside="() => changeBtn(false)"
-              class="absolute left-0 -bottom-7 px-0"
+              <vc-icon size="16" color="#d9d9d9">
+                fas fa-trash-alt
+              </vc-icon>
+            </vc-btn>
+            <vc-btn
+              v-else
+              class="px-0 w-full"
+              text
+              color="error"
+              @click="removeFormCart()"
             >
-              <vc-btn
-                v-if="!deleteConfirm"
-                text
-                @click="changeBtn(true)"
-              >
-                <vc-icon size="16" color="#d9d9d9">fas fa-trash-alt</vc-icon>
-              </vc-btn>
-              <vc-btn
-                v-else
-                class="px-0 w-full"
-                text
-                color="error"
-                @click="removeFormCart()"
-              >
-                确定
-              </vc-btn>
-            </div>
+              确定
+            </vc-btn>
           </div>
         </div>
-      </section>
-      <keep-alive>
-        <section
-          v-if="tab === TABS.COLLOCATION"
-          ref="collocationList"
-          key="collocationList"
-          class="product-list"
-          @scroll.passive="scroll"
-        >
+      </div>
+    </section>
+
+    <keep-alive>
+      <section class="bg-gray overflow-hidden">
+        <template v-if="tab === TABS.COLLOCATION">
           <div
-            v-for="items of collocationListChunked"
-            :key="items[0].id"
-            class="flex flex-col space-y-2"
+            ref="collocationList"
+            class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-x-auto"
+            @scroll.passive="scroll"
           >
-            <collocation
-              v-for="item of items"
+            <Collocation
+              v-for="item of collocationList"
               :key="item.id"
               class="transition"
               :class="`elevation-${selectedProduct === item ? 5 : 0}`"
               :item="item"
-              width="160"
-              height="310"
+              width="210"
+              height="360"
             />
           </div>
           <div v-if="!collocationList.length" class="flex-1 flex-center">
-            <p class="text-xl">暂无相关搭配</p>
+            <p class="text-xl">
+              暂无相关搭配
+            </p>
           </div>
-        </section>
-      </keep-alive>
-      <keep-alive>
-        <section
-          v-if="tab === TABS.SHOPPING_CART"
-          ref="shoppingCartList"
-          key="shoppingCartList"
-          class="product-list"
-        >
+        </template>
+
+        <template v-if="tab === TABS.SHOPPING_CART">
           <div
-            v-for="items of shoppingCartListChunked"
-            :key="items[0].id"
-            class="flex flex-col space-y-2"
+            ref="shoppingCartList"
+            class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-x-auto"
           >
-            <clothing-price-card
-              v-for="item of items"
+            <ClothingPriceCard
+              v-for="item of shoppingCartListFiltered"
               :key="item.id"
               :item="item"
-              width="160"
-              height="310"
+              width="210"
+              height="360"
             >
               <vc-btn
                 class="mt-2 bg-white"
@@ -192,38 +194,49 @@
                 text
                 @click="removeFormCart(item)"
               >
-                <vc-icon class="text-red-300" size="18">fas fa-trash-alt</vc-icon>
+                <vc-icon class="text-red-300" size="18">
+                  fas fa-trash-alt
+                </vc-icon>
               </vc-btn>
-            </clothing-price-card>
+            </ClothingPriceCard>
           </div>
-          <div v-if="!shoppingCartListChunked.length" class="flex-col flex-1 flex-center">
-            <p class="text-xl">未选择任何商品</p>
+          <div v-if="!shoppingCartListFiltered.length" class="flex-col flex-1 flex-center">
+            <p class="text-xl">
+              未选择任何商品
+            </p>
             <div>
-              <vc-btn dark large @click="tab = TABS.COLLOCATION">去挑选</vc-btn>
+              <vc-btn dark large @click="tab = TABS.COLLOCATION">
+                去挑选
+              </vc-btn>
             </div>
           </div>
-        </section>
-      </keep-alive>
-    </main>
+        </template>
+      </section>
+    </keep-alive>
 
-    <footer class="mt-4 bg-black">
-      <v-img style="height: 41.6667vw" src="assets/img/e374b653ed48e289db3236b04499a2c.png" position="bottom"/>
+    <footer class="bg-black">
+      <v-img
+        src="assets/img/e374b653ed48e289db3236b04499a2c.png"
+        position="bottom -50px left 50%"
+        width="100%"
+        height="100%"
+      />
     </footer>
 
-    <product-preview v-model="showPreview" :index="swiperIndex"/>
+    <ProductPreview v-model="showPreview" :index="swiperIndex" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { chunk, isEmpty, keyBy } from 'lodash'
+import { enterShopPage } from '../api/frame'
 import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
 import Collocation from '@/components/business/Clothing/Collocation.vue'
 import ClothingCategory from '@/components/business/Clothing/Category.vue'
 import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
-import { mapState } from 'vuex'
-import { chunk, isEmpty, keyBy } from 'lodash'
 import { getCategory, getProductList } from '@/api/product'
 import { getSmallImage } from '@/utils/helper'
-import { enterShopPage } from '../api/frame'
 
 const TABS = {
   COLLOCATION: 0,
@@ -279,26 +292,26 @@ export default {
     },
     shoppingCartListFiltered() {
       const data = this.shoppingCartList.filter(item => item.styleCategory === this.selectedCartCategory)
-      if (data.length) return data
+      if (data.length)
+        return data
 
       return this.shoppingCartList
     },
     withSelectedCategory: {
       set(value) {
-        if (this.tab === TABS.COLLOCATION) {
+        if (this.tab === TABS.COLLOCATION)
           this.selectedCategory = value
-        }
-        if (this.tab === TABS.SHOPPING_CART) {
+
+        if (this.tab === TABS.SHOPPING_CART)
           this.selectedCartCategory = value
-        }
       },
       get() {
-        if (this.tab === TABS.COLLOCATION) {
+        if (this.tab === TABS.COLLOCATION)
           return this.selectedCategory
-        }
-        if (this.tab === TABS.SHOPPING_CART) {
+
+        if (this.tab === TABS.SHOPPING_CART)
           return this.selectedCartCategory
-        }
+
         return ''
       },
     },
@@ -336,6 +349,9 @@ export default {
         }
         return prev
       }, {})
+    },
+    collLabels() {
+      return this.selectedProduct.collLabel?.replaceAll('，', ',').split(',')
     },
   },
 
@@ -420,7 +436,8 @@ export default {
       }
     },
     loadData() {
-      if (this.loading) return
+      if (this.loading)
+        return
       this.loading = true
 
       const getData = () => getProductList({
@@ -433,9 +450,10 @@ export default {
       promise = getData()
       const current = promise
 
-      promise.then(res => {
+      promise.then((res) => {
         // 对比promise是否是当前的
-        if (promise !== current) return
+        if (promise !== current)
+          return
         const { collocationList } = res.body
         if (collocationList.length) {
           this.collocationList = this.page === 1
@@ -443,9 +461,8 @@ export default {
             : this.collocationList.concat(collocationList)
           this.page++
 
-          if (isEmpty(this.$store.state.selectedProduct)) {
+          if (isEmpty(this.$store.state.selectedProduct))
             this.$store.commit('selectProduct', this.collocationList[0])
-          }
         }
       })
         .finally(() => {
@@ -466,9 +483,8 @@ export default {
         scrollWidth,
       } = e.target
 
-      if (scrollWidth - clientWidth - scrollLeft < 500) {
+      if (scrollWidth - clientWidth - scrollLeft < 500)
         this.loadData()
-      }
     },
     changeBtn(value) {
       this.deleteConfirm = value
@@ -481,22 +497,21 @@ export default {
       // })
     },
     saveScrollRecord(scrollLeft) {
-      if (this.$refs.shoppingCartList) {
+      if (this.$refs.shoppingCartList)
         scrollRecord.shoppingCartList = scrollLeft ?? this.$refs.shoppingCartList.scrollLeft
-      }
-      if (this.$refs.collocationList) {
+
+      if (this.$refs.collocationList)
         scrollRecord.collocationList = scrollLeft ?? this.$refs.collocationList.scrollLeft
-      }
     },
     setScrollRecord() {
       this.loading = true
       this.$nextTick(() => {
-        if (this.$refs.shoppingCartList) {
+        if (this.$refs.shoppingCartList)
           this.$refs.shoppingCartList.scrollLeft = scrollRecord.shoppingCartList
-        }
-        if (this.$refs.collocationList) {
+
+        if (this.$refs.collocationList)
           this.$refs.collocationList.scrollLeft = scrollRecord.collocationList
-        }
+
         setTimeout(() => {
           this.loading = false
         })
@@ -512,14 +527,16 @@ $screen-height: 1920px;
 
 $header-height: 600px;
 $category-height: 180px;
-$product-height: 670px;
-$footer: 450px;
+$footer: 350px;
 
 $product-preview-width: $header-height / 4 * 3;
 
 .home {
-  width: 100vw;
+  width: $screen-width;
+  height: $screen-height;
   aspect-ratio: 9/16;
+  display: grid;
+  grid-template-rows: $header-height $category-height 1fr $footer;
 
   .header {
     height: $header-height;
@@ -536,8 +553,7 @@ $product-preview-width: $header-height / 4 * 3;
   }
 
   .product-list {
-    @apply flex overflow-auto flex-1 px-8 pt-4 space-x-4 bg-gray;
-    height: $product-height;
+    @apply flex-1 bg-gray;
   }
 
   ::v-deep .vertical-btn {

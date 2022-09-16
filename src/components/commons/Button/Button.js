@@ -12,7 +12,6 @@ export default {
 
   props: {
     // 默认显示凹陷
-    // eslint-disable-next-line vue/require-prop-types
     depressed: {
       ...props.depressed,
       default: true,

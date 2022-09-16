@@ -48,7 +48,6 @@ export default {
       }, this.genSwiperSlide())
     },
     genSwiperSlide() {
-      // eslint-disable-next-line arrow-body-style
       return this.options.map((config, index) => {
         return this.$createElement(SwiperSlide, {
           class: 'page-carousel__wrapper',
@@ -61,7 +60,7 @@ export default {
     genContainer(config, index) {
       const refKey = `slide${index}`
 
-      return config.items.map(item => {
+      return config.items.map((item) => {
         const switchComponent = (type) => {
           switch (type) {
             case 'image':
@@ -73,11 +72,11 @@ export default {
         }
 
         const component = switchComponent(item.type)
-        if (!component) return undefined
+        if (!component)
+          return undefined
 
-        if (this.options.length === 1 && item.type === 'video') {
+        if (this.options.length === 1 && item.type === 'video')
           config.loop = true
-        }
 
         item.src ??= this.resources[item.srcId].resUrl
 
@@ -93,10 +92,12 @@ export default {
           on: {
             next: () => {
               // 禁用下一个
-              if (config.disabledNext) return
+              if (config.disabledNext)
+                return
               const allReady = this.$refs[refKey].every(blockItem => blockItem.readyNext)
               // 前往下一个轮播内容，如果没有下一个，则回到第一个
-              if (allReady && !this.$swiper.slideNext()) this.$swiper.slideTo(0)
+              if (allReady && !this.$swiper.slideNext())
+                this.$swiper.slideTo(0)
             },
             close: () => {
               this.$emit('close')

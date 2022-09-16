@@ -1,17 +1,17 @@
 <template>
   <v-fade-transition>
     <div v-show="value" class="product-preview" @click="$emit('input', !value)">
-      <swiper ref="swiper" :options="swiperOption" @touchmove.native.prevent>
-        <swiper-slide v-for="item of $store.state.selectedProduct.imgResources" :key="item">
-          <v-img :src="item" height="100%"/>
-        </swiper-slide>
+      <Swiper ref="swiper" :options="swiperOption" @touchmove.native.prevent>
+        <SwiperSlide v-for="item of imgResources" :key="item">
+          <v-img :src="item" height="100%" />
+        </SwiperSlide>
 
         <div
-          v-show="$store.state.selectedProduct.imgResources.length > 1"
+          v-show="imgResources.length > 1"
           slot="pagination"
           class="swiper-pagination"
-        ></div>
-      </swiper>
+        />
+      </Swiper>
     </div>
   </v-fade-transition>
 </template>
@@ -32,6 +32,12 @@ export default {
     value: Boolean,
     index: Number,
     list: Array,
+  },
+
+  computed: {
+    imgResources() {
+      return this.$store.state.selectedProduct?.imgResources ?? []
+    },
   },
 
   watch: {

@@ -1,6 +1,6 @@
 <template>
   <div class="carousel-wrap">
-    <page-carousel
+    <PageCarousel
       ref="carousel"
       :options="options"
       :resources="resources"
@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import PageCarousel from '@/components/business/Carousel'
-import { getAdvertsInfo } from '@/api/product'
 import { debounce } from 'lodash'
 import { enterCarouselPage } from '../api/frame'
+import PageCarousel from '@/components/business/Carousel'
+import { getAdvertsInfo } from '@/api/product'
 
 export default {
   name: 'PageCarouselWarp',

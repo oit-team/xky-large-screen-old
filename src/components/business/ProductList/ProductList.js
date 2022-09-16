@@ -56,7 +56,8 @@ export default {
         transitionEnd: () => {
         },
         slideChange: () => {
-          if (!this.$swiper) return
+          if (!this.$swiper)
+            return
           this.loadData()
         },
       },

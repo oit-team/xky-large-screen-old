@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify/lib/framework'
 import nativeMeasurable from 'vuetify/lib/mixins/measurable'
-import Measurable from '@/mixins/Measurable'
 import zhHans from 'vuetify/lib/locale/zh-Hans'
+import Measurable from '@/mixins/Measurable'
 
 /**
  * 覆写vuetify的measurable mixin，使其拥有自适应效果

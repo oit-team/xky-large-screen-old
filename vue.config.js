@@ -1,4 +1,3 @@
-const tailwindcss = require('tailwindcss')
 const pxtoviewport = require('postcss-px-to-viewport')
 const autoprefixer = require('autoprefixer')
 const projectConfig = require('./src/project.config')
@@ -12,7 +11,6 @@ module.exports = {
     loaderOptions: {
       postcss: {
         plugins: [
-          tailwindcss,
           autoprefixer,
           pxtoviewport({
             viewportWidth: projectConfig.viewportWidth, // UI设计稿的宽度
@@ -29,6 +27,13 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: {
           '^/api': '',
+        },
+      },
+      '/gdy': {
+        target: 'http://222.186.58.235:18104/gdy',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/gdy': '',
         },
       },
     },

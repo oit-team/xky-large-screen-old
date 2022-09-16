@@ -9,9 +9,8 @@ export default {
     },
     remove(state, item) {
       const index = state.list.indexOf(item)
-      if (~index) {
+      if (~index)
         state.list.splice(index, 1)
-      }
     },
     clear(state) {
       state.list = []

@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import { getProductList } from '@/api/product'
 import { isEmpty } from 'lodash/lang'
-import ProductList from './ProductList'
 import Collocation from '../Clothing/Collocation.vue'
+import ProductList from './ProductList'
+import { getProductList } from '@/api/product'
 
 export default {
   name: 'CollocationList',
@@ -14,7 +14,8 @@ export default {
 
   methods: {
     genSlideContent(slide) {
-      if (!slide) return undefined
+      if (!slide)
+        return undefined
       const { $vuetify } = this
 
       const Slide = Vue.extend({
@@ -46,7 +47,7 @@ export default {
         brandId: localStorage.getItem('brandId'),
         styleCategory: '',
       })
-        .then(res => {
+        .then((res) => {
           const { collocationList } = res.body
           if (collocationList.length) {
             this.productList = this.page === 1
@@ -54,9 +55,8 @@ export default {
               : this.productList.concat(collocationList)
             this.page++
 
-            if (isEmpty(this.$store.state.selectedProduct)) {
+            if (isEmpty(this.$store.state.selectedProduct))
               this.$store.commit('selectProduct', this.productList[0])
-            }
           }
         })
         .finally(() => {

@@ -13,7 +13,7 @@ export default {
   },
 
   watch: {
-    active: {
+    'active': {
       handler(value) {
         if (value) {
           this.slideNext()
