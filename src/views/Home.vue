@@ -15,7 +15,7 @@
             >
               <v-img
                 class="img"
-                :src="src"
+                :src="getSmallImage(src, 'x')"
                 height="100%"
                 contain
               />
@@ -163,8 +163,7 @@
               class="transition"
               :class="`elevation-${selectedProduct === item ? 5 : 0}`"
               :item="item"
-              width="210"
-              height="360"
+              width="225"
             />
           </div>
           <div v-if="!collocationList.length" class="flex-1 flex-center">
@@ -184,7 +183,7 @@
               :key="item.id"
               :item="item"
               width="210"
-              height="360"
+              height="400"
             >
               <vc-btn
                 class="mt-2 bg-white"
@@ -217,7 +216,7 @@
     <footer class="bg-black">
       <v-img
         src="assets/img/e374b653ed48e289db3236b04499a2c.png"
-        position="bottom -50px left 50%"
+        position="bottom -110px left 50%"
         width="100%"
         height="100%"
       />
@@ -525,9 +524,9 @@ export default {
 $screen-width: 1080px;
 $screen-height: 1920px;
 
-$header-height: 600px;
+$header-height: 620px;
 $category-height: 180px;
-$footer: 350px;
+$footer: 250px;
 
 $product-preview-width: $header-height / 4 * 3;
 

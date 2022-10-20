@@ -9,7 +9,7 @@
     <div class="flex relative z-10 flex-col text-center bg-white h-full">
       <div>
         <v-img
-          height="280"
+          height="300"
           :src="getSmallImage(item.imgResources[0])"
           :lazy-src="getSmallImage(item.imgResources[0])"
         />
@@ -21,6 +21,7 @@
         <v-img
           v-for="(productItem, index) of product"
           :key="`${productItem.id}-${index}`"
+          class="aspect-ratio-square"
           :src="productItem.resUrl"
           :lazy-src="productItem.resUrl"
         />
@@ -58,5 +59,7 @@ export default {
 </script>
 
 <style scoped>
-
+.aspect-ratio-square {
+  aspect-ratio: 1/1;
+}
 </style>
