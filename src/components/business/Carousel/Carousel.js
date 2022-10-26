@@ -1,10 +1,12 @@
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import { Swipe, SwipeItem } from 'vant'
 
 import Image from './types/Image'
 import Video from './types/Video'
 
 import './Carousel.scss'
-import 'swiper/css/swiper.css'
+
+import 'vant/lib/swipe/style'
+import 'vant/lib/swipe-item/style'
 
 export default {
   name: 'page-carousel',
@@ -25,21 +27,14 @@ export default {
     realIndex: 0,
   }),
 
-  mounted() {
-    this.$swiper = this.$refs.swiper.$swiper
-  },
-
   methods: {
     genSwiper() {
-      return this.$createElement(Swiper, {
+      return this.$createElement(Swipe, {
         ref: 'swiper',
         class: 'page-carousel',
-        props: {
-          options: {},
-        },
         on: {
-          slideChangeTransitionEnd: () => {
-            this.realIndex = this.$swiper.realIndex
+          change: (index) => {
+            this.realIndex = index
           },
         },
         nativeOn: {
@@ -49,7 +44,7 @@ export default {
     },
     genSwiperSlide() {
       return this.options.map((config, index) => {
-        return this.$createElement(SwiperSlide, {
+        return this.$createElement(SwipeItem, {
           class: 'page-carousel__wrapper',
           style: {
             '--slide-first-child-flex': `0 0 ${config.divider * 100}%`,
@@ -96,8 +91,8 @@ export default {
                 return
               const allReady = this.$refs[refKey].every(blockItem => blockItem.readyNext)
               // 前往下一个轮播内容，如果没有下一个，则回到第一个
-              if (allReady && !this.$swiper.slideNext())
-                this.$swiper.slideTo(0)
+              if (allReady)
+                this.$refs.swiper.next()
             },
             close: () => {
               this.$emit('close')
@@ -106,13 +101,9 @@ export default {
         }, item.type)
       })
     },
-    slideNext() {
-      this.$swiper.slideNext()
-    },
   },
 
   render() {
-    // return h(VFadeTransition, [this.genSwiper()])
     return this.genSwiper()
   },
 }

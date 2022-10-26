@@ -28,6 +28,7 @@ specifiers:
   sass-loader: ^10.0.0
   swiper: ^5
   typescript: ^4.8.3
+  vant: ^2.12.51
   vue: ^2.6.11
   vue-awesome-swiper: ^4.1.1
   vue-cli-plugin-vuetify: ^2.4.5
@@ -48,6 +49,7 @@ dependencies:
   lodash: 4.17.21
   plyr: 3.7.2
   swiper: 5.4.5
+  vant: 2.12.51_vue@2.7.10
   vue: 2.7.10
   vue-awesome-swiper: 4.1.1_swiper@5.4.5+vue@2.7.10
   vue-router: 3.6.5_vue@2.7.10
@@ -1264,7 +1266,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.9
-    dev: true
 
   /@babel/template/7.18.10:
     resolution: {integrity: sha512-TI+rCtooWHr3QJ27kJxfjutghu44DLnasDMwpDqCXVTal9RLp3RSYNh4NdBrRP2cQAoG9A8juOQl6P6oZG4JxA==}
@@ -1759,9 +1760,16 @@ packages:
       source-map: 0.6.1
     dev: true
 
+  /@vant/icons/1.8.0:
+    resolution: {integrity: sha512-sKfEUo2/CkQFuERxvkuF6mGQZDKu3IQdj5rV9Fm0weJXtchDSSQ+zt8qPCNUEhh9Y8shy5PzxbvAfOOkCwlCXg==}
+    dev: false
+
+  /@vant/popperjs/1.3.0:
+    resolution: {integrity: sha512-hB+czUG+aHtjhaEmCJDuXOep0YTZjdlRR+4MSmIFnkCQIxJaXLQdSsR90XWvAI2yvKUI7TCGqR8pQg2RtvkMHw==}
+    dev: false
+
   /@vue/babel-helper-vue-jsx-merge-props/1.4.0:
     resolution: {integrity: sha512-JkqXfCkUDp4PIlFdDQ0TdXoIejMtTHP67/pvxlgeY+u5k3LEdKuWZ3LK6xkxo52uDoABIVyRwqVkfLQJhk7VBA==}
-    dev: true
 
   /@vue/babel-helper-vue-transform-on/1.0.2:
     resolution: {integrity: sha512-hz4R8tS5jMn8lDq6iD+yWL6XNB699pGIVLk7WSJnn1dbpjaazsjZQkieJoRX6gW5zpYSCFqQ7jUquPNY65tQYA==}
@@ -8896,7 +8904,6 @@ packages:
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
-    dev: true
 
   /regenerator-transform/0.15.0:
     resolution: {integrity: sha512-LsrGtPmbYg19bcPHwdtmXwbW+TqNvtY4riE3P83foeHRroMbH6/2ddFBfab3t7kbzc7v7p4wbkIecHImqt0QNg==}
@@ -10405,6 +10412,19 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
+  /vant/2.12.51_vue@2.7.10:
+    resolution: {integrity: sha512-0dZHcBWwKdQvgvAMr5hqObuwkHRn51c7ReLVDV/Ijp1twZ/9/JGMPKVCp1ebpzFAONudyDvu42adrkFUhheaUA==}
+    peerDependencies:
+      vue: '>= 2.6.0'
+    dependencies:
+      '@babel/runtime': 7.19.0
+      '@vant/icons': 1.8.0
+      '@vant/popperjs': 1.3.0
+      '@vue/babel-helper-vue-jsx-merge-props': 1.4.0
+      vue: 2.7.10
+      vue-lazyload: 1.2.3
+    dev: false
+
   /vary/1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
@@ -10510,6 +10530,10 @@ packages:
   /vue-hot-reload-api/2.3.4:
     resolution: {integrity: sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==}
     dev: true
+
+  /vue-lazyload/1.2.3:
+    resolution: {integrity: sha512-DC0ZwxanbRhx79tlA3zY5OYJkH8FYp3WBAnAJbrcuoS8eye1P73rcgAZhyxFSPUluJUTelMB+i/+VkNU/qVm7g==}
+    dev: false
 
   /vue-loader/15.10.0_mtb4zdukav65p6cgeft4e7cozu:
     resolution: {integrity: sha512-VU6tuO8eKajrFeBzMssFUP9SvakEeeSi1BxdTH5o3+1yUyrldp8IERkSdXlMI2t4kxF2sqYUDsQY+WJBxzBmZg==}
