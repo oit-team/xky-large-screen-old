@@ -156,6 +156,11 @@ export default {
       setTimeout(() => this.hideControls())
     },
     slideNext() {
+      if (this.lock) {
+        this.player.play()
+        return
+      }
+
       this.readyNext = true
       this.$emit('next')
     },

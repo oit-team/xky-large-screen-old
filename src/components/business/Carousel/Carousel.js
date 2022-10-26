@@ -25,6 +25,7 @@ export default {
 
   data: () => ({
     realIndex: 0,
+    lockSwiper: false,
   }),
 
   methods: {
@@ -83,6 +84,7 @@ export default {
             realIndex: this.realIndex,
             item,
             config,
+            lock: this.lockSwiper,
           },
           on: {
             next: () => {
@@ -100,6 +102,12 @@ export default {
           },
         }, item.type)
       })
+    },
+    lock() {
+      this.lockSwiper = true
+    },
+    unlock() {
+      this.lockSwiper = false
     },
   },
 

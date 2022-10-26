@@ -6,6 +6,7 @@ export default {
     realIndex: Number,
     item: Object,
     config: Object,
+    lock: Boolean,
   },
 
   data() {

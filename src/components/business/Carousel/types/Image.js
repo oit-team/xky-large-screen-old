@@ -15,11 +15,12 @@ export default {
   watch: {
     'active': {
       handler(value) {
+        if (this.lock) return
+
         if (value) {
           this.slideNext()
         } else {
-          this.readyNext = false
-          clearTimeout(this.timer)
+          this.stopNext()
         }
       },
       immediate: true,
@@ -28,9 +29,15 @@ export default {
       if (value) {
         this.active && this.slideNext()
       } else {
-        this.readyNext = false
-        clearTimeout(this.timer)
+        this.stopNext()
       }
+    },
+    lock() {
+      if (!this.active) return
+
+      this.lock
+        ? this.stopNext()
+        : this.slideNext()
     },
   },
 
@@ -40,6 +47,10 @@ export default {
         this.readyNext = true
         this.$emit('next')
       }, this.config.duration || 5000)
+    },
+    stopNext() {
+      this.readyNext = false
+      clearTimeout(this.timer)
     },
   },
 
