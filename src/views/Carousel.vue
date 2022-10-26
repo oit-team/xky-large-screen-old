@@ -7,6 +7,7 @@
       @close="close"
       @click.stop
     />
+    <ProductPicker />
   </div>
 </template>
 
@@ -15,12 +16,14 @@ import { debounce } from 'lodash'
 import { enterCarouselPage } from '../api/frame'
 import PageCarousel from '@/components/business/Carousel'
 import { getAdvertsInfo } from '@/api/product'
+import ProductPicker from '@/components/business/ProductPicker'
 
 export default {
   name: 'PageCarouselWarp',
 
   components: {
     PageCarousel,
+    ProductPicker,
   },
 
   data: () => ({
