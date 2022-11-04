@@ -36,6 +36,7 @@ export default {
         on: {
           change: (index) => {
             this.realIndex = index
+            this.$emit('change', index)
           },
         },
         nativeOn: {

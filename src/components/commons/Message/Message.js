@@ -37,8 +37,9 @@ const Message = function (options) {
       genSnackbar() {
         return this.$createElement(VSnackbar, {
           props: {
-            top: true,
-            timeout: 3000,
+            // top: true,
+            centered: true,
+            timeout: 5000,
             ...options,
             value: this.show,
           },

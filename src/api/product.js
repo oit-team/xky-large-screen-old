@@ -25,3 +25,11 @@ export function getCategory(params) {
 export function getAdvertsInfo(devId) {
   return post(`${API_SERVICE.LIVE_BROADCAST}/adverts/getAdvertsInfo`, { devId })
 }
+
+/**
+ * 试衣间添加商品
+ * @param {string} devId 设备ID
+ */
+export function addFittingRecord(params) {
+  return post(`${API_SERVICE.LIVE_BROADCAST}/device/addFittingRecord`, params)
+}

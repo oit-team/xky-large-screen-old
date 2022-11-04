@@ -1,5 +1,10 @@
 <template>
-  <div class="vc-drawer fixed z-100 bg-black bg-opacity-50 text-white" :style="styles">
+  <div
+    class="vc-drawer fixed z-100 bg-black text-white"
+    :class="position === 'left' ?  'bg-opacity-50' : 'bg-opacity-20'"
+    :style="styles"
+    v-if="show"
+  >
     <slot></slot>
   </div>
 </template>
@@ -11,13 +16,28 @@ export default {
     offset: String,
   },
 
+  data() {
+    return {
+      show: true,
+    }
+  },
+
   computed: {
     styles() {
       return {
-        top: this.offset,
+        bottom: this.offset,
         left: this.position === 'left' ? 0 : 'auto',
         right: this.position === 'right' ? 0 : 'auto',
       }
+    },
+  },
+
+  methods: {
+    open() {
+      this.show = true
+    },
+    close() {
+      this.show = false
     },
   },
 }

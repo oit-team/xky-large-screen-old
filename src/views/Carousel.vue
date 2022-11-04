@@ -4,10 +4,20 @@
       ref="carousel"
       :options="options"
       :resources="resources"
+      @change="changeIndex"
       @close="close"
       @click.stop
     />
-    <ProductPicker />
+
+    <ProductPicker
+      ref="picker"
+      :options="options"
+      :resources="resources"
+      :advertsStyleMap="advertsStyleMap"
+      :options-index="optionsIndex"
+      @lock="lock"
+      @unlock="unlock"
+    />
   </div>
 </template>
 
@@ -25,12 +35,14 @@ export default {
     PageCarousel,
     ProductPicker,
   },
-
   data: () => ({
     options: [],
     resources: {},
+    advertsStyleMap: {},
+    optionsIndex: 0,
+    showOverlay: true,
+    opacity: 0.6,
   }),
-
   activated() {
     if (this.$route.params.preview) {
       const { imgResources } = this.$store.state.selectedProduct
@@ -54,17 +66,17 @@ export default {
       })
     }
   },
-
   methods: {
     async getAdvertsInfo() {
       const res = await getAdvertsInfo(localStorage.getItem('devId'))
       const {
         rotationRules,
         resEntityMap,
+        advertsStyleMap,
       } = res.body.advertsRes
-
       this.options = JSON.parse(rotationRules)
       this.resources = resEntityMap
+      this.advertsStyleMap = advertsStyleMap
     },
     close: debounce(function () {
       const disabledBack = Number(this.$route.query.disabledBack)
@@ -73,6 +85,17 @@ export default {
       leading: true,
       trailing: false,
     }),
+    // 轮播图改变 - index
+    changeIndex(index) {
+      this.optionsIndex = index
+      this.$refs.picker.changeList()
+    },
+    lock() {
+      this.$refs.carousel.lock()
+    },
+    unlock() {
+      this.$refs.carousel.unlock()
+    },
   },
 }
 </script>

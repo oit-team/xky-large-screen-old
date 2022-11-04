@@ -7,14 +7,17 @@ export default {
 
   inheritAttrs: false,
 
-  render(h) {
+  functional: true,
+
+  render(h, ctx) {
     const data = {
+      ...ctx.data,
       props: {
-        ...this.$attrs,
-        size: convertToUnit(this.$attrs.size),
+        ...ctx.props,
+        size: convertToUnit(ctx.props.size),
       },
     }
 
-    return h(VIcon, data, this.$slots.default)
+    return h(VIcon, data, ctx.children)
   },
 }
