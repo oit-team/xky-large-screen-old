@@ -13,7 +13,7 @@
       ref="picker"
       :options="options"
       :resources="resources"
-      :advertsStyleMap="advertsStyleMap"
+      :adverts-style-map="advertsStyleMap"
       :options-index="optionsIndex"
       @lock="lock"
       @unlock="unlock"

@@ -2,10 +2,10 @@
   <div>
     <Collocation ref="collocation" :right-list="rightList" @show-info="showInfo" @show-fitting="showFitting" @lock="lock" />
     <v-overlay
+      ref="overlay"
       :opacity="opacity"
       z-index="60"
       :value="overlay"
-      ref="overlay"
       @click="closeOverlay"
     >
     </v-overlay>
@@ -51,12 +51,12 @@ export default {
     rightList: {
       deep: true,
       handler() {
-        if (this.rightList.length === 0) {
+        if (this.rightList && this.rightList.length !== 0) {
+          this.$refs.collocation.open()
+        } else {
           this.$refs.collocation.close()
           this.$refs.fitting.close()
           this.$refs.info.close()
-        } else {
-          this.$refs.collocation.open()
         }
       },
     },
@@ -91,7 +91,7 @@ export default {
     },
     changeList() {
       const goods = this.options[this.optionsIndex].goods
-      const optionsItem = goods.reduce((def, next) => [...def, this.advertsStyleMap[next]], [])
+      const optionsItem = goods?.reduce((def, next) => [...def, this.advertsStyleMap[next]], [])
       this.rightList = optionsItem
     },
     lock() {

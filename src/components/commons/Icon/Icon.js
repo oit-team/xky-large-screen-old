@@ -5,9 +5,9 @@ import { convertToUnit } from '../../../utils/helper'
 export default {
   name: 'VcIcon',
 
-  inheritAttrs: false,
-
   functional: true,
+
+  inheritAttrs: false,
 
   render(h, ctx) {
     const data = {

@@ -10,6 +10,10 @@
   .van-swipe__indicator--active{
     background-color: black;
   }
+  .van-swipe__indicator{
+    width: 10px;
+    height: 10px;
+  }
   .page-carousel__wrapper {
     display: flex;
     flex-direction: column;
