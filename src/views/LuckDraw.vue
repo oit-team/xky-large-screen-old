@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home flex flex-col">
     <div class="home-container">
       <div class="home-container-line">
         <div
@@ -41,6 +41,7 @@
         </div>
       </div>
     </div>
+    <div class="w-full h-20 bg-white flex items-center justify-center text-xl" @click="$router.back()">返回</div>
   </div>
 </template>
 
@@ -140,7 +141,8 @@ export default {
   padding: 0;
   margin: 0;
   width: 100%;
-  height: calc(100vh - 16px);
+  height: 100%;
+  //height: calc(100vh - 16px);
   background-image: linear-gradient(25deg, #30007c, #464995, #4d83ad, #41bfc4);
   @extend .center;
   &-container {

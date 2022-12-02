@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      infoData: {},
+      infoData: [],
       rightList: [],
       opacity: 0,
       overlay: false,
@@ -70,7 +70,7 @@ export default {
   methods: {
     showInfo(item) {
       clearTimeout(this.timer)
-      this.infoData = item
+      this.infoData = item.adverGoodsDetails
       this.$refs.fitting.close()
       this.$refs.info.open()
       this.overlay = true

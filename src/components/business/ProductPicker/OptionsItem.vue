@@ -27,10 +27,10 @@
     ></v-img>
     <div class="text-sm text-center">
       <div class="my-1">
-        {{ itemInfo.styleNo }}
+        {{ itemInfo.productName }}
       </div>
       <div class="mb-1">
-        ￥{{ itemInfo.stylePrice }}
+        ￥{{ itemInfo.productPrice }}
       </div>
     </div>
   </div>
