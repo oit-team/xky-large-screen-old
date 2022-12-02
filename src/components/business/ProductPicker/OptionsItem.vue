@@ -1,6 +1,7 @@
 <template>
   <div class="goodsItem flex flex-col items-center leading-relaxed relative">
     <v-img
+      v-if="itemInfo.resUrl"
       :src="itemInfo.resUrl"
       class="rounded-xl bg-white"
       :class="clickItem ? 'boxShadow' : ''"
@@ -62,19 +63,6 @@ export default {
 <style scoped>
 .boxShadow{
   box-shadow: 0 2px 12px 0 #5e8cfd;
-}
-@-webkit-keyframes greenPulse {
-  from {
-    -webkit-box-shadow: 0 0 9px #333;
-    width: 25px;
-    height: 25px;
-  }
-  50% { -webkit-box-shadow: 0 0 0px #5e8cfd; }
-  to {
-    -webkit-box-shadow: 0 0 9px #333;
-    width: 26px;
-    height: 26px;
-  }
 }
 
 .btn {
