@@ -79,10 +79,10 @@
               领奖后{{ jackpotInfo.effectiveDay }}天有效
             </div>
             <div v-if="jackpotInfo.effectiveType === 1">
-              {{ jackpotInfo.effectiveStart }}-{{ jackpotInfo.effectiveEnd }}
+              {{ new Date(jackpotInfo.effectiveStart).toLocaleString() }}-{{ new Date(jackpotInfo.effectiveEnd).toLocaleString() }}
             </div>
             <div>所属商家：{{ jackpotInfo.shopName }}</div>
-            <div>￥{{}}</div>
+            <div>价格：<span class="text-red-500">￥{{ jackpotInfo.jackpotPrice }}</span></div>
             <div class="line">
               备注：{{ jackpotInfo.jackpotNote || '无' }}
             </div>
@@ -197,6 +197,7 @@ export default {
   created() {
     this.getLuckyDrawConfig()
     this.getJackpotCount()
+    setInterval(this.getJackpotCount, 30000)
   },
 
   destroyed() {
@@ -206,6 +207,8 @@ export default {
 
   methods: {
     async lucky({ data }) {
+      if (!data) return this.$message.error('暂无奖品，请联系商家')
+
       this.luckyDialog = true
       this.luckyLoading = true
       this.luckyResult = data
@@ -251,9 +254,11 @@ export default {
         { x: 0, y: 1 },
       ]
       const res = await getLuckyDrawConfig()
-      this.prizes = res.body.resultList.map((item, index) => {
+      const result = res.body.resultList
+      this.prizes = pos.map((posItem, index) => {
+        const item = result[index]
         return {
-          ...pos[index],
+          ...posItem,
           data: item,
           borderRadius: '10px',
           imgs: [
@@ -271,7 +276,7 @@ export default {
           ],
           fonts: [
             {
-              text: `${item.startNum}-${item.endNum}元区`,
+              text: item ? `${item.startNum}-${item.endNum}元区` : '暂无奖品',
               fontSize: '2.2vw',
               top: '25%',
             },
@@ -320,7 +325,6 @@ export default {
         devId: sessionStorage.getItem('devId'),
       })
       this.countInfo = res.body
-      setInterval(this.getJackpotCount, 30000)
     },
   },
 }
