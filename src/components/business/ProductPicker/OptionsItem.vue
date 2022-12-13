@@ -10,22 +10,6 @@
         :width="size"
         :height="size"
       ></v-img>
-      <v-img
-        v-if="checkType()"
-        width="25"
-        height="25"
-        class="btn absolute -top-2 -right-2"
-        src="@/asset/image/plus.png"
-        @click.stop="addList()"
-      ></v-img>
-      <v-img
-        v-else
-        class="btn absolute -top-2 -right-2"
-        width="25"
-        height="25"
-        src="@/asset/image/minus.png"
-        @click.stop="delList()"
-      ></v-img>
     </div>
     <div class="text-sm text-center">
       <div class="my-1 w-7em truncate mx-auto">
@@ -46,18 +30,6 @@ export default {
     clickItem: Boolean,
   },
   methods: {
-    addList() {
-      if (this.$store.state.shoppingCart.list.length === 15) return false
-      this.$store.commit('shoppingCart/add', this.itemInfo)
-      this.$emit('lock')
-    },
-    delList() {
-      this.$store.commit('shoppingCart/remove', this.itemInfo)
-      this.$emit('lock')
-    },
-    checkType() {
-      return !this.$store.state.shoppingCart.list.some(e => e.id === this.itemInfo.id)
-    },
   },
 }
 </script>
