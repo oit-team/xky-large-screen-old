@@ -10,7 +10,6 @@
     >
     </v-overlay>
 
-    <SelectGoods ref="fitting" :goods-list="goodsList"></SelectGoods>
     <GoodsInfo ref="info" :info-data="infoData"></GoodsInfo>
   </div>
 </template>
@@ -18,12 +17,10 @@
 <script>
 import Collocation from './Collocation.vue'
 import GoodsInfo from '@/components/business/ProductPicker/GoodsInfo'
-import SelectGoods from '@/components/business/ProductPicker/SelectGoods'
 
 export default {
   components: {
     Collocation,
-    SelectGoods,
     GoodsInfo,
   },
   props: {
@@ -42,9 +39,6 @@ export default {
     }
   },
   computed: {
-    goodsList() {
-      return this.$store.state.shoppingCart.list
-    },
   },
   watch: {
     rightList: {
