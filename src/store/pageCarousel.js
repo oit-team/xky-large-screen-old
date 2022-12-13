@@ -17,7 +17,7 @@ export default {
   },
   actions: {
     async updateResources(ctx) {
-      const res = await getAdvertsInfo(localStorage.getItem('devId'))
+      const res = await getAdvertsInfo(sessionStorage.getItem('devId'))
       const {
         rotationRules,
         resEntityMap,

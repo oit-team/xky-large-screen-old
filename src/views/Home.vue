@@ -442,7 +442,7 @@ export default {
       const getData = () => getProductList({
         pageNum: this.page,
         pageSize: 30,
-        brandId: localStorage.getItem('brandId'),
+        brandId: sessionStorage.getItem('brandId'),
         styleCategory: this.selectedCategory,
       })
 

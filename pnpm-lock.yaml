@@ -4,6 +4,7 @@ specifiers:
   '@babel/core': ^7.16.7
   '@fortawesome/fontawesome-free': 5.15.3
   '@fortawesome/fontawesome-svg-core': ^1.2.36
+  '@lucky-canvas/vue': ^0.1.11
   '@oit/eslint-config': ^0.3.3
   '@vue/babel-helper-vue-jsx-merge-props': ^1.2.1
   '@vue/babel-preset-jsx': ^1.2.4
@@ -43,6 +44,7 @@ specifiers:
 dependencies:
   '@fortawesome/fontawesome-free': 5.15.3
   '@fortawesome/fontawesome-svg-core': 1.2.36
+  '@lucky-canvas/vue': 0.1.11_vue@2.7.10
   '@vue/composition-api': 1.7.0_vue@2.7.10
   axios: 0.24.0
   core-js: 3.25.1
@@ -1460,6 +1462,20 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
+
+  /@lucky-canvas/vue/0.1.11_vue@2.7.10:
+    resolution: {integrity: sha512-5vm0txSKRBtMgrE/HZEvw1joSTx9NTdAkc8tBp/aX0LxyhQtiTVBLsRgdYUK/OiURCL8bo+046BTGnV+Q4JFlg==}
+    peerDependencies:
+      vue: ^2.0.0 || >=3.0.0-rc.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      '@vue/composition-api': 1.7.0_vue@2.7.10
+      lucky-canvas: 1.7.27
+      vue: 2.7.10
+      vue-demi: 0.7.5_2jvg2he4lo2rgtlz5akzccw6ie
+    dev: false
 
   /@mrmlnc/readdir-enhanced/2.2.1:
     resolution: {integrity: sha512-bPHp6Ji8b41szTOcaP63VlnbbO5Ny6dwAATtY6JTjh5N2OLrb5Qk/Th5cRkRQhkWCt+EJsYrNB0MiL+Gpn6e3g==}
@@ -7221,6 +7237,10 @@ packages:
       yallist: 4.0.0
     dev: true
 
+  /lucky-canvas/1.7.27:
+    resolution: {integrity: sha512-Ftz6qD+863bI7xijBmZg3dw3cNEc7odPr70EZQcGA14y3TgTAzH65HPosOCd6kKUlMwhntBaHMx3onoj9MtJRQ==}
+    dev: false
+
   /magic-string/0.26.3:
     resolution: {integrity: sha512-u1Po0NDyFcwdg2nzHT88wSK0+Rih0N1M+Ph1Sp08k8yvFFU3KR72wryS7e1qMPJypt99WB7fIFVCA92mQrMjrg==}
     engines: {node: '>=12'}
@@ -10490,6 +10510,21 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /vue-demi/0.7.5_2jvg2he4lo2rgtlz5akzccw6ie:
+    resolution: {integrity: sha512-eFSQSvbQdY7C9ujOzvM6tn7XxwLjn0VQDXQsiYBLBwf28Na+2nTQR4BBBcomhmdP6mmHlBKAwarq6a0BPG87hQ==}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-beta.1
+      vue: ^2.6.0 || >=3.0.0-rc.1
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      '@vue/composition-api': 1.7.0_vue@2.7.10
+      vue: 2.7.10
+    dev: false
 
   /vue-eslint-parser/8.3.0_eslint@8.23.1:
     resolution: {integrity: sha512-dzHGG3+sYwSf6zFBa0Gi9ZDshD7+ad14DGOdTLjruRVgZXe2J+DcZ9iUhyR48z5g1PqRa20yt3Njna/veLJL/g==}

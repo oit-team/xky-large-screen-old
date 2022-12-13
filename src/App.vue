@@ -28,10 +28,10 @@ export default {
     for (const key of queryObject.keys())
       query[key] = queryObject.get(key)
 
-    // 保存到localStorage
-    localStorage.setItem('token', query.token ?? '')
-    localStorage.setItem('devId', query.devId ?? '')
-    localStorage.setItem('brandId', query.brandId ?? '')
+    // 保存到sessionStorage
+    sessionStorage.setItem('token', query.token ?? '')
+    sessionStorage.setItem('devId', query.devId ?? '')
+    sessionStorage.setItem('brandId', query.brandId ?? '')
 
     // 禁用浏览器长按菜单
     window.addEventListener('contextmenu', e => e.preventDefault())

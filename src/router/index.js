@@ -15,14 +15,14 @@ const routes = [
     component: () => import('@/views/Carousel.vue'),
   },
   {
-    path: '/luck-draw',
-    name: 'LuckDraw',
-    component: () => import('@/views/LuckDraw.vue'),
-  },
-  {
     path: '/video',
     name: 'Video',
     component: () => import('@/views/Video.vue'),
+  },
+  {
+    path: '/lucky',
+    name: 'Lucky',
+    component: () => import('@/views/Lucky.vue'),
   },
 ]
 

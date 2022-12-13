@@ -44,7 +44,7 @@ export default {
       getProductList({
         pageNum: this.page,
         pageSize: 20,
-        brandId: localStorage.getItem('brandId'),
+        brandId: sessionStorage.getItem('brandId'),
         styleCategory: '',
       })
         .then((res) => {

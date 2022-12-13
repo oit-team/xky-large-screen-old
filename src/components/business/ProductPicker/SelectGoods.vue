@@ -73,8 +73,8 @@ export default {
       }, [])
       if (newList.length === 0) return false
       const res = await addFittingRecord({
-        brandId: localStorage.getItem('brandId'),
-        abilityId: localStorage.getItem('devId'),
+        brandId: sessionStorage.getItem('brandId'),
+        abilityId: sessionStorage.getItem('devId'),
         goodsId: newList.join(','),
       })
       if (res.head.status === 0) {

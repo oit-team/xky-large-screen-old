@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     async getAdvertsInfo() {
-      const res = await getAdvertsInfo(localStorage.getItem('devId'))
+      const res = await getAdvertsInfo(sessionStorage.getItem('devId'))
       const {
         rotationRules,
         resEntityMap,

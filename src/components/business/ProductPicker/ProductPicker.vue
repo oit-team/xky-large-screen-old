@@ -19,7 +19,6 @@
 import Collocation from './Collocation.vue'
 import GoodsInfo from '@/components/business/ProductPicker/GoodsInfo'
 import SelectGoods from '@/components/business/ProductPicker/SelectGoods'
-import Message from '@/components/commons/Message'
 
 export default {
   components: {

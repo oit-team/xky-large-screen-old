@@ -6,7 +6,7 @@ import Message from '@/components/commons/Message'
 const axiosConfig = {
   // 请求超时时间
   timeout: 60000,
-  baseURL: process.env.NODE_ENV === 'production' ? './gdy' : '/api',
+  baseURL: '/api',
 }
 
 // 创建axios实例
@@ -16,7 +16,7 @@ const axios = Axios.create(axiosConfig)
  * 请求拦截器
  */
 axios.interceptors.request.use((config) => {
-  config.headers.token = localStorage.token
+  config.headers.token = sessionStorage.token
 
   return config
 }, error => Promise.reject(error))
@@ -43,7 +43,7 @@ export function post(url, params = {}, config = {}) {
   } = { ...defaultConfig, ...config }
 
   const userData = {
-    brandId: localStorage.getItem('brandId'),
+    brandId: sessionStorage.getItem('brandId'),
   }
 
   const formattedParams = {
@@ -63,6 +63,8 @@ export function post(url, params = {}, config = {}) {
   return axios
     .post(url, formattedParams, __config)
     .then((res) => {
+      if (!res.headers['content-type'].includes('application/json')) return res.data
+
       if (res.data && res.data.head.status === API_STATUS.OK)
         return res.data
 
