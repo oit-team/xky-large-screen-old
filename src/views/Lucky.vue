@@ -120,7 +120,7 @@
             <v-icon class="mr-2">
               fas fa-sync-alt
             </v-icon>
-            <span>换一批</span>
+            <span>{{ exchangeLoading ? '正在刷新' : '换一批' }}</span>
           </div>
         </div>
       </v-card>
@@ -144,6 +144,7 @@ export default {
     prizes: [],
     luckyDialog: false,
     luckyLoading: false,
+    exchangeLoading: false,
     jackpotInfo: {},
     raffleRecord: {},
     luckyResult: {},
@@ -308,10 +309,14 @@ export default {
       this.startCountdown(this.jackpotInfo.validTime * 60)
     },
     async getJackpotInfoList() {
+      if (this.exchangeLoading) return
+      this.exchangeLoading = true
       const res = await getJackpotInfoList({
         recordId: this.raffleRecord.recordId,
         startNum: this.luckyResult.startNum,
         endNum: this.luckyResult.endNum,
+      }).finally(() => {
+        this.exchangeLoading = false
       })
       this.exchangeList = res.body.result
     },
