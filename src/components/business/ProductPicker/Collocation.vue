@@ -58,9 +58,6 @@ export default {
       this.showBorder = false
     },
     isShow() {
-      // this.$emit('show-fitting')
-      // this.showBorder = true
-      // this.clickIndex = null
       this.$router.push({
         name: 'Lucky',
       })

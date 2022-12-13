@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Collocation ref="collocation" :right-list="rightList" @show-info="showInfo" @show-fitting="showFitting" @lock="lock" />
+    <Collocation ref="collocation" :right-list="rightList" @show-info="showInfo" @lock="lock" />
     <v-overlay
       ref="overlay"
       :opacity="opacity"
@@ -39,6 +39,9 @@ export default {
     }
   },
   computed: {
+    goodsList() {
+      return this.$store.state.shoppingCart.list
+    },
   },
   watch: {
     rightList: {
@@ -48,7 +51,6 @@ export default {
           this.$refs.collocation.open()
         } else {
           this.$refs.collocation.close()
-          this.$refs.fitting.close()
           this.$refs.info.close()
         }
       },
@@ -57,14 +59,12 @@ export default {
     optionsIndex: 'changeList',
   },
   mounted() {
-    this.$refs.fitting.close()
     this.$refs.info.close()
   },
   methods: {
     showInfo(item) {
       clearTimeout(this.timer)
       this.infoData = item.adverGoodsDetails
-      this.$refs.fitting.close()
       this.$refs.info.open()
       this.overlay = true
       this.$emit('lock')
@@ -75,7 +75,6 @@ export default {
     showFitting() {
       clearTimeout(this.timer)
       this.$refs.info.close()
-      this.$refs.fitting.open()
       this.overlay = true
       this.$emit('lock')
       this.timer = setTimeout(() => {
@@ -96,7 +95,6 @@ export default {
     closeOverlay() {
       this.overlay = false
       this.$emit('unlock')
-      this.$refs.fitting.close()
       this.$refs.info.close()
       this.$refs.collocation.reset()
     },
