@@ -55,7 +55,7 @@
         color="success"
         dark
       >
-        <v-card-text class="pt-3">
+        <v-card-text class="pt-3 text-center">
           小易正在从仓库拿奖...
           <v-progress-linear
             indeterminate
