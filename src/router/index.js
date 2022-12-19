@@ -5,14 +5,30 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/home/jewellery',
-    name: 'Jewellery',
-    component: () => import('@/views/Home/Jewellery.vue'),
+    path: '/template/clothing',
+    component: () => import('@/templates/clothing/views/Home.vue'),
+    meta: {
+      cache: true,
+    },
+  },
+  {
+    path: '/template/education',
+    component: () => import('@/templates/education/views/Home.vue'),
+    meta: {
+      cache: true,
+    },
+  },
+  {
+    path: '/template/education/detail/:productId',
+    component: () => import('@/templates/education/views/Detail.vue'),
   },
   {
     path: '/carousel',
     name: 'Carousel',
     component: () => import('@/views/Carousel.vue'),
+    meta: {
+      cache: true,
+    },
   },
   {
     path: '/video',
