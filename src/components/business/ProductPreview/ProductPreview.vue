@@ -36,7 +36,7 @@ export default {
 
   computed: {
     imgResources() {
-      return this.$store.state.selectedProduct?.imgResources ?? []
+      return this.list ?? this.$store.state.selectedProduct?.imgResources ?? []
     },
   },
 
@@ -74,8 +74,8 @@ export default {
     }
 
     ::v-deep .swiper-pagination-bullet {
-      width: 24px;
-      height: 24px;
+      width: 10px;
+      height: 10px;
     }
 
     ::v-deep .swiper-pagination-bullet-active {

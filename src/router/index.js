@@ -5,9 +5,9 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: () => import('@/views/Home.vue'),
+    path: '/home/jewellery',
+    name: 'Jewellery',
+    component: () => import('@/views/Home/Jewellery.vue'),
   },
   {
     path: '/carousel',

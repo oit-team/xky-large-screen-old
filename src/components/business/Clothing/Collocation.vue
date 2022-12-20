@@ -10,21 +10,18 @@
       <div>
         <v-img
           height="300"
-          :src="getSmallImage(item.imgResources[0])"
-          :lazy-src="getSmallImage(item.imgResources[0])"
+          :src="getSmallImage(item.imgUrl)"
+          :lazy-src="getSmallImage(item.imgUrl)"
         />
       </div>
-      <div class="px-2 text-xs font-bold truncate leading-6">
-        {{ item.collName }}
+      <!--      <div class="p-2 box-border text-xs font-bold truncate leading-6"> -->
+      <!--        {{ item.productName }} -->
+      <!--      </div> -->
+      <div class="mt-1 text-xs text-gray-500 truncate">
+        {{ item.productName }}
       </div>
-      <div class="flex-1 grid grid-cols-3 gap-2 p-2">
-        <v-img
-          v-for="(productItem, index) of product"
-          :key="`${productItem.id}-${index}`"
-          class="aspect-ratio-square"
-          :src="productItem.resUrl"
-          :lazy-src="productItem.resUrl"
-        />
+      <div class="my-2 text-xs font-bold text-red-500">
+        ￥{{ item.productPrice }}
       </div>
     </div>
   </v-card>
