@@ -1,22 +1,22 @@
 <template>
   <div :style="styles" class="flex-shrink-0 flex flex-col">
-    <v-card class="text-center flex flex-col flex-1" :min-height="cardHeight" elevation="0">
+    <v-card class="text-center overflow-hidden flex flex-col flex-1" :min-height="cardHeight" elevation="0">
       <v-img
-        class="flex-1"
-        :src="_getSmallImage(item.resUrl)"
+        :src="_getSmallImage(item.imgUrl)"
         :size="imgSize"
-        :lazy-src="_getSmallImage(item.resUrl)"
+        height="300"
+        :lazy-src="_getSmallImage(item.imgUrl)"
         transition="none"
       />
       <div class="px-1">
-        <div class="mt-2 text-xs font-bold truncate">
-          {{ item.styleNo }}
-        </div>
+        <!--        <div class="mt-2 text-xs font-bold truncate"> -->
+        <!--          {{ item.productNo }} -->
+        <!--        </div> -->
         <div class="mt-1 text-xs text-gray-500 truncate">
-          {{ item.styleName }}
+          {{ item.productName }}
         </div>
         <div class="my-2 text-xs font-bold text-red-500">
-          ￥{{ item.stylePrice }}
+          ￥{{ item.productPrice }}
         </div>
       </div>
     </v-card>

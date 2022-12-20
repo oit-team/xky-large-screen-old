@@ -33,3 +33,31 @@ export function getAdvertsInfo(devId) {
 export function addFittingRecord(params) {
   return post(`${API_SERVICE.LIVE_BROADCAST}/device/addFittingRecord`, params)
 }
+
+/**
+ * 查询一级分类
+ */
+export function getProductParent(params) {
+  return post('/liveBroadcast/adverts/getProductParent', params)
+}
+
+/**
+ * 查询产品列表
+ */
+export function getProductAll(params) {
+  return post('/liveBroadcast/adverts/getProductAll', params)
+}
+
+/**
+ * 查询产品详情
+ */
+export function getProductById(params) {
+  return post('/liveBroadcast/adverts/getProductById', params)
+}
+
+/**
+ * 查询品牌名片详情
+ */
+export function getBrandNameCard(params) {
+  return post('/liveBroadcast/adverts/getBrandNameCard', params)
+}
