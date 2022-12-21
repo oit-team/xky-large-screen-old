@@ -4,5 +4,6 @@ module.exports = {
   ],
   rules: {
     'vue/component-name-in-template-casing': 'off',
+    'vue/component-tags-order': 'off',
   },
 }

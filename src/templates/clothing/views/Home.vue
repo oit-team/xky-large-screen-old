@@ -287,7 +287,7 @@
     </keep-alive>
 
     <footer class="bg-black flex justify-center items-center">
-      <div class="text-[#ffffff] w-3/5">
+      <div class="text-white w-3/5">
         <div class="py-2 text-xl font-semibold">
           {{ brandInfo.brandName }}
         </div>
@@ -512,8 +512,6 @@ export default {
       return keyBy(this.categoryList, 'categoryMap')
     },
     shoppingCartCategory() {
-      console.log(this.shoppingCartList)
-      console.log(this.categoryMap)
       // return this.shoppingCartList
       return this.shoppingCartList.reduce((prev, item) => {
         if (prev[item.styleCategory]) {

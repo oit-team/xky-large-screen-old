@@ -23,6 +23,7 @@ specifiers:
   eslint-plugin-import: ^2.25.4
   eslint-plugin-vue: ^8.2.0
   lodash: ^4.17.15
+  mime-types: ^2.1.35
   plyr: ^3.6.12
   postcss-px-to-viewport: ^1.1.1
   sass: ~1.32.0
@@ -49,6 +50,7 @@ dependencies:
   axios: 0.24.0
   core-js: 3.25.1
   lodash: 4.17.21
+  mime-types: 2.1.35
   plyr: 3.7.2
   swiper: 5.4.5
   vant: 2.12.51_vue@2.7.10
@@ -7425,14 +7427,12 @@ packages:
   /mime-db/1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
-    dev: true
 
   /mime-types/2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.52.0
-    dev: true
 
   /mime/1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}

@@ -32,9 +32,9 @@ export default {
       query[key] = queryObject.get(key)
 
     // 保存到sessionStorage
-    sessionStorage.setItem('token', query.token ?? '')
-    sessionStorage.setItem('devId', query.devId ?? '')
-    sessionStorage.setItem('brandId', query.brandId ?? '')
+    query.token && sessionStorage.setItem('token', query.token)
+    query.devId && sessionStorage.setItem('devId', query.devId)
+    query.brandId && sessionStorage.setItem('brandId', query.brandId)
 
     // 禁用浏览器长按菜单
     window.addEventListener('contextmenu', e => e.preventDefault())
