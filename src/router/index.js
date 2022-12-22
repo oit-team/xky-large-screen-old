@@ -12,6 +12,13 @@ const routes = [
     },
   },
   {
+    path: '/template/jewellery',
+    component: () => import('@/templates/jewellery/views/Home.vue'),
+    meta: {
+      cache: true,
+    },
+  },
+  {
     path: '/template/education',
     component: () => import('@/templates/education/views/Home.vue'),
     meta: {

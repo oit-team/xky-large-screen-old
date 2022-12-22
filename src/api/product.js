@@ -61,3 +61,10 @@ export function getProductById(params) {
 export function getBrandNameCard(params) {
   return post('/liveBroadcast/adverts/getBrandNameCard', params)
 }
+
+/**
+ * 生成订单 绑定手机号
+ */
+export function insertGoodsPhoneRelation(params) {
+  return post('/liveBroadcast/adverts/insertGoodsPhoneRelation\n', params)
+}

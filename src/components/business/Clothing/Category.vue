@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center clothing-category" @click="$emit('click')">
+  <div class="!flex flex-col items-center justify-center clothing-category" @click="$emit('click')">
     <vc-img
       class="rounded transition items-center"
       :class="{ 'transform scale-125': active }"
@@ -12,6 +12,7 @@
       :class="{ 'font-bold text-gray-900': active }"
     >
       <div>{{ item.typeName }}</div>
+      <div>{{ item.productNum || 0 }}样</div>
     </div>
   </div>
 </template>

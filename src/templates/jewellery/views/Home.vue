@@ -52,57 +52,57 @@
             <vc-icon class="mr-2">
               #
             </vc-icon>
-            <span>{{ selectedItem.productName.indexValue }}</span>
+            <span>{{ selectedItem.productName?.indexValue }}</span>
           </v-chip>
 
-          <div class="text-red-500 text-2xl font-bold mr-6">
-            ￥{{ selectedItem.productPrice.indexValue }}
+          <div class="text-red-500 text-2xl font-bold ml-2 mr-4">
+            ￥{{ selectedItem.productPrice?.indexValue }}
           </div>
         </div>
 
         <div class="text-2xl flex flex-col gap-3">
-          <div>{{ selectedItem.productNo.indexDescrip }}：{{ selectedItem.productNo.indexValue || '暂无' }}</div>
-          <div>{{ selectedItem.productFabric.indexDescrip }}：{{ selectedItem.productFabric.indexValue || '暂无' }}</div>
-          <div>{{ selectedItem.productCategory.indexDescrip }}：{{ selectedItem.productCategory.indexValue || '暂无' }}</div>
-          <div>{{ selectedItem.productTypeName.indexDescrip }}：{{ selectedItem.productTypeName.indexValue || '暂无' }}</div>
+          <div>{{ selectedItem.productNo?.indexDescrip }}：{{ selectedItem.productNo?.indexValue || '暂无' }}</div>
+          <div>{{ selectedItem.productFabric?.indexDescrip }}：{{ selectedItem.productFabric?.indexValue || '暂无' }}</div>
+          <div>{{ selectedItem.productCategory?.indexDescrip }}：{{ selectedItem.productCategory?.indexValue || '暂无' }}</div>
+          <div>{{ selectedItem.productTypeName?.indexDescrip }}：{{ selectedItem.productTypeName?.indexValue || '暂无' }}</div>
         </div>
 
         <div>
-          <v-card min-height="260" class="overflow-hidden h-full">
-            <v-tabs v-model="tabItem" color="#000" slider-color="#d9d9d9">
-              <v-tab class="text-xl">
-                {{ selectedItem.productInstructions.indexDescrip }}
-              </v-tab>
-              <v-tab class="text-xl">
-                {{ selectedItem.productPrecautions.indexDescrip }}
-              </v-tab>
-              <v-tab class="text-xl">
-                {{ selectedItem.productSource.indexDescrip }}
-              </v-tab>
-            </v-tabs>
+          <v-tabs v-model="tabItem" color="#000" background-color="#f2f2f2" slider-color="#d9d9d9">
+            <v-tab class="text-xl">
+              {{ selectedItem.productInstructions?.indexDescrip }}
+            </v-tab>
+            <v-tab class="text-xl">
+              {{ selectedItem.productPrecautions?.indexDescrip }}
+            </v-tab>
+            <v-tab class="text-xl">
+              {{ selectedItem.productSource?.indexDescrip }}
+            </v-tab>
+          </v-tabs>
 
-            <v-tabs-items v-model="tabItem" class="w-full h-full">
-              <v-tab-item class="p-2 w-full h-4/5 flex items-center">
-                <div v-if="selectedItem.productInstructions.indexValue" class="w-full">
-                  {{ selectedItem.productInstructions.indexValue }}
+          <v-card>
+            <v-tabs-items v-model="tabItem" class="w-full h-200px">
+              <v-tab-item class="p-2 w-full h-full flex items-center">
+                <div v-if="selectedItem.productInstructions?.indexValue" class="w-full">
+                  {{ selectedItem.productInstructions?.indexValue }}
                 </div>
                 <div v-else class="w-full text-center">
                   暂无相关内容
                 </div>
               </v-tab-item>
 
-              <v-tab-item class="p-2 w-full h-4/5 flex items-center">
-                <div v-if="selectedItem.productPrecautions.indexValue" class="w-full">
-                  {{ selectedItem.productPrecautions.indexValue }}
+              <v-tab-item class="p-2 w-full h-full flex items-center">
+                <div v-if="selectedItem.productPrecautions?.indexValue" class="w-full">
+                  {{ selectedItem.productPrecautions?.indexValue }}
                 </div>
                 <div v-else class="w-full text-center">
                   暂无相关内容
                 </div>
               </v-tab-item>
 
-              <v-tab-item class="p-2 w-full h-4/5 flex items-center">
-                <div v-if="selectedItem.productSource.indexValue" class="w-full">
-                  {{ selectedItem.productSource.indexValue }}
+              <v-tab-item class="p-2 w-full h-full flex items-center">
+                <div v-if="selectedItem.productSource?.indexValue" class="w-full">
+                  {{ selectedItem.productSourc?.indexValue }}
                 </div>
                 <div v-else class="w-full text-center">
                   暂无相关内容
@@ -111,20 +111,18 @@
             </v-tabs-items>
           </v-card>
         </div>
-        <!--        <div class="text-xl bg-gray-200 p-3 rounded-xl flex-1" v-html="selectedItem.wearSellingPoint || '暂无穿着讲解'"> -->
-        <!--        </div> -->
       </div>
     </header>
 
     <!--    分类 -->
     <section class="flex category overflow-hidden">
-      <v-item-group v-model="withSelectedCategory" class="flex items-center overflow-hidden overflow-x-auto flex-1 p-4 mr-4">
-        <v-item>
+      <v-item-group v-model="withSelectedCategory" class="!flex items-center overflow-hidden overflow-x-auto !flex-1 p-4 mr-4">
+        <v-item v-if="tab === TABS.COLLOCATION">
           <div class="p-4" @click="onClickAll">
             <vc-img
               class="rounded transition items-center bg-gray"
               :class="{ 'transform scale-125': withSelectedCategory === undefined }"
-              :src="require('../../asset/image/all.png')"
+              src="assets/img/jewellery/all.png"
               size="60"
             />
             <div
@@ -132,6 +130,7 @@
               :class="{ 'font-bold text-gray-900': withSelectedCategory === undefined }"
             >
               <div>全部</div>
+              <div>{{ count }}样</div>
             </div>
           </div>
         </v-item>
@@ -149,7 +148,7 @@
         </v-item>
       </v-item-group>
 
-      <div class="flex items-stretch p-4 pb-8 space-x-2">
+      <div class="!flex items-stretch p-4 pb-8 space-x-2">
         <vc-btn class="h-full text-left vertical-btn" dark @click="tab = TABS.COLLOCATION">
           <vc-icon class="mb-2">
             fas fa-user
@@ -168,7 +167,7 @@
               <vc-icon class="mb-2">
                 fas fa-shopping-cart
               </vc-icon>
-              <span class="flex-1 vertical-text">试试看</span>
+              <span class="flex-1 vertical-text">感兴趣</span>
             </vc-btn>
           </v-badge>
           <div
@@ -176,11 +175,11 @@
             class="absolute left-0 -bottom-7 px-0"
           >
             <vc-btn
+              class="mb-1"
               @click="showDialog"
             >
-              <vc-icon size="16" color="#fff">
+              <vc-icon size="16">
                 fas fa-phone
-                <!--                fas fa-save -->
               </vc-icon>
             </vc-btn>
             <vc-btn
@@ -229,11 +228,11 @@
               <div class="w-full mt-2">
                 <vc-btn v-if="!checkSelected(item)" block @click="addToCart(item)">
                   <vc-icon size="16" dark class="mr-1">
-                    fas fa-heart
+                    far fa-heart
                   </vc-icon>
                   感兴趣
                 </vc-btn>
-                <vc-btn v-else color="primary" block @click="removeFormCart(item)">
+                <vc-btn v-else color="#4CAF50" dark block @click="removeFormCart(item)">
                   取消
                 </vc-btn>
               </div>
@@ -287,8 +286,8 @@
     </keep-alive>
 
     <footer class="bg-black flex justify-center items-center">
-      <div class="text-white w-3/5">
-        <div class="py-2 text-xl font-semibold">
+      <div class="text-[#ffffff] w-3/5">
+        <div class="py-2 text-xl font-semi-bold">
           {{ brandInfo.brandName }}
         </div>
         <div class="text-sm flex items-center">
@@ -298,13 +297,13 @@
             :src="brandInfo.brandLogo"
             class="border-white border-1 border-solid mr-2"
           ></vc-img>
-          <div>
-            <p>
+          <div class="flex flex-col gap-2">
+            <div>
               联系电话：{{ brandInfo.telepHone }}
-            </p>
-            <p>
+            </div>
+            <div>
               联系地址：{{ brandInfo.address }}
-            </p>
+            </div>
             <div class="overFlow-3">
               文化：{{ brandInfo.introduce }}
             </div>
@@ -398,7 +397,13 @@ import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
 import Collocation from '@/components/business/Clothing/Collocation.vue'
 import ClothingCategory from '@/components/business/Clothing/Category.vue'
 import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
-import { getBrandNameCard, getProductAll, getProductById, getProductParent } from '@/api/product'
+import {
+  getBrandNameCard,
+  getProductAll,
+  getProductById,
+  getProductParent,
+  insertGoodsPhoneRelation,
+} from '@/api/product'
 import { getSmallImage } from '@/utils/helper'
 import Message from '@/components/commons/Message'
 
@@ -445,6 +450,7 @@ export default {
       tabItem: 0,
       dialog: false, // 显示输入手机号的 dialog
       andPhone: '',
+      count: 0,
       rules: [
         value => !!value || 'Required.',
         value => (value && value.length === 11) || 'Mast 11 characters',
@@ -509,20 +515,17 @@ export default {
       }
     },
     categoryMap() {
-      return keyBy(this.categoryList, 'categoryMap')
+      return keyBy(this.categoryList, 'typeName')
     },
     shoppingCartCategory() {
-      console.log(this.shoppingCartList)
-      console.log(this.categoryMap)
-      // return this.shoppingCartList
       return this.shoppingCartList.reduce((prev, item) => {
-        if (prev[item.styleCategory]) {
-          prev[item.styleCategory].totalNum++
+        if (prev[item.productTypeName]) {
+          prev[item.productTypeName].productNum++
         } else {
-          prev[item.styleCategory] = {
-            categoryMap: item.styleCategory,
-            ...this.categoryMap[item.styleCategory],
-            totalNum: 1,
+          prev[item.productTypeName] = {
+            categoryMap: item.productTypeName,
+            ...this.categoryMap[item.productTypeName],
+            productNum: 1,
           }
         }
         return prev
@@ -548,12 +551,16 @@ export default {
     },
     // 当前选择商品 this.selectedProduct
     selectedProduct() {
+      // 当前商品发生改变 顶部详情的轮播组件的index要归零
+      this.swiperIndex = 0
+      this.$headerSwiper.activeIndex = 0
       this.getProductById(this.selectedProduct.productId)
     },
   },
 
   created() {
     this.setSwiperOptions()
+    this.getBrandNameCard()
   },
 
   mounted() {
@@ -564,7 +571,6 @@ export default {
 
   activated() {
     this.setScrollRecord()
-    this.getBrandNameCard()
 
     const { query } = this.$route
     enterShopPage({
@@ -623,6 +629,7 @@ export default {
         if (promise !== current)
           return
         const collocationList = res.body.resultList
+
         if (collocationList.length) {
           this.collocationList = this.page === 1
             ? collocationList
@@ -665,6 +672,9 @@ export default {
         brandId: sessionStorage.getItem('brandId'),
       })
       this.categoryList = res.body.resultList
+      this.categoryList.forEach((item) => {
+        this.count += item.productNum
+      })
     },
     // 点击手机号按钮  显示关联手机号对话框
     showDialog() {
@@ -675,13 +685,25 @@ export default {
       this.dialog = true
     },
     // 填写手机号  点击提交
-    subPhone() {
+    async subPhone() {
       if (this.andPhone === '' || this.andPhone.length !== 11) {
         Message.error('请输入正确手机号')
         return false
       }
+      const list = this.$store.state.shoppingCart.list
+      const productIds = list.reduce((def, item) => {
+        def.push(item.productId)
+        return def
+      }, [])
+      await insertGoodsPhoneRelation({
+        productIds: productIds.join(','),
+        brandId: sessionStorage.getItem('brandId'),
+        phone: this.andPhone,
+      })
+      Message.success('已通知工作人员')
       this.dialog = false
       this.andPhone = ''
+      this.tab = TABS.COLLOCATION
       this.$store.commit('shoppingCart/clear')
     },
     // 点击全部分类
@@ -775,10 +797,13 @@ $product-preview-width: $header-height / 4 * 3;
     .v-chip{
       white-space: $chip-white-space;
     }
+    .v-tab{
+      border: 1px solid #d9d9d9;
+    }
     .v-tab--active{
       background-color: #e1e1e1;
     }
-    ::v-deep .v-tabs-slider-wrapper{
+    :deep(.v-tabs-slider-wrapper){
       display: none;
     }
   }
@@ -797,7 +822,7 @@ $product-preview-width: $header-height / 4 * 3;
     @apply flex-1 bg-gray;
   }
 
-  ::v-deep .vertical-btn {
+  :deep(.vertical-btn) {
     flex-direction: column;
     padding: 10px 0;
 
@@ -822,7 +847,7 @@ $product-preview-width: $header-height / 4 * 3;
 }
 .flex-center{
   display: flex;
- justify-content: center;
+  justify-content: center;
   align-items: center;
 }
 </style>
