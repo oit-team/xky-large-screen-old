@@ -2,13 +2,21 @@
   <Drawer ref="drawer" position="right" offset="47%" class="rounded-l-3xl">
     <div class="w-full p-3 pb-0 box-border">
       <div v-for="(item, index) in rightList" :key="item.id" @click="onClick(item, index)">
-        <OptionsItem :item-info="item" :size="100" :click-item="index === clickIndex" @lock="$emit('lock')" />
+        <OptionsItem
+          :item-info="item"
+          :size="100"
+          :click-item="index === clickIndex"
+          @lock="$emit('lock')"
+        />
       </div>
     </div>
     <v-divider class="!border-current"></v-divider>
 
     <!--        点击试衣间 -->
-    <div class="w-full h-7rem p-3 pt-4 box-border flex flex-col justify-center items-center text-sm" @click.stop="isShow">
+    <div
+      class="w-full h-7rem p-3 pt-4 box-border flex flex-col justify-center items-center text-sm"
+      @click.stop="isShow"
+    >
       <v-badge
         color="#f47b7b"
         :content="$store.state.shoppingCart.list.length"
@@ -28,8 +36,8 @@
 </template>
 
 <script>
-import Drawer from '@/components/commons/Drawer'
 import OptionsItem from '@/components/business/ProductPicker/OptionsItem'
+import Drawer from '@/components/commons/Drawer'
 
 export default {
   components: {
@@ -71,7 +79,7 @@ export default {
 </script>
 
 <style scoped>
-.borders{
+.borders {
   box-shadow: 0 2px 12px 0 #5e8cfd;
 }
 </style>

@@ -4,11 +4,11 @@
       <!-- 将页面设置为9比16的尺寸 -->
       <v-responsive :aspect-ratio="9 / 16">
         <keep-alive>
-          <v-fade-transition v-if="$route.meta.cache" origin="center center" leave-absolute>
+          <v-fade-transition v-if="$route.meta?.cache" origin="center center" leave-absolute>
             <router-view />
           </v-fade-transition>
         </keep-alive>
-        <v-fade-transition v-if="!$route.meta.cache" origin="center center" leave-absolute>
+        <v-fade-transition v-if="!$route.meta?.cache" origin="center center" leave-absolute>
           <router-view />
         </v-fade-transition>
       </v-responsive>

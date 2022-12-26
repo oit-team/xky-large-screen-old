@@ -22,13 +22,14 @@
 
 <script>
 import { debounce } from 'lodash'
-import { enterCarouselPage } from '../api/frame'
-import PageCarousel from '@/components/business/Carousel'
+import { enterCarouselPage } from '@/api/frame'
 import { getAdvertsInfo } from '@/api/product'
+import PageCarousel from '@/components/business/Carousel'
 import ProductPicker from '@/components/business/ProductPicker'
 
 export default {
-  name: 'PageCarouselWarp',
+
+  // name: 'PageCarouselWarp',
 
   components: {
     PageCarousel,
@@ -42,30 +43,36 @@ export default {
     showOverlay: true,
     opacity: 0.6,
   }),
+  created() {
+    this.getData()
+  },
   activated() {
-    if (this.$route.params.preview) {
-      const { imgResources } = this.$store.state.selectedProduct
-      this.resources = {}
-      this.options = imgResources.map(src => ({
-        divide: '100%',
-        disabledNext: true,
-        items: [{
-          src,
-          type: 'image',
-          fit: 'cover',
-        }],
-      }))
-    } else {
-      this.getAdvertsInfo()
-
-      const { query } = this.$route
-      enterCarouselPage({
-        devId: query.devId,
-        brandId: query.brandId,
-      })
-    }
+    this.getData()
   },
   methods: {
+    getData() {
+      if (this.$route.params.preview) {
+        const { imgResources } = this.$store.state.selectedProduct
+        this.resources = {}
+        this.options = imgResources.map(src => ({
+          divide: '100%',
+          disabledNext: true,
+          items: [{
+            src,
+            type: 'image',
+            fit: 'cover',
+          }],
+        }))
+      } else {
+        this.getAdvertsInfo()
+
+        const { query } = this.$route
+        enterCarouselPage({
+          devId: query.devId,
+          brandId: query.brandId,
+        })
+      }
+    },
     async getAdvertsInfo() {
       const res = await getAdvertsInfo(sessionStorage.getItem('devId'))
       const {

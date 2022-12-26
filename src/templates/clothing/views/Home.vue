@@ -97,7 +97,7 @@
           <v-card>
             <v-tabs-items v-model="tabItem" class="w-full h-200px">
               <v-tab-item class="p-2 w-full h-full flex items-center">
-                <div v-if="selectedItem.wearSellingPoint?.indexValue" class="w-full">
+                <div v-if="selectedItem.wearSellingPoint?.indexValue" class="w-full h-full">
                   {{ selectedItem.wearSellingPoint?.indexValue }}
                 </div>
                 <div v-else class="w-full text-center">
@@ -106,7 +106,7 @@
               </v-tab-item>
 
               <v-tab-item class="p-2 w-full h-full flex items-center">
-                <div v-if="selectedItem.styleInfo?.indexValue" class="w-full">
+                <div v-if="selectedItem.styleInfo?.indexValue" class="w-full h-full">
                   {{ selectedItem.styleInfo?.indexValue }}
                 </div>
                 <div v-else class="w-full text-center">
@@ -338,31 +338,31 @@
           <!--          自定义键盘 -->
           <div class="flex-center mt-8 mb-4">
             <div class="grid grid-cols-3 gap-2 w-1/2">
-              <vc-btn @click="andPhone = `${andPhone}1`">
+              <vc-btn @click="andPhone += '1'">
                 1
               </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}2`">
+              <vc-btn @click="andPhone += '2'">
                 2
               </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}3`">
+              <vc-btn @click="andPhone += '3'">
                 3
               </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}4`">
+              <vc-btn @click="andPhone += '4'">
                 4
               </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}5`">
+              <vc-btn @click="andPhone += '5'">
                 5
               </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}6`">
+              <vc-btn @click="andPhone += '6'">
                 6
               </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}7`">
+              <vc-btn @click="andPhone += '7'">
                 7
               </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}8`">
+              <vc-btn @click="andPhone += '8'">
                 8
               </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}9`">
+              <vc-btn @click="andPhone += '9'">
                 9
               </vc-btn>
               <vc-btn @click="andPhone = andPhone.slice(0, andPhone.length - 1)">
@@ -370,7 +370,7 @@
                   fas fa-backspace
                 </vc-icon>
               </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}0`">
+              <vc-btn @click="andPhone += '0'">
                 0
               </vc-btn>
               <vc-btn @click="subPhone">
@@ -684,7 +684,7 @@ export default {
     // 点击手机号按钮  显示关联手机号对话框
     showDialog() {
       if (!this.$store.state.shoppingCart.list?.length) {
-        Message.warning('请选择感兴趣的商品')
+        Message.error('请选择感兴趣的商品')
         return false
       }
       this.dialog = true
@@ -705,7 +705,7 @@ export default {
         brandId: sessionStorage.getItem('brandId'),
         phone: this.andPhone,
       })
-      Message.success('已通知工作人员')
+      Message.success('已通知工作人员，请找工作人员确认。')
       this.dialog = false
       this.andPhone = ''
       this.tab = TABS.COLLOCATION
