@@ -18,6 +18,9 @@ const routes = [
       cache: true,
     },
   },
+  /**
+   * 健身
+   */
   {
     path: '/template/education',
     component: () => import('@/templates/education/views/Home.vue'),
@@ -28,6 +31,20 @@ const routes = [
   {
     path: '/template/education/detail/:productId',
     component: () => import('@/templates/education/views/Detail.vue'),
+  },
+  /**
+   * 教培
+   */
+  {
+    path: '/template/training',
+    component: () => import('@/templates/training/views/Home.vue'),
+    meta: {
+      cache: true,
+    },
+  },
+  {
+    path: '/template/training/detail/:productId',
+    component: () => import('@/templates/training/views/Detail.vue'),
   },
   {
     path: '/carousel',

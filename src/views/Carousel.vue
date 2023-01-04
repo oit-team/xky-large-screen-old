@@ -96,12 +96,12 @@ export default {
       this.optionsIndex = index
       this.$refs.picker.changeList()
     },
-    lock() {
-      this.$refs.carousel.lock()
-    },
-    unlock() {
-      this.$refs.carousel.unlock()
-    },
+    // lock() {
+    //   this.$refs.carousel.lock()
+    // },
+    // unlock() {
+    //   this.$refs.carousel.unlock()
+    // },
   },
 }
 </script>

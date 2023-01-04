@@ -48,9 +48,9 @@ export default {
       deep: true,
       handler() {
         if (this.rightList && this.rightList.length !== 0) {
-          this.$refs.collocation.open()
+          // this.$refs.collocation.open()
         } else {
-          this.$refs.collocation.close()
+          // this.$refs.collocation.close()
           this.$refs.info.close()
         }
       },

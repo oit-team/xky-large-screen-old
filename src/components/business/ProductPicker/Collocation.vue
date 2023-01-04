@@ -1,6 +1,6 @@
 <template>
   <Drawer ref="drawer" position="right" offset="47%" class="rounded-l-3xl">
-    <div class="w-full p-3 pb-0 box-border">
+    <div v-if="rightList?.length > 0" class="w-full p-3 pb-0 box-border">
       <div v-for="(item, index) in rightList" :key="item.id" @click="onClick(item, index)">
         <OptionsItem
           :item-info="item"
@@ -10,11 +10,11 @@
         />
       </div>
     </div>
-    <v-divider class="!border-current"></v-divider>
+    <v-divider v-if="rightList?.length > 0" class="!border-current"></v-divider>
 
     <!--        点击试衣间 -->
     <div
-      class="w-full h-7rem p-3 pt-4 box-border flex flex-col justify-center items-center text-sm"
+      class="w-full h-8rem p-3 pt-4 box-border flex flex-col justify-center items-center text-sm"
       @click.stop="isShow"
     >
       <v-badge
@@ -54,12 +54,12 @@ export default {
     }
   },
   methods: {
-    open() {
-      this.$refs.drawer.open()
-    },
-    close() {
-      this.$refs.drawer.close()
-    },
+    // open() {
+    //   this.$refs.drawer.open()
+    // },
+    // close() {
+    //   this.$refs.drawer.close()
+    // },
     onClick(item, index) {
       this.$emit('show-info', item)
       this.clickIndex = index
