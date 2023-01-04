@@ -296,12 +296,14 @@
           {{ brandInfo.brandName }}
         </div>
         <div class="text-sm flex items-center">
-          <vc-img
-            width="120px"
-            height="120px"
-            :src="brandInfo.brandLogo"
-            class="border-white border-1 border-solid mr-2"
-          ></vc-img>
+          <div>
+            <vc-img
+              width="120px"
+              height="120px"
+              :src="brandInfo.brandLogo"
+              class="border-white border-1 border-solid mr-2"
+            ></vc-img>
+          </div>
           <div class="flex flex-col gap-2">
             <div>
               联系电话：{{ brandInfo.telepHone }}
@@ -395,13 +397,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { chunk, isEmpty, keyBy } from 'lodash'
+import { mapState } from 'vuex'
 import { enterShopPage } from '@/api/frame'
-import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
-import Collocation from '@/components/business/Clothing/Collocation.vue'
-import ClothingCategory from '@/components/business/Clothing/Category.vue'
-import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
 import {
   getBrandNameCard,
   getProductAll,
@@ -409,8 +407,12 @@ import {
   getProductParent,
   insertGoodsPhoneRelation,
 } from '@/api/product'
-import { getSmallImage } from '@/utils/helper'
+import ClothingCategory from '@/components/business/Clothing/Category.vue'
+import Collocation from '@/components/business/Clothing/Collocation.vue'
+import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
+import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
 import Message from '@/components/commons/Message'
+import { getSmallImage } from '@/utils/helper'
 
 const TABS = {
   COLLOCATION: 0,
