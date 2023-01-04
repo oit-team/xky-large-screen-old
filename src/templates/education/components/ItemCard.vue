@@ -13,7 +13,7 @@
       <span class="text-xs">{{ item.productFabric ? `（${item.productFabric}）` : '' }}</span>
     </div>
     <div class="pt-1">
-      {{ item.typeSublevel }}
+      {{ item.productTypeName }}
     </div>
     <div class="text-sm text-gray-500 flex-1 pt-2">
       {{ item.personalSignature }}

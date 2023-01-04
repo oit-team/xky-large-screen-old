@@ -2,6 +2,7 @@
   <v-dialog
     v-model="dialog"
     width="80vw"
+    overlay-opacity="0.8"
   >
     <v-card v-if="dialog" class="p-0">
       <div v-for="item of list" :key="item.src">

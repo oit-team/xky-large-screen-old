@@ -49,8 +49,8 @@
             </vc-icon>
             <span>{{ getValue('productName') }}</span>
           </v-chip>
-          <span>{{ getValue('productFabric') }}</span>
-          <span class="text-red-500 font-bold">￥{{ getValue('productPrice') }}</span>
+          <span class="text-lg">{{ getValue('productFabric') }}</span>
+          <span class="text-red-500 font-bold text-lg">￥{{ getValue('productPrice') }}</span>
         </div>
 
         <div class="text-xl py-6 flex-col gap-4">
@@ -74,7 +74,7 @@
           返回
         </v-btn>
       </div>
-      <div class="flex-1 overflow-hidden flex">
+      <div v-if="data.videoList?.length" class="flex-1 overflow-hidden flex">
         <v-item-group class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-x-auto">
           <v-item v-for="item of data.videoList" v-slot="{ active, toggle }" :key="item">
             <v-card class="p-3 rounded-xl shadow-none overflow-hidden relative w-300px" :class="active" @click="toggle(), preview(item)">
@@ -84,17 +84,20 @@
               </v-icon>
             </v-card>
           </v-item>
-          <v-item v-for="item of data.imgList" v-slot="{ active, toggle }" :key="item">
+          <v-item v-for="item of data.detailsImgList" v-slot="{ active, toggle }" :key="item">
             <v-card class="p-3 rounded-xl shadow-none overflow-hidden w-300px" :class="active" @click="toggle(), preview(item)">
               <v-img :src="item" class="h-full aspect-4/5"></v-img>
             </v-card>
           </v-item>
         </v-item-group>
       </div>
+      <div v-else class="flex-1 grid place-content-center text-3xl">
+        暂无数据
+      </div>
     </div>
 
     <footer class="bg-black flex justify-center items-center">
-      <div class="text-white w-3/5">
+      <div class="text-white">
         <div class="py-2 text-xl font-semibold">
           {{ brandInfo.brandName }}
         </div>
