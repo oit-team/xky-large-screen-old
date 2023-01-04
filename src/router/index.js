@@ -35,17 +35,17 @@ const routes = [
   /**
    * 教培
    */
-  {
-    path: '/template/training',
-    component: () => import('@/templates/training/views/Home.vue'),
-    meta: {
-      cache: true,
-    },
-  },
-  {
-    path: '/template/training/detail/:productId',
-    component: () => import('@/templates/training/views/Detail.vue'),
-  },
+  // {
+  //   path: '/template/training',
+  //   component: () => import('@/templates/training/views/Home.vue'),
+  //   meta: {
+  //     cache: true,
+  //   },
+  // },
+  // {
+  //   path: '/template/training/detail/:productId',
+  //   component: () => import('@/templates/training/views/Detail.vue'),
+  // },
   {
     path: '/carousel',
     name: 'Carousel',

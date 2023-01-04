@@ -1,6 +1,7 @@
 <template>
   <div class="carousel-wrap">
     <PageCarousel
+      v-if="!showEmpty"
       ref="carousel"
       :options="options"
       :resources="resources"
@@ -8,6 +9,12 @@
       @close="close"
       @click.stop
     />
+    <div
+      v-else
+      class="w-full h-full flex justify-center items-center text-7xl"
+    >
+      暂无内容
+    </div>
     <ProductPicker
       ref="picker"
       :options="options"
@@ -42,6 +49,7 @@ export default {
     optionsIndex: 0,
     showOverlay: true,
     opacity: 0.6,
+    showEmpty: true,
   }),
   created() {
     this.getData()
@@ -75,6 +83,7 @@ export default {
     },
     async getAdvertsInfo() {
       const res = await getAdvertsInfo(sessionStorage.getItem('devId'))
+      this.showEmpty = false
       const {
         rotationRules,
         resEntityMap,
@@ -96,12 +105,12 @@ export default {
       this.optionsIndex = index
       this.$refs.picker.changeList()
     },
-    // lock() {
-    //   this.$refs.carousel.lock()
-    // },
-    // unlock() {
-    //   this.$refs.carousel.unlock()
-    // },
+    lock() {
+      this.$refs.carousel.lock()
+    },
+    unlock() {
+      this.$refs.carousel.unlock()
+    },
   },
 }
 </script>
