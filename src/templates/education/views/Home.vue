@@ -266,6 +266,7 @@ export default {
       await insertGoodsPhoneRelation({
         productIds: Object.keys(this.selectedMap).join(','),
         brandId: sessionStorage.getItem('brandId'),
+        devId: sessionStorage.getItem('devId'),
         phone: this.phone,
       })
       this.keyboardDialog = false
