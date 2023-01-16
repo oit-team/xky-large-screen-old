@@ -698,6 +698,7 @@ export default {
       await insertGoodsPhoneRelation({
         productIds: productIds.join(','),
         brandId: sessionStorage.getItem('brandId'),
+        devId: sessionStorage.getItem('devId'),
         phone: this.andPhone,
       })
       Message.success('已通知工作人员')
