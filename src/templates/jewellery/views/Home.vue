@@ -83,7 +83,7 @@
           <v-card>
             <v-tabs-items v-model="tabItem" class="w-full h-200px">
               <v-tab-item class="p-2 w-full h-full flex items-center">
-                <div v-if="selectedItem.productInstructions?.indexValue" class="w-full">
+                <div v-if="selectedItem.productInstructions?.indexValue" class="w-full h-full">
                   {{ selectedItem.productInstructions?.indexValue }}
                 </div>
                 <div v-else class="w-full text-center">
@@ -92,7 +92,7 @@
               </v-tab-item>
 
               <v-tab-item class="p-2 w-full h-full flex items-center">
-                <div v-if="selectedItem.productPrecautions?.indexValue" class="w-full">
+                <div v-if="selectedItem.productPrecautions?.indexValue" class="w-full h-full">
                   {{ selectedItem.productPrecautions?.indexValue }}
                 </div>
                 <div v-else class="w-full text-center">
@@ -101,8 +101,8 @@
               </v-tab-item>
 
               <v-tab-item class="p-2 w-full h-full flex items-center">
-                <div v-if="selectedItem.productSource?.indexValue" class="w-full">
-                  {{ selectedItem.productSourc?.indexValue }}
+                <div v-if="selectedItem.productSource?.indexValue" class="w-full h-full">
+                  {{ selectedItem.productSource?.indexValue }}
                 </div>
                 <div v-else class="w-full text-center">
                   暂无相关内容
@@ -390,13 +390,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { chunk, isEmpty, keyBy } from 'lodash'
+import { mapState } from 'vuex'
 import { enterShopPage } from '@/api/frame'
-import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
-import Collocation from '@/components/business/Clothing/Collocation.vue'
-import ClothingCategory from '@/components/business/Clothing/Category.vue'
-import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
 import {
   getBrandNameCard,
   getProductAll,
@@ -404,8 +400,12 @@ import {
   getProductParent,
   insertGoodsPhoneRelation,
 } from '@/api/product'
-import { getSmallImage } from '@/utils/helper'
+import ClothingCategory from '@/components/business/Clothing/Category.vue'
+import Collocation from '@/components/business/Clothing/Collocation.vue'
+import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
+import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
 import Message from '@/components/commons/Message'
+import { getSmallImage } from '@/utils/helper'
 
 const TABS = {
   COLLOCATION: 0,
