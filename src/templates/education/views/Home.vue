@@ -1,6 +1,6 @@
 <template>
   <div class="aspect-9/16 overflow-hidden bg-gray-100">
-    <swiper v-if="!loading && list.length && tab === TABS.LIST" class="swiper mr-5" :options="swiperOption" @touchmove.native.prevent>
+    <swiper v-if="!loading && list.length && tab === TABS.LIST" class="swiper ml-5" :options="swiperOption" @touchmove.native.prevent>
       <swiper-slide v-for="(chunk, index) of listChunk" :key="index">
         <div class="grid grid-cols-3 gap-5 h-full px-1 pt-3">
           <div
@@ -19,7 +19,7 @@
       </swiper-slide>
     </swiper>
 
-    <div v-if="selectedCount" class="w-80vw ml-auto mr-5 grid grid-cols-3 grid-rows-[repeat(auto-fill,33%)] gap-5 h-full px-1 pt-3">
+    <div v-if="selectedCount" class="w-80vw ml-5 grid grid-cols-3 grid-rows-[repeat(auto-fill,33%)] gap-5 h-full px-1 pt-3">
       <div
         v-for="item of selectedMap"
         :key="item.productId"
@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <div class="absolute left-0 top-1/5 w-150px">
+    <div class="absolute right-0 top-1/5 w-150px">
       <v-item-group v-model="selectedType" class="max-h-650px divide-y overflow-y-auto bg-white rounded-r-md" mandatory>
         <v-item v-for="item of typeList" v-slot="{ active, toggle }" :key="item.typeId" :value="item.key ?? item.typeName">
           <div
