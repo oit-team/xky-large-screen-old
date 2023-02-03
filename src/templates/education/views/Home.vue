@@ -1,119 +1,106 @@
 <template>
-  <div class="aspect-9/16 overflow-hidden bg-gray-100">
-    <swiper v-if="!loading && list.length && tab === TABS.LIST" class="swiper ml-5" :options="swiperOption" @touchmove.native.prevent>
-      <swiper-slide v-for="(chunk, index) of listChunk" :key="index">
-        <div class="grid grid-cols-3 gap-5 h-full px-1 pt-3">
-          <div
-            v-for="(item, i) of chunk"
-            :key="i"
-            class="flex flex-col"
-          >
-            <ItemCard :item="item"></ItemCard>
-            <div class="grid place-content-center flex-1">
-              <v-btn icon :class="{ 'text-red-500': hasItem(item.productId) }" @click="toggleItem(item.productId, item)">
-                <v-icon>fas fa-heart</v-icon>
-              </v-btn>
+  <div class="aspect-9/16 overflow-hidden flex flex-col">
+    <Banner />
+
+    <main class="flex flex-col flex-1 overflow-hidden">
+      <swiper v-if="!loading && list.length && tab === TABS.LIST" class="h-full w-80vw ml-5" :options="swiperOption" @touchmove.native.prevent>
+        <swiper-slide v-for="(chunk, index) of listChunk" :key="index">
+          <div class="grid grid-cols-3 gap-5 h-full">
+            <div
+              v-for="(item, i) of chunk"
+              :key="i"
+              class="flex flex-col overflow-hidden"
+            >
+              <ItemCard :item="item" :active="hasItem(item.productId)"></ItemCard>
             </div>
           </div>
-        </div>
-      </swiper-slide>
-    </swiper>
+        </swiper-slide>
+      </swiper>
 
-    <div v-if="selectedCount" class="w-80vw ml-5 grid grid-cols-3 grid-rows-[repeat(auto-fill,33%)] gap-5 h-full px-1 pt-3">
-      <div
-        v-for="item of selectedMap"
-        :key="item.productId"
-        class="flex flex-col"
-      >
-        <ItemCard
-          class="h-4/5"
-          :item="item"
-          @click="$router.push(`/template/education/detail/${item.productId}`)"
-        ></ItemCard>
-        <div class="grid place-content-center flex-1">
-          <v-btn icon :class="{ 'text-red-500': hasItem(item.productId) }" @click="toggleItem(item.productId, item)">
-            <v-icon>fas fa-heart</v-icon>
-          </v-btn>
+      <div v-if="tab === TABS.SHOPPING_CART && selectedCount" class="w-80vw ml-5 grid grid-cols-3 grid-rows-[repeat(auto-fill,33%)] gap-x-5 flex-1">
+        <div
+          v-for="item of selectedMap"
+          :key="item.productId"
+          class="flex flex-col"
+        >
+          <ItemCard
+            class="h-4/5"
+            :item="item"
+            :active="hasItem(item.productId)"
+            @click="toDetail(item.productId)"
+            @toggle="toggleItem"
+          ></ItemCard>
         </div>
       </div>
-    </div>
 
-    <div class="grid place-content-center h-full">
-      <div v-if="loading" class="w-40vw">
-        <div class="text-3xl mb-2 text-center">
-          正在加载...
+      <template>
+        <div v-if="loading && tab === TABS.LIST" class="grid place-content-center flex-1">
+          <div class="w-40vw">
+            <div class="text-3xl mb-2 text-center">
+              正在加载...
+            </div>
+            <v-progress-linear
+              indeterminate
+              rounded
+              height="6"
+            ></v-progress-linear>
+          </div>
         </div>
-        <v-progress-linear
-          indeterminate
-          rounded
-          height="6"
-        ></v-progress-linear>
-      </div>
-      <div v-if="!loading && ((tab === TABS.LIST && !list.length) || (tab === TABS.SHOPPING_CART && !selectedCount))">
-        <div class="text-4xl mb-2 text-center">
-          暂无数据
+        <div v-if="!loading && ((tab === TABS.LIST && !list.length) || (tab === TABS.SHOPPING_CART && !selectedCount))" class="grid place-content-center flex-1">
+          <div class="text-4xl mb-2 text-center">
+            暂无数据
+          </div>
         </div>
-      </div>
-    </div>
+      </template>
+    </main>
+
+    <Footer />
 
     <div class="absolute right-0 top-1/5 w-150px">
-      <v-item-group v-model="selectedType" class="max-h-650px divide-y overflow-y-auto bg-white rounded-r-md" mandatory>
+      <v-item-group v-model="selectedType" class="flex flex-col gap-2 bg-white rounded-r-md" mandatory>
         <v-item v-for="item of typeList" v-slot="{ active, toggle }" :key="item.typeId" :value="item.key ?? item.typeName">
           <div
-            class="h-150px flex flex-col pt-2"
+            class="flex rounded-l-lg p-2"
+            :class="{ 'bg-gray': active }"
             @click="toggle"
           >
-            <div class="h-1/2 overflow-hidden">
-              <v-img :src="item.typeImg" class="aspect-square h-full mx-auto bg-gray-100 rounded" />
-            </div>
-            <div class="text-gray-500 text-sm flex items-center justify-center flex-1">
-              <div class="py-1 px-2 rounded text-center" :class="{ 'bg-gray': active }">
-                <div>
-                  {{ item.typeName }}
-                </div>
-                <div v-if="item.productNum">
-                  {{ item.productNum }}位
-                </div>
+            <img class="h-30px w-30px" :src="item.typeImg" />
+            <div class="text-gray-500 text-sm flex-1">
+              <div class="py-1 px-3 rounded w-full" style="text-align-last: justify">
+                {{ item.typeName }}
+                <div class="w-full"></div>
               </div>
             </div>
           </div>
         </v-item>
       </v-item-group>
-      <div class="flex items-stretch justify-center pt-4 pb-8 space-x-2 h-210px">
-        <div class="relative flex flex-col gap-2">
-          <v-badge
-            class="z-10 flex-1"
-            :content="Object.keys(selectedMap).length || '0'"
-            color="#c00000"
-            offset-x="12"
-            offset-y="12"
-          >
-            <vc-btn class="h-full relative text-left vertical-btn" dark @click="tab = TABS.SHOPPING_CART">
-              <vc-icon class="mb-2">
-                fas fa-heart
-              </vc-icon>
-              <span class="flex-1 vertical-text">感兴趣</span>
-            </vc-btn>
-          </v-badge>
-          <vc-btn @click="keyboardDialog = true, phone = ''">
-            <vc-icon size="16" color="#fff">
-              fas fa-phone
-            </vc-icon>
-          </vc-btn>
+
+      <div class="flex flex-col items-center pt-6">
+        <v-badge
+          class="z-10 flex-1"
+          :content="Object.keys(selectedMap).length || '0'"
+          color="#c00000"
+          offset-x="12"
+          offset-y="12"
+        >
+          <v-btn outlined @click="tab = TABS.SHOPPING_CART">
+            感兴趣
+          </v-btn>
+        </v-badge>
+        <div class="flex justify-around mt-2">
           <div
             v-click-outside="() => deleteConfirm = false"
-            class="absolute left-0 -bottom-7 px-0"
           >
-            <vc-btn
+            <v-btn
               v-if="!deleteConfirm"
               text
               @click="deleteConfirm = true"
             >
-              <vc-icon size="16" color="#d9d9d9">
+              <vc-icon size="16" color="#8a8a8a">
                 fas fa-trash-alt
               </vc-icon>
-            </vc-btn>
-            <vc-btn
+            </v-btn>
+            <v-btn
               v-else
               class="px-0 w-full"
               text
@@ -121,15 +108,32 @@
               @click="clearItem()"
             >
               确定
-            </vc-btn>
+            </v-btn>
           </div>
+          <v-divider vertical class="my-2" />
+          <v-btn text @click="tab = TABS.LIST">
+            <v-icon size="16" color="#8a8a8a">
+              fas fa-home
+            </v-icon>
+          </v-btn>
         </div>
-        <vc-btn class="h-auto text-left vertical-btn" @click="tab = TABS.LIST">
-          <vc-icon class="mb-2">
-            fas fa-user
-          </vc-icon>
-          <span class="flex-1 vertical-text">优秀呈现</span>
-        </vc-btn>
+
+        <v-btn depressed dark class="mt-4" @click="keyboardDialog = true, phone = ''">
+          联系我们
+        </v-btn>
+        <!-- <div class="flex justify-around mt-2">
+          <v-btn text>
+            <v-icon size="16" color="#8a8a8a">
+              fab fa-weixin
+            </v-icon>
+          </v-btn>
+          <v-divider vertical class="my-2" />
+          <v-btn text>
+            <v-icon size="16" color="#8a8a8a">
+              far fa-envelope
+            </v-icon>
+          </v-btn>
+        </div> -->
       </div>
     </div>
 
@@ -157,7 +161,10 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import { chunk, throttle } from 'lodash'
 import ItemCard from '../components/ItemCard'
+import Banner from '../components/Banner'
 import Keyboard from '../components/Keyboard'
+import Footer from '../components/Footer'
+import * as events from '../enums/events'
 import { getProductAll, getProductParent, insertGoodsPhoneRelation } from '@/api/product'
 
 const TABS = {
@@ -171,6 +178,8 @@ export default {
     SwiperSlide,
     ItemCard,
     Keyboard,
+    Banner,
+    Footer,
   },
   data() {
     return {
@@ -213,7 +222,10 @@ export default {
     },
   },
   watch: {
-    selectedType: 'getProductAll',
+    selectedType() {
+      this.tab = TABS.LIST
+      this.getProductAll()
+    },
   },
   created() {
     this.getProductParent()
@@ -236,9 +248,12 @@ export default {
     },
     clickItem(e) {
       const item = e.target.closest('.product-item')
+      const active = e.target.closest('.active-btn')
       if (!item) return
+
       const productId = item.dataset.productId
-      this.$router.push(`/template/education/detail/${productId}`)
+
+      active ? this.toggleItem(productId) : this.toDetail(productId)
     },
     async getProductParent() {
       const res = await getProductParent({
@@ -280,9 +295,11 @@ export default {
       this.$delete(this.selectedMap, id)
     },
     toggleItem(id, item) {
+      console.log(this.selectedMap[id])
       if (this.selectedMap[id]) {
         this.removeItem(id)
       } else {
+        item ??= this.list.find(item => item.productId === +id)
         this.addItem(id, item)
       }
     },
@@ -292,16 +309,19 @@ export default {
     clearItem() {
       this.selectedMap = {}
     },
+    toDetail(productId) {
+      // 是否已选中，number类型
+      const active = +!!this.selectedMap[productId]
+      this.$router.push(`/template/education/detail/${productId}?active=${active}`)
+      this.$root.$on(events.TOGGLE_ACTIVE, (id) => {
+        this.toggleItem(id)
+      })
+    },
   },
 }
 </script>
 
 <style lang="scss">
-.swiper {
-  width: 80vw;
-  height: 100%;
-}
-
 .vertical-btn {
   flex-direction: column;
   padding: 10px !important;

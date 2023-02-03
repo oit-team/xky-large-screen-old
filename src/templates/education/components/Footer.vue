@@ -6,8 +6,8 @@
         <div class="text-3xl">
           {{ brandInfo.brandName }}
         </div>
-        <div>{{ brandInfo.telepHone }}</div>
-        <div>{{ brandInfo.address }}</div>
+        <div>联系电话：{{ brandInfo.telepHone }}</div>
+        <div>联系地址：{{ brandInfo.address }}</div>
         <div>{{ brandInfo.introduce }}</div>
       </div>
     </div>
