@@ -106,7 +106,7 @@
         </div>
         <div>
           <div v-if="data.detailsImgList?.length" class="flex-1 overflow-hidden flex">
-            <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-2 px-2 items-center overflow-x-auto">
+            <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-4 px-2 items-center overflow-x-auto">
               <v-item v-for="item of data.detailsImgList" v-slot="{ active, toggle }" :key="item">
                 <v-card class="rounded-xl shadow-none overflow-hidden w-300px" :class="active" @click="toggle(), preview(item)">
                   <v-img :src="item" class="h-full aspect-4/5"></v-img>
@@ -126,7 +126,7 @@
         </div>
         <div>
           <div v-if="data.videoList?.length" class="flex-1 overflow-hidden flex">
-            <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-2 px-2 items-center overflow-x-auto">
+            <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-4 px-2 items-center overflow-x-auto">
               <v-item v-for="item of data.videoList" v-slot="{ active, toggle }" :key="item">
                 <v-card class="rounded-xl shadow-none overflow-hidden relative w-300px" :class="active" @click="toggle(), preview(item)">
                   <v-img :src="getVideoFrame(item)" class="h-full aspect-4/5"></v-img>
@@ -145,35 +145,6 @@
     </div>
 
     <Footer />
-    <!-- <footer class="bg-black flex justify-center items-center">
-      <div class="text-white w-3/5">
-        <div class="py-2 text-xl font-semibold">
-          {{ brandInfo.brandName }}
-        </div>
-        <div class="text-sm flex items-center">
-          <div>
-            <vc-img
-              width="120"
-              height="120"
-              :src="brandInfo.brandLogo"
-              class="border-white border-1 border-solid mr-2"
-            ></vc-img>
-          </div>
-          <div>
-            <p>
-              联系电话：{{ brandInfo.telepHone }}
-            </p>
-            <p>
-              联系地址：{{ brandInfo.address }}
-            </p>
-            <div class="overFlow-3">
-              文化：{{ brandInfo.introduce }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer> -->
-
     <Preview ref="preview" />
   </div>
 </template>
@@ -254,8 +225,5 @@ export default {
 <style lang="scss" scoped>
 .goodAtStyle :last-child{
   border: 0px;
-}
-.inlineP *{
-  display: inline !important;
 }
 </style>
