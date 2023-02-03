@@ -39,13 +39,13 @@
         </div>
       </div>
 
-      <div class="flex flex-1 gap-3 overflow-hidden flex-col mt-12 mb-6 px-6">
+      <div class="flex flex-1 gap-3 overflow-hidden flex-col mt-12 mb-3 px-6">
         <div class="flex items-center justify-between">
           <!--          <div class="h-10 text-2xl"> -->
           <!--            {{ selectedItem.productName.indexValue }} -->
           <!--          </div> -->
           <v-chip
-            class="px-2 h-14 text-2xl text-white"
+            class="px-2 h-14 w-4/5 text-2xl text-white"
             label
             dark
           >
@@ -56,19 +56,46 @@
           </v-chip>
 
           <div class="text-red-500 text-2xl font-bold ml-2 mr-4">
-            ￥{{ selectedItem.productPrice?.indexValue }}
+            <span class="text-lg">￥</span>{{ selectedItem.productPrice?.indexValue }}
           </div>
         </div>
 
-        <div class="text-2xl flex flex-col gap-3">
-          <div>{{ selectedItem.productNo?.indexDescrip }}：{{ selectedItem.productNo?.indexValue || '暂无' }}</div>
-          <div>{{ selectedItem.productFabric?.indexDescrip }}：{{ selectedItem.productFabric?.indexValue || '暂无' }}</div>
-          <div>{{ selectedItem.productCategory?.indexDescrip }}：{{ selectedItem.productCategory?.indexValue || '暂无' }}</div>
-          <div>{{ selectedItem.productTypeName?.indexDescrip }}：{{ selectedItem.productTypeName?.indexValue || '暂无' }}</div>
+        <div class="text-xl flex flex-col gap-3">
+          <div>
+            <span class="text-lg text-[#888888]">{{ selectedItem.productNo?.indexDescrip }}：</span>
+            {{ selectedItem.productNo?.indexValue || '暂无' }}
+          </div>
+          <div>
+            <span class="text-lg text-[#888888]">{{ selectedItem.productFabric?.indexDescrip }}：</span>
+            {{ selectedItem.productFabric?.indexValue || '暂无' }}
+          </div>
+          <div>
+            <span class="text-lg text-[#888888]">{{ selectedItem.productCategory?.indexDescrip }}：</span>
+            {{ selectedItem.productCategory?.indexValue || '暂无' }}
+          </div>
+          <div>
+            <span class="text-lg text-[#888888]">{{ selectedItem.productTypeName?.indexDescrip }}：</span>
+            {{ selectedItem.productTypeName?.indexValue || '暂无' }}
+          </div>
         </div>
 
-        <div>
+        <div class="relative">
+          <div class="absolute right-0 top-0 z-10">
+            <v-btn text large @click="$router.push(`/template/jewellery/detail/${selectedProduct.productId}`)">
+              查看更多
+              <vc-icon size="16">
+                fas fa-angle-double-right
+              </vc-icon>
+            </v-btn>
+          </div>
           <v-tabs v-model="tabItem" color="#000" background-color="#f2f2f2" slider-color="#d9d9d9">
+            <!--            <v-tab -->
+            <!--              v-for="item in INFO_TABS" -->
+            <!--              :key="item" -->
+            <!--              class="text-xl" -->
+            <!--            > -->
+            <!--              {{ selectedItem.item?.indexDescrip }} -->
+            <!--            </v-tab> -->
             <v-tab class="text-xl">
               {{ selectedItem.productInstructions?.indexDescrip }}
             </v-tab>
@@ -81,10 +108,10 @@
           </v-tabs>
 
           <v-card>
-            <v-tabs-items v-model="tabItem" class="w-full h-200px">
+            <v-tabs-items v-model="tabItem" class="w-full h-220px">
               <v-tab-item class="p-2 w-full h-full flex items-center">
-                <div v-if="selectedItem.productInstructions?.indexValue" class="w-full h-full">
-                  {{ selectedItem.productInstructions?.indexValue }}
+                <div v-if="selectedItem.productInstructions?.indexValue" class="w-full h-full indent-2em overflow-hidden overflow-y-auto" v-html="selectedItem.productInstructions?.indexValue">
+                  <!--                  {{ selectedItem.productInstructions?.indexValue }} -->
                 </div>
                 <div v-else class="w-full text-center">
                   暂无相关内容
@@ -92,17 +119,18 @@
               </v-tab-item>
 
               <v-tab-item class="p-2 w-full h-full flex items-center">
-                <div v-if="selectedItem.productPrecautions?.indexValue" class="w-full h-full">
-                  {{ selectedItem.productPrecautions?.indexValue }}
+                <div v-if="selectedItem.productPrecautions?.indexValue" class="w-full h-full indent-2em overflow-hidden overflow-y-auto" v-html="selectedItem.productPrecautions?.indexValue">
+                  <!--                  {{ selectedItem.productInstructions?.indexValue }} -->
                 </div>
                 <div v-else class="w-full text-center">
+                  暂无相关内容
                   暂无相关内容
                 </div>
               </v-tab-item>
 
               <v-tab-item class="p-2 w-full h-full flex items-center">
-                <div v-if="selectedItem.productSource?.indexValue" class="w-full h-full">
-                  {{ selectedItem.productSource?.indexValue }}
+                <div v-if="selectedItem.productSource?.indexValue" class="w-full h-full indent-2em overflow-hidden overflow-y-auto" v-html="selectedItem.productSource?.indexValue">
+                  <!--                  {{ selectedItem.productInstructions?.indexValue }} -->
                 </div>
                 <div v-else class="w-full text-center">
                   暂无相关内容
@@ -121,7 +149,7 @@
           <div class="p-4" @click="onClickAll">
             <vc-img
               class="rounded transition items-center bg-gray"
-              :class="{ 'transform scale-125': withSelectedCategory === undefined }"
+              :class="{ 'transform scale-125 elevation-5': withSelectedCategory === undefined }"
               src="assets/img/jewellery/all.png"
               size="60"
             />
@@ -225,7 +253,7 @@
                 width="225"
               />
 
-              <div class="w-full mt-2">
+              <div class="w-full mt-1">
                 <vc-btn v-if="!checkSelected(item)" block @click="addToCart(item)">
                   <vc-icon size="16" dark class="mr-1">
                     far fa-heart
@@ -286,26 +314,31 @@
     </keep-alive>
 
     <footer class="bg-black flex justify-center items-center">
-      <div class="text-[#ffffff] w-3/5">
-        <div class="py-2 text-xl font-semi-bold">
-          {{ brandInfo.brandName }}
-        </div>
+      <div class="text-[#ffffff] w-[75%]">
         <div class="text-sm flex items-center">
-          <vc-img
-            width="120"
-            height="120"
-            :src="brandInfo.brandLogo"
-            class="border-white border-1 border-solid mr-2"
-          ></vc-img>
+          <div>
+            <vc-img
+              width="180px"
+              height="180px"
+              :src="brandInfo.brandLogo"
+              class="border-white border-1 border-solid mr-16"
+            ></vc-img>
+          </div>
           <div class="flex flex-col gap-2">
-            <div>
-              联系电话：{{ brandInfo.telepHone }}
+            <div class="py-2 text-xl font-semibold">
+              {{ brandInfo.brandName }}
             </div>
             <div>
-              联系地址：{{ brandInfo.address }}
+              <span class="text-gray-400">联系电话：</span>{{ brandInfo.telepHone }}
             </div>
-            <div class="overFlow-3">
-              文化：{{ brandInfo.introduce }}
+            <div>
+              <span class="text-gray-400">联系地址：</span>{{ brandInfo.address }}
+            </div>
+            <div class="overFlow-3 flex">
+              <span class="text-gray-400 whitespace-nowrap tracking-2em"> 文</span><span class="text-gray-400">化：</span>
+              <div>
+                {{ brandInfo.introduce }}
+              </div>
             </div>
           </div>
         </div>
@@ -386,6 +419,25 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog>
+      确定订单并发送给工作人员吗？
+      <v-card>
+        <v-btn
+          color="blue darken-1"
+          text
+          @click="dialogClose"
+        >
+          取消
+        </v-btn>
+        <v-btn
+          color="blue darken-1"
+          text
+          @click="dialogClose"
+        >
+          确定
+        </v-btn>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -417,6 +469,8 @@ const scrollRecord = {
   shoppingCartList: 0,
 }
 
+const INFO_TABS = ['productInstructions', 'productPrecautions', 'productSource']
+
 let promise = null
 let timer = null
 
@@ -436,6 +490,7 @@ export default {
     this.$headerSwiper = null
     return {
       tab: TABS.COLLOCATION,
+      INFO_TABS,
       swiperIndex: 0,
       collocationListCache: {},
       loading: false,
@@ -452,8 +507,8 @@ export default {
       andPhone: '',
       count: 0,
       rules: [
-        value => !!value || 'Required.',
-        value => (value && value.length === 11) || 'Mast 11 characters',
+        value => !!value || '必填项',
+        value => (value && value.length === 11) || '只支持11位字符',
       ],
     }
   },
@@ -737,10 +792,6 @@ export default {
     },
     zoomPreview() {
       this.showPreview = true
-      // this.$router.push({
-      //   name: 'Carousel',
-      //   params: { preview: true },
-      // })
     },
     saveScrollRecord(scrollLeft) {
       if (this.$refs.shoppingCartList)

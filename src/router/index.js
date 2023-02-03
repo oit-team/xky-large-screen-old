@@ -4,6 +4,9 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
+  /**
+   * 服装
+   */
   {
     path: '/template/clothing',
     component: () => import('@/templates/clothing/views/Home.vue'),
@@ -12,11 +15,22 @@ const routes = [
     },
   },
   {
+    path: '/template/clothing/detail/:productId',
+    component: () => import('@/templates/clothing/views/Detail.vue'),
+  },
+  /**
+   * 珠宝
+   */
+  {
     path: '/template/jewellery',
     component: () => import('@/templates/jewellery/views/Home.vue'),
     meta: {
       cache: true,
     },
+  },
+  {
+    path: '/template/jewellery/detail/:productId',
+    component: () => import('@/templates/jewellery/views/Detail.vue'),
   },
   /**
    * 健身
