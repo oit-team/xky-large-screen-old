@@ -295,7 +295,6 @@ export default {
       this.$delete(this.selectedMap, id)
     },
     toggleItem(id, item) {
-      console.log(this.selectedMap[id])
       if (this.selectedMap[id]) {
         this.removeItem(id)
       } else {
