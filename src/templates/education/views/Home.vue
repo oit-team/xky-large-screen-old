@@ -64,7 +64,7 @@
             :class="{ 'bg-gray': active }"
             @click="toggle"
           >
-            <img class="h-30px w-30px" :src="item.typeImg" />
+            <img class="h-30px w-30px overflow-hidden" :src="item.typeImg" />
             <div class="text-gray-500 text-sm flex-1">
               <div class="py-1 px-3 rounded w-full" style="text-align-last: justify">
                 {{ item.typeName }}
@@ -313,9 +313,8 @@ export default {
       // 是否已选中，number类型
       const active = +!!this.selectedMap[productId]
       this.$router.push(`/template/education/detail/${productId}?active=${active}`)
-      this.$root.$on(events.TOGGLE_ACTIVE, (id) => {
-        this.toggleItem(id)
-      })
+      this.$root.$off(events.TOGGLE_ACTIVE, this.toggleItem)
+      this.$root.$on(events.TOGGLE_ACTIVE, this.toggleItem)
     },
   },
 }
