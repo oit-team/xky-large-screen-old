@@ -192,7 +192,7 @@ export default {
         },
         controls: ['progress', 'play-large'],
         // controls: ['progress', 'play-large', 'fullscreen'],
-        hideControls: false,
+        hideControls: true,
         clickToPlay: true,
       },
     }

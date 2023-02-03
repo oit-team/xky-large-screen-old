@@ -190,7 +190,6 @@ export default {
         // controls: ['progress', 'play-large', 'fullscreen'],
         hideControls: true,
         clickToPlay: true,
-        loadSprite: false,
       },
     }
   },
