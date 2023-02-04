@@ -1,10 +1,10 @@
 <template>
-  <div class="grid grid-rows-[620px,1fr,auto] aspect-9/16">
+  <div class="grid grid-rows-[560px,1fr,auto] aspect-9/16">
     <header class="overflow-hidden">
       <Banner />
-      <div class="mx-6 flex">
+      <div class="mx-6 flex h-[560px]">
         <div class="flex-1">
-          <div class="relative aspect-3/4">
+          <div class="relative aspect-3/4  h-[560px]">
             <v-swiper
               ref="swiper"
               class="bg-gray rounded-md h-full"
@@ -42,20 +42,26 @@
         </div>
         <div class="flex-1 flex overflow-hidden flex-col mt-2 px-6">
           <div class="flex flex-col">
-            <div class="text-3xl py-2 font-semibold">
+            <div class="text-3xl py-1 font-semibold">
               {{ getValue('productName') }}
             </div>
             <div class="w-[40px] h-[5px] my-2 rounded-md bg-black border-black"></div>
           </div>
-          <div class="text-xl py-6 flex-col gap-4">
-            <p>{{ getLabel('contactPhone') }}：{{ getValue('contactPhone', '暂无') }}</p>
-            <p>{{ getLabel('employmentTime') }}：{{ getValue('employmentTime', '暂无') }}</p>
-            <p class="flex">
-              <span class="whitespace-nowrap">{{ getLabel('honor') }}：</span><span v-html="getValue('honor', '暂无')"></span>
+          <div class="text-xl py-4 flex-col gap-4">
+            <p class="mb-[6px]">
+              <span class="text-gray-500 mr-4">{{ getLabel('contactPhone') }}</span>{{ getValue('contactPhone', '暂无') }}
             </p>
-            <p>{{ getLabel('personalSignature') }}：{{ getValue('personalSignature', '暂无') }}</p>
-            <p class="flex">
-              <span class="whitespace-nowrap"> {{ getLabel('detailedIntroduction') }}：</span><span v-html="getValue('detailedIntroduction', '暂无')"></span>
+            <p class="mb-[6px]">
+              <span class="text-gray-500 mr-4">{{ getLabel('employmentTime') }}</span>{{ getValue('employmentTime', '暂无') }}
+            </p>
+            <p class="flex mb-[6px]">
+              <span class="whitespace-nowrap text-gray-500 mr-4">{{ getLabel('honor') }}</span><span v-html="getValue('honor', '暂无')"></span>
+            </p>
+            <p class="flex mb-[6px]">
+              <span class="whitespace-nowrap text-gray-500 mr-4">{{ getLabel('personalSignature') }}</span><span v-html="getValue('personalSignature', '暂无')"></span>
+            </p>
+            <p class="flex mb-[6px]">
+              <span class="whitespace-nowrap text-gray-500 mr-4"> {{ getLabel('detailedIntroduction') }}</span><span v-html="getValue('detailedIntroduction', '暂无')"></span>
             </p>
           </div>
           <div class="flex-1 flex gap-4 justify-start">
@@ -100,8 +106,8 @@
         </div>
       </div>
       <!-- 案例与课程 -->
-      <div class="pt-6 my-4 border-t border-gray-400">
-        <div class="text-3xl border-l-10 font-bold border-black px-4 py-2">
+      <div class="pt-6 my-2 border-t border-gray-400">
+        <div class="text-3xl border-l-10 font-bold border-black px-4 py-1">
           案例与课程
         </div>
         <div>
@@ -120,8 +126,8 @@
         </div>
       </div>
       <!-- 精彩瞬间 -->
-      <div class="pt-6 my-4 border-t border-gray-400">
-        <div class="text-3xl border-l-10 font-bold border-black px-4 py-2">
+      <div class="pt-6 my-2 border-t border-gray-400">
+        <div class="text-3xl border-l-10 font-bold border-black px-4 py-1">
           精彩瞬间
         </div>
         <div>
