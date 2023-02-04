@@ -202,7 +202,6 @@ export default {
     this.getProductById()
   },
   mounted() {
-    console.log(this.$refs.swiper)
     this.$nextTick(() => {
       this.$headerSwiper = this.$refs.swiper?.$swiper
     })
