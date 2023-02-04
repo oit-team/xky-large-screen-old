@@ -64,7 +64,7 @@
             :class="{ 'bg-gray': active }"
             @click="toggle"
           >
-            <img class="h-30px w-30px overflow-hidden" :src="item.typeImg" />
+            <v-img class="h-30px w-30px flex-grow-0" :src="item.typeImg" />
             <div class="text-gray-500 text-sm flex-1">
               <div class="py-1 px-3 rounded w-full" style="text-align-last: justify">
                 {{ item.typeName }}

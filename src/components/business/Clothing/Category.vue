@@ -2,7 +2,7 @@
   <div class="!flex flex-col items-center justify-center clothing-category" @click="$emit('click')">
     <vc-img
       class="rounded transition items-center"
-      :class="{ 'transform scale-125': active }"
+      :class="{ 'transform scale-125 elevation-5': active }"
       :src="item.typeImg"
       :lazy-src="item.typeImg"
       size="60"

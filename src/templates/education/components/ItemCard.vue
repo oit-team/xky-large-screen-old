@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     tags() {
-      return this.item.productTypeName?.split(',')?.slice(0, 3) || []
+      return JSON.parse(this.item.productProjects) || []
     },
   },
 }
