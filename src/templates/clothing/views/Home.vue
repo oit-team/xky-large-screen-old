@@ -41,9 +41,6 @@
 
       <div class="flex flex-1 gap-3 overflow-hidden flex-col mt-12 mb-3 px-6">
         <div class="flex items-center justify-between">
-          <!--          <div class="h-10 text-2xl"> -->
-          <!--            {{ selectedItem.productName.indexValue }} -->
-          <!--          </div> -->
           <v-chip
             class="px-2 h-14 w-4/5 text-2xl text-white"
             label
@@ -64,25 +61,6 @@
         <div class="text-xl flex flex-col gap-3">
           <div><span class="text-lg text-[#888888]">{{ selectedItem.productNo?.indexDescrip }}：</span>{{ selectedItem.productNo?.indexValue || '暂无' }}</div>
           <div><span class="text-lg text-[#888888]">{{ selectedItem.productFabric?.indexDescrip }}：</span>{{ selectedItem.productFabric?.indexValue || '暂无' }}</div>
-          <!--          <div class="flex items-center"> -->
-          <!--            <span class="text-lg text-[#888888]">{{ selectedItem.productFabric?.indexDescrip }}：</span> -->
-          <!--            &lt;!&ndash;            {{ selectedItem.productFabric?.indexValue || '暂无' }} &ndash;&gt; -->
-          <!--            <div v-if="selectedItem.productFabric?.indexValue"> -->
-          <!--              <v-chip -->
-          <!--                v-for="(item, index) in selectedItem.productFabric?.indexValue" -->
-          <!--                :key="index" -->
-          <!--                color="#fc6d41" -->
-          <!--                class="mr-1" -->
-          <!--                label -->
-          <!--                    outlined -->
-          <!--              > -->
-          <!--                {{ item }} -->
-          <!--              </v-chip> -->
-          <!--            </div> -->
-          <!--            <div v-else> -->
-          <!--              暂无 -->
-          <!--            </div> -->
-          <!--          </div> -->
           <div><span class="text-lg text-[#888888]">{{ selectedItem.productTypeName?.indexDescrip }}：</span>{{ selectedItem.productTypeName?.indexValue || '暂无' }}</div>
           <v-tooltip
             bottom
@@ -126,7 +104,6 @@
             <v-tabs-items v-model="tabItem" class="w-full h-220px">
               <v-tab-item class="p-2 w-full h-full flex items-center">
                 <div v-if="selectedItem.wearSellingPoint?.indexValue" class="w-full h-full  overflow-hidden overflow-y-auto" v-html="selectedItem.wearSellingPoint?.indexValue">
-                  <!--                  {{ selectedItem.wearSellingPoint?.indexValue }} -->
                 </div>
                 <div v-else class="w-full text-center">
                   暂无相关内容
@@ -135,7 +112,6 @@
 
               <v-tab-item class="p-2 w-full h-full flex items-center">
                 <div v-if="selectedItem.styleInfo?.indexValue" class="w-full h-full overflow-hidden overflow-y-auto" v-html="selectedItem.styleInfo?.indexValue">
-                  <!--                  {{ selectedItem.styleInfo?.indexValue }} -->
                 </div>
                 <div v-else class="w-full text-center">
                   暂无相关内容

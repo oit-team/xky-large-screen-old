@@ -41,9 +41,6 @@
 
       <div class="flex flex-1 gap-3 overflow-hidden flex-col mt-12 mb-3 px-6">
         <div class="flex items-center justify-between">
-          <!--          <div class="h-10 text-2xl"> -->
-          <!--            {{ selectedItem.productName.indexValue }} -->
-          <!--          </div> -->
           <v-chip
             class="px-2 h-14 w-4/5 text-2xl text-white"
             label
@@ -89,13 +86,6 @@
             </v-btn>
           </div>
           <v-tabs v-model="tabItem" color="#000" background-color="#f2f2f2" slider-color="#d9d9d9">
-            <!--            <v-tab -->
-            <!--              v-for="item in INFO_TABS" -->
-            <!--              :key="item" -->
-            <!--              class="text-xl" -->
-            <!--            > -->
-            <!--              {{ selectedItem.item?.indexDescrip }} -->
-            <!--            </v-tab> -->
             <v-tab class="text-xl">
               {{ selectedItem.productInstructions?.indexDescrip }}
             </v-tab>
@@ -111,7 +101,6 @@
             <v-tabs-items v-model="tabItem" class="w-full h-220px">
               <v-tab-item class="p-2 w-full h-full flex items-center">
                 <div v-if="selectedItem.productInstructions?.indexValue" class="w-full h-full indent-2em overflow-hidden overflow-y-auto" v-html="selectedItem.productInstructions?.indexValue">
-                  <!--                  {{ selectedItem.productInstructions?.indexValue }} -->
                 </div>
                 <div v-else class="w-full text-center">
                   暂无相关内容
@@ -120,17 +109,14 @@
 
               <v-tab-item class="p-2 w-full h-full flex items-center">
                 <div v-if="selectedItem.productPrecautions?.indexValue" class="w-full h-full indent-2em overflow-hidden overflow-y-auto" v-html="selectedItem.productPrecautions?.indexValue">
-                  <!--                  {{ selectedItem.productInstructions?.indexValue }} -->
                 </div>
                 <div v-else class="w-full text-center">
-                  暂无相关内容
                   暂无相关内容
                 </div>
               </v-tab-item>
 
               <v-tab-item class="p-2 w-full h-full flex items-center">
                 <div v-if="selectedItem.productSource?.indexValue" class="w-full h-full indent-2em overflow-hidden overflow-y-auto" v-html="selectedItem.productSource?.indexValue">
-                  <!--                  {{ selectedItem.productInstructions?.indexValue }} -->
                 </div>
                 <div v-else class="w-full text-center">
                   暂无相关内容

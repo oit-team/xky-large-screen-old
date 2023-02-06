@@ -166,8 +166,8 @@
 import { getProductById } from '../../../api/product'
 import ProductPreview from '../../../components/business/ProductPreview/ProductPreview.vue'
 import VcPlyr from '../../../components/commons/Plyr/Plyr.vue'
-import { getSmallImage } from '@/utils/helper'
-import Drawer from '@/components/commons/Drawer'
+import Drawer from '../../../components/commons/Drawer'
+import { getSmallImage } from '../../../utils/helper'
 
 export default {
   components: { VcPlyr, ProductPreview, Drawer },
