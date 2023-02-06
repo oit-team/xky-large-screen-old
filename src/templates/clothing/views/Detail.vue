@@ -1,5 +1,6 @@
 <template>
-  <div class="grid bg-gray grid-rows-[620px,min-content,min-content,1fr] aspect-9/16 relative">
+  <!--  aspect-9/16 -->
+  <div class="grid bg-gray grid-rows-[620px,min-content,min-content,1fr] relative overflow-hidden overflow-y-auto">
     <header class="relative bg-white rounded-lg box-border flex justify-center overflow-hidden mx-4 my-2">
       <div class=" aspect-3/4">
         <v-swiper
@@ -122,7 +123,7 @@
       </div>
     </div>
 
-    <div v-if="infoData.detailsImgList?.length" class="flex flex-col bg-white mx-4 my-2 p-2 box-border rounded-lg">
+    <div v-if="infoData.detailsImgList?.length" class="flex flex-col bg-white mx-4 my-2 p-2 box-border rounded-lg overflow-x-hidden">
       <div
         v-for="del in infoData.detailsImgList"
         :key="del"
@@ -136,8 +137,8 @@
         />
       </div>
     </div>
-    <Drawer ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center py-2 box-border rounded-l-md">
-      <v-btn block dark text @click="$router.back()">
+    <Drawer ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-md">
+      <v-btn block dark text class="my-2" @click="$router.back()">
         返回
       </v-btn>
       <div class="border w-full"></div>
@@ -146,7 +147,7 @@
         dark
         fab
         small
-        class="mt-2"
+        class="my-2"
         @click="toTop"
       >
         <vc-icon>
