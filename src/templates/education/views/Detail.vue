@@ -213,7 +213,6 @@ export default {
   },
   created() {
     this.isInterested = !!+this.$route.query.active
-    console.log(this.isInterested)
     this.getProductById()
     this.getBrandNameCard()
   },
