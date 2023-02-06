@@ -1,10 +1,10 @@
 <template>
   <div class="grid grid-rows-[560px,1fr,auto] aspect-9/16">
-    <header class="overflow-hidden">
+    <header>
       <Banner />
-      <div class="mx-6 flex h-[560px]">
-        <div class="flex-1">
-          <div class="relative aspect-3/4  h-[560px]">
+      <div class="mx-6 flex h-[450px]">
+        <div>
+          <div class="relative aspect-3/4 h-[450px]">
             <v-swiper
               ref="swiper"
               class="bg-gray rounded-md h-full"
@@ -40,14 +40,14 @@
             </div>
           </div>
         </div>
-        <div class="flex-1 flex overflow-hidden flex-col mt-2 px-6">
+        <div class="flex-1 flex overflow-hidden flex-col mt-2 ml-5 px-6">
           <div class="flex flex-col">
             <div class="text-3xl py-1 font-semibold">
               {{ getValue('productName') }}
             </div>
             <div class="w-[40px] h-[5px] my-2 rounded-md bg-black border-black"></div>
           </div>
-          <div class="text-xl py-4 flex-col gap-4">
+          <div class="text-xl flex-1 py-4 flex-col gap-4 overflow-y-auto">
             <p class="mb-[6px]">
               <span class="text-gray-500 mr-4">{{ getLabel('contactPhone') }}</span>{{ getValue('contactPhone', '暂无') }}
             </p>
@@ -64,7 +64,7 @@
               <span class="whitespace-nowrap text-gray-500 mr-4"> {{ getLabel('detailedIntroduction') }}</span><span v-html="getValue('detailedIntroduction', '暂无')"></span>
             </p>
           </div>
-          <div class="flex-1 flex gap-4 justify-start">
+          <div class="flex gap-4 justify-start">
             <v-btn
               elevation="2"
               outlined
@@ -75,15 +75,16 @@
               </v-icon>
               感兴趣
             </v-btn>
-            <!-- <v-btn
+            <v-btn
               elevation="2"
               outlined
+              @click="keyboardDialog = true, phone = ''"
             >
               <v-icon class="text-xs pr-2">
                 fas fa-phone-volume
               </v-icon>
               <span class="font-medium">联系我们</span>
-            </v-btn> -->
+            </v-btn>
             <v-btn
               depressed
               elevation="2"
@@ -99,52 +100,54 @@
         </div>
       </div>
     </header>
-    <div class="mt-2 mx-6 pt-2 flex flex-col overflow-hidden">
-      <div class="text-3xl flex items-center justify-center font-bold px-2 py-2 goodAtStyle">
-        <div v-for="item in goodAtInfo" :key="item" class="goodAtItemStyle px-8 border-r border-black">
-          {{ item }}
-        </div>
-      </div>
-      <!-- 案例与课程 -->
-      <div class="pt-6 my-2 border-t border-gray-400">
-        <div class="text-3xl border-l-10 font-bold border-black px-4 py-1">
-          案例与课程
-        </div>
-        <div>
-          <div v-if="data.detailsImgList?.length" class="flex-1 overflow-hidden flex">
-            <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-4 px-2 items-center overflow-x-auto">
-              <v-item v-for="item of data.detailsImgList" v-slot="{ active, toggle }" :key="item">
-                <v-card class="rounded-xl shadow-none overflow-hidden w-300px" :class="active" @click="toggle(), preview(item)">
-                  <v-img :src="item" class="h-full aspect-4/5"></v-img>
-                </v-card>
-              </v-item>
-            </v-item-group>
-          </div>
-          <div v-else class="flex-1 grid place-content-center text-3xl">
-            敬请期待...
+    <div class="h-full m-2 mx-6 pt-2 flex flex-col overflow-hidden">
+      <div class="max-h-full flex flex-col overflow-y-auto">
+        <div class="text-3xl flex items-center justify-center font-bold px-2 py-2 goodAtStyle">
+          <div v-for="item in goodAtInfo" :key="item" class="goodAtItemStyle px-8 border-r border-black">
+            {{ item }}
           </div>
         </div>
-      </div>
-      <!-- 精彩瞬间 -->
-      <div class="pt-6 my-2 border-t border-gray-400">
-        <div class="text-3xl border-l-10 font-bold border-black px-4 py-1">
-          精彩瞬间
-        </div>
-        <div>
-          <div v-if="data.videoList?.length" class="flex-1 overflow-hidden flex">
-            <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-4 px-2 items-center overflow-x-auto">
-              <v-item v-for="item of data.videoList" v-slot="{ active, toggle }" :key="item">
-                <v-card class="rounded-xl shadow-none overflow-hidden relative w-300px" :class="active" @click="toggle(), preview(item)">
-                  <v-img :src="getVideoFrame(item)" class="h-full aspect-4/5"></v-img>
-                  <v-icon class="absolute top-1/2 left-1/2 z-10 text-white text-5xl transform -translate-x-1/2 -translate-y-1/2">
-                    fas fa-play
-                  </v-icon>
-                </v-card>
-              </v-item>
-            </v-item-group>
+        <!-- 案例与课程 -->
+        <div class="pt-6 my-2 border-t border-gray-400">
+          <div class="text-3xl border-l-10 font-bold border-black px-4 py-1">
+            案例与课程
           </div>
-          <div v-else class="flex-1 grid place-content-center text-3xl">
-            敬请期待...
+          <div>
+            <div v-if="data.detailsImgList?.length" class="flex-1 overflow-hidden flex">
+              <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-4 px-2 items-center overflow-x-auto">
+                <v-item v-for="item of data.detailsImgList" v-slot="{ active, toggle }" :key="item">
+                  <v-card class="rounded-xl shadow-none overflow-hidden w-300px" :class="active" @click="toggle(), preview(item)">
+                    <v-img :src="item" class="h-full aspect-4/5"></v-img>
+                  </v-card>
+                </v-item>
+              </v-item-group>
+            </div>
+            <div v-else class="flex-1 grid place-content-center text-3xl">
+              敬请期待...
+            </div>
+          </div>
+        </div>
+        <!-- 精彩瞬间 -->
+        <div class="pt-6 my-2 border-t border-gray-400">
+          <div class="text-3xl border-l-10 font-bold border-black px-4 py-1">
+            精彩瞬间
+          </div>
+          <div>
+            <div v-if="data.videoList?.length" class="flex-1 overflow-hidden flex">
+              <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-4 px-2 items-center overflow-x-auto">
+                <v-item v-for="item of data.videoList" v-slot="{ active, toggle }" :key="item">
+                  <v-card class="rounded-xl shadow-none overflow-hidden relative w-300px" :class="active" @click="toggle(), preview(item)">
+                    <v-img :src="getVideoFrame(item)" class="h-full aspect-4/5"></v-img>
+                    <v-icon class="absolute top-1/2 left-1/2 z-10 text-white text-5xl transform -translate-x-1/2 -translate-y-1/2">
+                      fas fa-play
+                    </v-icon>
+                  </v-card>
+                </v-item>
+              </v-item-group>
+            </div>
+            <div v-else class="flex-1 grid place-content-center text-3xl">
+              敬请期待...
+            </div>
           </div>
         </div>
       </div>
@@ -152,6 +155,23 @@
 
     <Footer />
     <Preview ref="preview" />
+    <v-dialog
+      v-model="keyboardDialog"
+      width="700px"
+    >
+      <v-card>
+        <v-card-title>请留下您的联系方式，我们将联系您</v-card-title>
+        <div class="px-4 pb-4">
+          <v-text-field
+            v-model="phone"
+            label="手机号"
+            readonly
+            :rules="phoneRules"
+          ></v-text-field>
+          <Keyboard v-model="phone" class="w-4/5 mx-auto" @confirm="submitPhone()" />
+        </div>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -159,16 +179,18 @@
 import Preview from '../components/Preview.vue'
 import Banner from '../components/Banner.vue'
 import Footer from '../components/Footer.vue'
+import Keyboard from '../components/Keyboard'
 import * as events from '../enums/events'
-import { getBrandNameCard, getProductById } from '@/api/product'
+import { getBrandNameCard, getProductById, insertGoodsPhoneRelation } from '@/api/product'
 import { getSmallImage, getVideoFrame } from '@/utils/helper'
 
 export default {
-  components: { Preview, Banner, Footer },
+  components: { Preview, Banner, Footer, Keyboard },
   data() {
     return {
       swiperIndex: 0,
       previewDialog: false,
+      keyboardDialog: false,
       isInterested: false,
       previewList: [],
       options: {
@@ -182,15 +204,22 @@ export default {
       data: {},
       brandInfo: {},
       goodAtInfo: [],
+      phone: '',
+      phoneRules: [
+        value => !!value || '请输入手机号',
+        value => (value && value.length === 11) || '请输入正确的手机号',
+      ],
     }
   },
   created() {
     this.isInterested = !!+this.$route.query.active
+    console.log(this.isInterested)
     this.getProductById()
     this.getBrandNameCard()
   },
 
   mounted() {
+    console.log(this.$route.params)
     this.$headerSwiper = this.$refs.swiper?.$swiper
   },
 
@@ -214,6 +243,24 @@ export default {
     async getInterested() {
       this.isInterested = !this.isInterested
       this.$root.$emit(events.TOGGLE_ACTIVE, this.$route.params.productId)
+    },
+    async submitPhone() {
+      if (this.phone === '' || this.phone.length !== 11) {
+        this.$message.error('请输入正确手机号')
+        return false
+      }
+
+      if (!this.isInterested) return this.$message.error('未选择感兴趣内容')
+
+      await insertGoodsPhoneRelation({
+        productIds: this.$route.params.productId,
+        brandId: sessionStorage.getItem('brandId'),
+        devId: sessionStorage.getItem('devId'),
+        phone: this.phone,
+      })
+      this.keyboardDialog = false
+      this.phone = ''
+      this.$message.success('已通知工作人员')
     },
     getValue(key, def) {
       return this.data[key]?.indexValue ?? def
