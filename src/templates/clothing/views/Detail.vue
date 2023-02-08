@@ -36,7 +36,7 @@
       </div>
       <div
         v-if="infoData.imgList && infoData.imgList?.length"
-        class="flex absolute bottom-0 z-10 justify-end p-2 w-full"
+        class="flex absolute bottom-0 right-2 z-10 justify-end p-2"
       >
         <div class="overflow-hidden bg-black bg-opacity-40 rounded">
           <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slidePrev()">
@@ -180,16 +180,12 @@ export default {
         autoplay: true,
         fullscreen: {
           enabled: true,
-          fallback: true,
-          iosNative: true,
-          container: null,
         },
         keyboard: {
           focused: false,
         },
-        controls: ['progress', 'play-large'],
-        // controls: ['progress', 'play-large', 'fullscreen'],
-        hideControls: true,
+        controls: ['play', 'progress', 'play-large', 'fullscreen'],
+        hideControls: false,
         clickToPlay: true,
       },
     }

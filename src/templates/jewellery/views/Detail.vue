@@ -6,6 +6,7 @@
           ref="swiper"
           class="bg-white h-full product-preview"
           loop
+          autoplay
           :options="options"
           @touchmove.native.prevent
         >
@@ -35,7 +36,7 @@
       </div>
       <div
         v-if="infoData.imgList && infoData.imgList?.length"
-        class="flex absolute bottom-0 z-10 justify-end p-2 w-full"
+        class="flex absolute bottom-0 right-2 z-10 justify-end p-2"
       >
         <div class="overflow-hidden bg-black bg-opacity-40 rounded">
           <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slidePrev()">
@@ -126,7 +127,7 @@
       </div>
     </div>
 
-    <div v-if="infoData.detailsImgList?.length" class="flex flex-col bg-white mx-4 my-2 p-2 box-border rounded-lg overflow-x-hidden">
+    <div v-if="infoData.detailsImgList?.length" ref="imgList" class="flex flex-col bg-white mx-4 my-2 p-2 box-border rounded-lg overflow-x-hidden">
       <div
         v-for="del in infoData.detailsImgList"
         :key="del"
@@ -142,22 +143,35 @@
     </div>
 
     <Drawer ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-md">
-      <v-btn block dark text class="my-2" @click="$router.back()">
-        返回
-      </v-btn>
+      <div class="py-1 px-4 text-center">
+        <v-btn
+          icon
+          dark
+          fab
+          small
+          @click="$router.back()"
+        >
+          <vc-icon>
+            fas fa-chevron-left
+          </vc-icon>
+        </v-btn>
+        <div>返回</div>
+      </div>
       <div class="border w-full"></div>
-      <v-btn
-        icon
-        dark
-        fab
-        small
-        class="my-2"
-        @click="toTop"
-      >
-        <vc-icon>
-          fas fa-angle-double-up
-        </vc-icon>
-      </v-btn>
+      <div class="py-1 px-4 text-center">
+        <v-btn
+          icon
+          dark
+          fab
+          small
+          @click="toTop"
+        >
+          <vc-icon>
+            fas fa-angle-double-up
+          </vc-icon>
+        </v-btn>
+        <div>TOP</div>
+      </div>
     </Drawer>
     <ProductPreview v-model="showPreview" :index="swiperIndex" :list="infoData.imgList" />
   </div>
@@ -184,16 +198,12 @@ export default {
         autoplay: true,
         fullscreen: {
           enabled: true,
-          fallback: true,
-          iosNative: true,
-          container: null,
         },
         keyboard: {
           focused: false,
         },
-        controls: ['progress', 'play-large'],
-        // controls: ['progress', 'play-large', 'fullscreen'],
-        hideControls: true,
+        controls: ['play', 'progress', 'play-large', 'fullscreen'],
+        hideControls: false,
         clickToPlay: true,
       },
     }
