@@ -138,22 +138,35 @@
       </div>
     </div>
     <Drawer ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-md">
-      <v-btn block dark text class="my-2" @click="$router.back()">
-        返回
-      </v-btn>
+      <div class="py-1 px-4 text-center">
+        <v-btn
+          icon
+          dark
+          fab
+          small
+          @click="$router.back()"
+        >
+          <vc-icon>
+            fas fa-angle-double-left
+          </vc-icon>
+        </v-btn>
+        <div>返回</div>
+      </div>
       <div class="border w-full"></div>
-      <v-btn
-        icon
-        dark
-        fab
-        small
-        class="my-2"
-        @click="toTop"
-      >
-        <vc-icon>
-          fas fa-angle-double-up
-        </vc-icon>
-      </v-btn>
+      <div class="py-1 px-4 text-center">
+        <v-btn
+          icon
+          dark
+          fab
+          small
+          @click="toTop"
+        >
+          <vc-icon>
+            fas fa-angle-double-up
+          </vc-icon>
+        </v-btn>
+        <div>TOP</div>
+      </div>
     </Drawer>
     <ProductPreview v-model="showPreview" :index="swiperIndex" :list="infoData.imgList" />
   </div>
