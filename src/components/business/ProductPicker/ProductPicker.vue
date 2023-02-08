@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 右侧列表 -->
     <Collocation ref="collocation" :right-list="rightList" @show-info="showInfo" @lock="lock" />
     <v-overlay
       ref="overlay"
@@ -10,7 +11,8 @@
     >
     </v-overlay>
 
-    <GoodsInfo ref="info" :info-data="infoData"></GoodsInfo>
+    <!-- dialog展示不同行业详情信息 -->
+    <GoodsInfo ref="info" :detail-dialog="detailDialog"></GoodsInfo>
   </div>
 </template>
 
@@ -25,13 +27,14 @@ export default {
   },
   props: {
     options: Array,
+    detailDialog: String,
     advertsStyleMap: Object,
     resources: Object,
     optionsIndex: Number,
   },
   data() {
     return {
-      infoData: [],
+      infoData: {},
       rightList: [],
       opacity: 0,
       overlay: false,
@@ -64,8 +67,7 @@ export default {
   methods: {
     showInfo(item) {
       clearTimeout(this.timer)
-      this.infoData = item.adverGoodsDetails
-      this.$refs.info.open()
+      this.$refs.info.open(item)
       this.overlay = true
       this.$emit('lock')
       this.timer = setTimeout(() => {

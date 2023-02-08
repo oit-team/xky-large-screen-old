@@ -54,12 +54,6 @@ export default {
     }
   },
   methods: {
-    // open() {
-    //   this.$refs.drawer.open()
-    // },
-    // close() {
-    //   this.$refs.drawer.close()
-    // },
     onClick(item, index) {
       this.$emit('show-info', item)
       this.clickIndex = index

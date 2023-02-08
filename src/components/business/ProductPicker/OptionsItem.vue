@@ -12,11 +12,8 @@
       ></v-img>
     </div>
     <div class="text-sm text-center">
-      <div class="my-1 w-7em truncate mx-auto">
+      <div class="my-2 w-7em truncate mx-auto">
         {{ itemInfo.productName }}
-      </div>
-      <div class="mb-1">
-        ￥{{ itemInfo.productPrice }}
       </div>
     </div>
   </div>

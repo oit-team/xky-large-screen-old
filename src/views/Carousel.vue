@@ -18,6 +18,7 @@
     <ProductPicker
       ref="picker"
       :options="options"
+      :detail-dialog="detailDialog"
       :resources="resources"
       :adverts-style-map="advertsStyleMap"
       :options-index="optionsIndex"
@@ -50,6 +51,7 @@ export default {
     showOverlay: true,
     opacity: 0.6,
     showEmpty: true,
+    detailPage: '',
   }),
   created() {
     this.getData()
@@ -84,6 +86,7 @@ export default {
     async getAdvertsInfo() {
       const res = await getAdvertsInfo(sessionStorage.getItem('devId'))
       this.showEmpty = false
+      this.detailDialog = res.body.detailPage
       const {
         rotationRules,
         resEntityMap,

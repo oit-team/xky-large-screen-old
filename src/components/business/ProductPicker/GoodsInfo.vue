@@ -1,48 +1,58 @@
 <template>
-  <Drawer ref="drawer" position="left" offset="50%" class="rounded-r-3xl drawerW z-61">
-    <div class="w-full p-3 leading-15">
-      <div v-for="(item, index) in list" :key="index" class="info-item flex">
-        <div class="lable w-32 text-center">
-          {{ item.fieldName }}
-        </div>
-        <div class="lable w-3/5">
-          {{ item.fieldValue }}
-        </div>
+  <div class="text-center">
+    <v-dialog
+      v-model="dialog"
+      width="75%"
+    >
+      <div v-if="dialog" class="h-[75vh] bg-white">
+        <Fitness v-if="detailDialog === 'education'" ref="education" :product-id="productId" :is-dialog="isDialog"></Fitness>
+        <Clothing v-if="detailDialog === 'clothing'" ref="clothing" :product-id="productId"></Clothing>
+        <Jewellery v-if="detailDialog === 'jewellery'" ref="jewellery" :product-id="productId"></Jewellery>
       </div>
-    </div>
-  </Drawer>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
-import Drawer from '@/components/commons/Drawer'
+import Fitness from '@/templates/education/views/Detail.vue'
+import Clothing from '@/templates/clothing/views/Detail.vue'
+import Jewellery from '@/templates/jewellery/views/Detail.vue'
 
 export default {
   components: {
-    Drawer,
+    Fitness,
+    Clothing,
+    Jewellery,
   },
   props: {
-    infoData: Array,
+    detailDialog: String,
   },
-  computed: {
-    list() {
-      return this.infoData.filter((item) => {
-        return item.fieldValue !== null
-      })
-    },
+  data() {
+    return {
+      isDialog: true, // 详情是否是通过dialog展示的
+      dialog: false,
+      productId: null,
+      dialogType: '', // 所属行业类型
+      infoData: {},
+    }
   },
   methods: {
-    open() {
-      this.$refs.drawer.open()
+    open(data) {
+      this.dialog = true
+      this.infoData = data
+      this.productId = this.infoData.id
     },
     close() {
-      this.$refs.drawer.close()
+      this.dialog = false
     },
   },
 }
 </script>
 
-<style scoped>
-.drawerW{
-  width: 50vw;
+<style lang="scss" scoped>
+::v-deep{
+  .v-dialog:not([v-dialog--fullscreen]) {
+    max-height: 75%;
+  }
 }
 </style>
