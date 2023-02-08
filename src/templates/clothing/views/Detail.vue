@@ -181,11 +181,13 @@ import Drawer from '@/components/commons/Drawer'
 
 export default {
   components: { VcPlyr, ProductPreview, Drawer },
+  props: {
+    productId: Number,
+  },
   data() {
     this.options = {}
     this.$headerSwiper = null
     return {
-      productId: '',
       infoData: {},
       showPreview: false,
       swiperIndex: 0,
@@ -204,6 +206,7 @@ export default {
     }
   },
   created() {
+    this.currentProductId = this.productId || this.$route.params.productId
     this.setSwiperOptions()
     this.getProductById()
   },
@@ -226,7 +229,7 @@ export default {
     },
     async getProductById() {
       const res = await getProductById({
-        productId: this.$route.params.productId,
+        productId: this.currentProductId,
         brandId: sessionStorage.getItem('brandId'),
       })
       this.infoData = res.body
