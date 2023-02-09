@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     tags() {
-      return JSON.parse(this.item.productProjects) || []
+      return this.item?.productProjects ? JSON.parse(this.item.productProjects) : []
     },
   },
 }
