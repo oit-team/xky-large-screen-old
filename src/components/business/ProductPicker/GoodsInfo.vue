@@ -56,10 +56,7 @@ export default {
 ::v-deep{
   .v-dialog:not([v-dialog--fullscreen]) {
     max-height: 75%;
-    margin-top: 15%;
-  }
-  .v-dialog__content{
-    align-items: start;
+    margin-top: -15%;
   }
 }
 </style>
