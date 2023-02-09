@@ -3,11 +3,12 @@
     <v-dialog
       v-model="dialog"
       width="75%"
+      @click:outside="closedialog"
     >
       <div v-if="dialog" class="h-[75vh] bg-white">
         <Fitness v-if="detailDialog === 'education'" ref="education" :product-id="productId" :is-dialog="isDialog"></Fitness>
-        <Clothing v-if="detailDialog === 'clothing'" ref="clothing" :product-id="productId"></Clothing>
-        <Jewellery v-if="detailDialog === 'jewellery'" ref="jewellery" :product-id="productId"></Jewellery>
+        <Clothing v-if="detailDialog === 'clothing'" ref="clothing" :product-id="productId" :is-dialog="isDialog"></Clothing>
+        <Jewellery v-if="detailDialog === 'jewellery'" ref="jewellery" :product-id="productId" :is-dialog="isDialog"></Jewellery>
       </div>
     </v-dialog>
   </div>
@@ -42,8 +43,10 @@ export default {
       this.infoData = data
       this.productId = this.infoData.id
     },
-    close() {
+    // 点击dialog容器之外触发关闭
+    closedialog() {
       this.dialog = false
+      this.$emit('dialog-close', true)
     },
   },
 }

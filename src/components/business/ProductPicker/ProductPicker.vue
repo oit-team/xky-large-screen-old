@@ -12,7 +12,7 @@
     </v-overlay>
 
     <!-- dialog展示不同行业详情信息 -->
-    <GoodsInfo ref="info" :detail-dialog="detailDialog"></GoodsInfo>
+    <GoodsInfo ref="info" :detail-dialog="detailDialog" @dialog-close="dialogClose"></GoodsInfo>
   </div>
 </template>
 
@@ -99,6 +99,12 @@ export default {
       this.$emit('unlock')
       this.$refs.info.close()
       this.$refs.collocation.reset()
+    },
+    dialogClose(val) {
+      if (val) {
+        this.overlay = false
+        this.$emit('unlock')
+      }
     },
   },
 }
