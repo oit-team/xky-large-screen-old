@@ -60,9 +60,9 @@ export default {
 
 <style scoped lang="scss">
 .product-preview {
-  position: fixed;
+  position: absolute;
   z-index: 100;
-  width: 100vw;
+  width: 100%;
   background-color: #ffffff;
   aspect-ratio: 9/16;
 

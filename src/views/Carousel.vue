@@ -84,7 +84,7 @@ export default {
     showOverlay: true,
     opacity: 0.6,
     showEmpty: true,
-    detailPage: '',
+    detailDialog: '',
   }),
   created() {
     this.getData()
@@ -157,9 +157,11 @@ export default {
     },
     lock() {
       this.$refs.carousel.lock()
+      this.$refs.carousel.currentPlayer?.pause()
     },
     unlock() {
       this.$refs.carousel.unlock()
+      this.$refs.carousel.currentPlayer?.play()
     },
   },
 }
