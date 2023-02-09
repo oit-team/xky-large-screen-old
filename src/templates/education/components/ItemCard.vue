@@ -31,7 +31,14 @@
       </div>
     </div>
     <div class="bg-black p-2 flex items-center text-white">
-      <v-btn small class="active-btn" :outlined="!active" :class="{ 'text-white': !active }" @click="$emit('toggle', item.productId, item)">
+      <v-btn
+        small
+        class="active-btn"
+        :outlined="!active"
+        :class="{ 'text-white': !active }"
+        dark
+        @click="$emit('toggle', item.productId, item)"
+      >
         感兴趣
       </v-btn>
       <div class="ml-auto text-sm">

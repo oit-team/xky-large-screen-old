@@ -25,6 +25,26 @@
       @lock="lock"
       @unlock="unlock"
     />
+
+    <v-overlay :value="guideDialog" z-index="60" @click="guideDialog = false">
+      <div class="grid grid-cols-[repeat(3,200px)] grid-rows-[250px] gap-6 -mt-20">
+        <div
+          class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
+          @click="$router.push('/lucky')"
+        >
+          <vc-img src="/assets/img/guide/0.png" size="100px"></vc-img>
+          <div>趣味抽奖</div>
+        </div>
+        <div class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5">
+          <vc-img src="/assets/img/guide/1.png" size="100px"></vc-img>
+          <div>趣味搭配</div>
+        </div>
+        <div class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5">
+          <vc-img src="/assets/img/guide/2.png" size="100px"></vc-img>
+          <div>了解更多</div>
+        </div>
+      </div>
+    </v-overlay>
   </div>
 </template>
 
@@ -35,6 +55,17 @@ import { getAdvertsInfo } from '@/api/product'
 import PageCarousel from '@/components/business/Carousel'
 import ProductPicker from '@/components/business/ProductPicker'
 
+const DETECT_STATUS = {
+  // 没有人
+  NOBODY: 0,
+  // 有人但比较远
+  DISTANCE: 1,
+  // 检查到人(在屏幕前)
+  PROXIMITY: 2,
+  // 检查到人持续在屏幕前8s时长
+  WATCHING: 3,
+}
+
 export default {
 
   // name: 'PageCarouselWarp',
@@ -44,6 +75,8 @@ export default {
     ProductPicker,
   },
   data: () => ({
+    guideDialog: false,
+    status: DETECT_STATUS.NOBODY,
     options: [],
     resources: {},
     advertsStyleMap: {},
@@ -55,6 +88,20 @@ export default {
   }),
   created() {
     this.getData()
+
+    window.OnHumanDetectResult = (status) => {
+      this.status = status
+      switch (+status) {
+        case DETECT_STATUS.NOBODY:
+          this.guideDialog = false
+          break
+        case DETECT_STATUS.DISTANCE:
+        case DETECT_STATUS.PROXIMITY:
+        case DETECT_STATUS.WATCHING:
+          this.guideDialog = true
+          break
+      }
+    }
   },
   activated() {
     this.getData()

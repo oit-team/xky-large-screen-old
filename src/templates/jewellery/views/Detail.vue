@@ -152,7 +152,7 @@
           @click="$router.back()"
         >
           <vc-icon>
-            fas fa-chevron-left
+            fas fa-angle-double-left
           </vc-icon>
         </v-btn>
         <div>返回</div>
