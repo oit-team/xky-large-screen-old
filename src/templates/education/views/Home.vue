@@ -75,15 +75,15 @@
         </v-item>
       </v-item-group>
 
-      <div class="flex flex-col items-center pt-6">
+      <div class="flex flex-col items-center pt-6 px-5">
         <v-badge
-          class="z-10 flex-1"
+          class="z-10 flex-1 w-full"
           :content="Object.keys(selectedMap).length || '0'"
           color="#c00000"
           offset-x="12"
           offset-y="12"
         >
-          <v-btn outlined @click="tab = TABS.SHOPPING_CART">
+          <v-btn outlined block @click="tab = TABS.SHOPPING_CART">
             感兴趣
           </v-btn>
         </v-badge>
@@ -118,7 +118,7 @@
           </v-btn>
         </div>
 
-        <v-btn depressed dark class="mt-4" @click="keyboardDialog = true, phone = ''">
+        <v-btn depressed dark block class="mt-4" @click="keyboardDialog = true, phone = ''">
           联系我们
         </v-btn>
         <!-- <div class="flex justify-around mt-2">
