@@ -137,7 +137,7 @@
         />
       </div>
     </div>
-    <Drawer ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-md">
+    <Drawer v-if="!isDialog" ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-md">
       <div class="py-1 px-4 text-center">
         <v-btn
           icon
@@ -183,6 +183,7 @@ export default {
   components: { VcPlyr, ProductPreview, Drawer },
   props: {
     productId: Number,
+    isDialog: Boolean,
   },
   data() {
     this.options = {}
