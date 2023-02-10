@@ -213,11 +213,6 @@ export default {
       },
     }
   },
-  watch: {
-    swiperIndex() {
-      console.log(this.swiperIndex)
-    },
-  },
   created() {
     this.currentProductId = this.productId || this.$route.params.productId
     this.setSwiperOptions()
