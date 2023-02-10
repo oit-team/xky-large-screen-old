@@ -10,28 +10,6 @@
         />
       </div>
     </div>
-    <v-divider v-if="rightList?.length > 0" class="!border-current"></v-divider>
-
-    <!--        点击试衣间 -->
-    <div
-      class="w-full h-8rem p-3 pt-4 box-border flex flex-col justify-center items-center text-sm"
-      @click.stop="isShow"
-    >
-      <v-badge
-        color="#f47b7b"
-        :content="$store.state.shoppingCart.list.length"
-        :value="!!$store.state.shoppingCart.list.length"
-        :offset-x="10"
-        :offset-y="10"
-      >
-        <v-img
-          class="rounded-xl w-60px h-60px mb-1"
-          :class="showBorder ? 'borders' : ''"
-          src="/assets/prize/ff491db29d4d5450b1d05d4311a12af.png"
-        ></v-img>
-      </v-badge>
-      抽奖
-    </div>
   </Drawer>
 </template>
 
