@@ -54,7 +54,7 @@ export default {
           // this.$refs.collocation.open()
         } else {
           // this.$refs.collocation.close()
-          this.$refs.info.close()
+          // this.$refs.info.close()
         }
       },
     },
@@ -62,7 +62,7 @@ export default {
     optionsIndex: 'changeList',
   },
   mounted() {
-    this.$refs.info.close()
+    // this.$refs.info.close()
   },
   methods: {
     showInfo(item) {
@@ -97,7 +97,7 @@ export default {
     closeOverlay() {
       this.overlay = false
       this.$emit('unlock')
-      this.$refs.info.close()
+      // this.$refs.info.close()
       this.$refs.collocation.reset()
     },
     dialogClose(val) {

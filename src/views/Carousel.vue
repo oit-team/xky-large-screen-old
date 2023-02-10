@@ -15,6 +15,9 @@
     >
       暂无内容
     </div>
+
+    <Footer class="carousel-footer" />
+
     <ProductPicker
       ref="picker"
       :options="options"
@@ -54,6 +57,7 @@ import { enterCarouselPage } from '@/api/frame'
 import { getAdvertsInfo } from '@/api/product'
 import PageCarousel from '@/components/business/Carousel'
 import ProductPicker from '@/components/business/ProductPicker'
+import Footer from '@/templates/education/components/Footer.vue'
 
 const DETECT_STATUS = {
   // 没有人
@@ -73,6 +77,7 @@ export default {
   components: {
     PageCarousel,
     ProductPicker,
+    Footer,
   },
   data: () => ({
     guideDialog: false,
@@ -167,7 +172,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .carousel-wrap {
   position: fixed;
   z-index: 60;
@@ -175,5 +180,13 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
+
+  .carousel-footer{
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    height: 15%;
+  }
 }
 </style>
