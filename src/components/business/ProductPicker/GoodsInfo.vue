@@ -5,7 +5,7 @@
       width="75%"
       @click:outside="closedialog"
     >
-      <div v-if="dialog" class="h-[75vh] bg-white">
+      <div v-if="dialog" class="h-[75vh] bg-white" @touchstart="onTouchstart">
         <Fitness v-if="detailDialog === 'education'" ref="education" :product-id="productId" :is-dialog="isDialog"></Fitness>
         <Clothing v-if="detailDialog === 'clothing'" ref="clothing" :product-id="productId" :is-dialog="isDialog"></Clothing>
         <Jewellery v-if="detailDialog === 'jewellery'" ref="jewellery" :product-id="productId" :is-dialog="isDialog"></Jewellery>
@@ -18,6 +18,9 @@
 import Fitness from '@/templates/education/views/Detail.vue'
 import Clothing from '@/templates/clothing/views/Detail.vue'
 import Jewellery from '@/templates/jewellery/views/Detail.vue'
+
+const AWAY_TIME = 30000 // 30s
+let timer = null
 
 export default {
   components: {
@@ -42,11 +45,18 @@ export default {
       this.dialog = true
       this.infoData = data
       this.productId = this.infoData.id
+      this.onTouchstart()
     },
     // 点击dialog容器之外触发关闭
     closedialog() {
       this.dialog = false
-      this.$emit('dialog-close', true)
+      this.$emit('dialog-close')
+    },
+    onTouchstart() {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        this.$emit('away')
+      }, AWAY_TIME)
     },
   },
 }

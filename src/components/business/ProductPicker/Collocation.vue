@@ -28,14 +28,12 @@ export default {
   data() {
     return {
       clickIndex: null,
-      showBorder: false,
     }
   },
   methods: {
     onClick(item, index) {
       this.$emit('show-info', item)
       this.clickIndex = index
-      this.showBorder = false
     },
     isShow() {
       this.$router.push({
@@ -44,7 +42,6 @@ export default {
     },
     reset() {
       this.clickIndex = null
-      this.showBorder = false
     },
   },
 }
