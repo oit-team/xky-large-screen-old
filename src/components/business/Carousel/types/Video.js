@@ -24,9 +24,10 @@ export default {
     active(value) {
       // 切换播放
       this.player.togglePlay(value)
-      // 重置播放
-      if (!value)
+      if (!value) {
+        // 重置播放
         this.stopPlay()
+      }
     },
     // 'carousel.show': function (value) {
     //   if (value) {
@@ -40,11 +41,6 @@ export default {
 
   mounted() {
     this.player = new Plyr(this.$el, {
-      // 自动播放
-      // autoplay: this.autoplay,
-      // loop: {
-      //   active: true,
-      // },
       fullscreen: {
         enabled: false,
       },
@@ -64,12 +60,12 @@ export default {
 
   activated() {
     const { autoplay } = this.$route.query
-    // 首次自动播放 0：禁用 1：启用
-    this.autoplay = !autoplay || Boolean(Number(autoplay))
     // 设置循环播放
     this.player.loop = Boolean(this.config.loop)
-    // 自动播放
-    this.autoplay && this.handleTogglePlay(true)
+    // 首次自动播放 0：禁用 1：启用
+    if (+autoplay) {
+      this.handleTogglePlay(true)
+    }
   },
 
   deactivated() {
@@ -122,6 +118,7 @@ export default {
       })
       this.player.on('playing', () => {
         this._debugState('playing')
+        this.setCurrentPlayer()
         hideControls()
       })
       this.player.on('ended', () => {
@@ -171,6 +168,9 @@ export default {
       } else {
         this.stopPlay()
       }
+    },
+    setCurrentPlayer() {
+      this.carousel.currentPlayer = this.player
     },
     _debugState(state) {
       console.info(`[${this.index}] 播放状态 ==> ${state}`)

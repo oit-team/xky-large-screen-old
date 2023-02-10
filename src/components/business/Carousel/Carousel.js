@@ -26,6 +26,7 @@ export default {
   data: () => ({
     realIndex: 0,
     lockSwiper: false,
+    currentPlayer: null,
   }),
 
   methods: {
