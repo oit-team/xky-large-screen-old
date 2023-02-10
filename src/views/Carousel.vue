@@ -16,7 +16,7 @@
       暂无内容
     </div>
 
-    <Footer class="carousel-footer" />
+    <Footer class="carousel-footer z-100 bg-opacity-30" />
 
     <ProductPicker
       ref="picker"
@@ -200,7 +200,7 @@ export default {
     bottom: 0;
     display: flex;
     width: 100%;
-    height: 15%;
+    height: 12%;
   }
 }
 </style>
