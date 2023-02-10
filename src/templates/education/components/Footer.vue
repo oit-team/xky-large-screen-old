@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-2vh bg-black grid place-content-center text-white">
+  <footer class="py-2vh bg-black grid grid-cols-1 place-content-center text-white">
     <div class="flex items-center max-w-4/5 mx-auto">
       <v-img :src="brandInfo.brandLogo" class="w-180px h-180px flex-grow-0" />
       <div class="ml-4 flex flex-col gap-2">
