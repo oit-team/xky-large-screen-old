@@ -103,6 +103,8 @@ export default {
     this.getData()
 
     window.OnHumanDetectResult = (status) => {
+      if (this.$refs.carousel.lockSwiper) return
+
       this.status = status
       switch (+status) {
         case DETECT_STATUS.NOBODY:
