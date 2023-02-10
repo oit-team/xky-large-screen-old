@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="show"
-    class="vc-drawer fixed z-100 bg-black text-white"
+    class="vc-drawer fixed z-60 bg-black text-white"
     :class="position === 'left' ? 'bg-opacity-50' : 'bg-opacity-20'"
     :style="styles"
   >

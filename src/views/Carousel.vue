@@ -21,7 +21,7 @@
     <ProductPicker
       ref="picker"
       :options="options"
-      :detail-dialog="detailDialog"
+      :detail-dialog="detailPage"
       :resources="resources"
       :adverts-style-map="advertsStyleMap"
       :options-index="optionsIndex"
@@ -29,8 +29,8 @@
       @unlock="unlock"
     />
 
-    <v-overlay :value="guideDialog" z-index="60" @click="guideDialog = false">
-      <div class="grid grid-cols-[repeat(3,200px)] grid-rows-[250px] gap-6 -mt-20">
+    <v-overlay :value="guideDialog" z-index="70" @click="guideDialog = false">
+      <div class="grid grid-cols-[repeat(3,200px)] grid-rows-[250px] gap-6 -mt-[15vh] text-center">
         <div
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
           @click="$router.push('/lucky')"
@@ -38,16 +38,24 @@
           <vc-img src="/assets/img/guide/0.png" size="100px"></vc-img>
           <div>趣味抽奖</div>
         </div>
-        <div class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5">
+        <div
+          class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
+          @click="() => $refs.permission.open()"
+        >
           <vc-img src="/assets/img/guide/1.png" size="100px"></vc-img>
           <div>趣味搭配</div>
         </div>
-        <div class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5">
+        <div
+          class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
+          @click="$router.push(`/template/${detailPage}`)"
+        >
           <vc-img src="/assets/img/guide/2.png" size="100px"></vc-img>
           <div>了解更多</div>
         </div>
       </div>
     </v-overlay>
+
+    <Permission ref="permission" @accept="sendCommandToDevice()" />
   </div>
 </template>
 
@@ -55,6 +63,8 @@
 import { debounce } from 'lodash'
 import { enterCarouselPage } from '@/api/frame'
 import { getAdvertsInfo } from '@/api/product'
+import { sendCommandToDevice } from '@/api/common'
+import Permission from '@/components/business/Permission.vue'
 import PageCarousel from '@/components/business/Carousel'
 import ProductPicker from '@/components/business/ProductPicker'
 import Footer from '@/templates/education/components/Footer.vue'
@@ -71,13 +81,11 @@ const DETECT_STATUS = {
 }
 
 export default {
-
-  // name: 'PageCarouselWarp',
-
   components: {
     PageCarousel,
     ProductPicker,
     Footer,
+    Permission,
   },
   data: () => ({
     guideDialog: false,
@@ -89,7 +97,7 @@ export default {
     showOverlay: true,
     opacity: 0.6,
     showEmpty: true,
-    detailDialog: '',
+    detailPage: '',
   }),
   created() {
     this.getData()
@@ -98,9 +106,9 @@ export default {
       this.status = status
       switch (+status) {
         case DETECT_STATUS.NOBODY:
+        case DETECT_STATUS.DISTANCE:
           this.guideDialog = false
           break
-        case DETECT_STATUS.DISTANCE:
         case DETECT_STATUS.PROXIMITY:
         case DETECT_STATUS.WATCHING:
           this.guideDialog = true
@@ -138,7 +146,7 @@ export default {
     async getAdvertsInfo() {
       const res = await getAdvertsInfo(sessionStorage.getItem('devId'))
       this.showEmpty = false
-      this.detailDialog = res.body.detailPage
+      this.detailPage = res.body.detailPage
       const {
         rotationRules,
         resEntityMap,
@@ -167,6 +175,12 @@ export default {
     unlock() {
       this.$refs.carousel.unlock()
       this.$refs.carousel.currentPlayer?.play()
+    },
+    async sendCommandToDevice() {
+      await sendCommandToDevice({
+        devId: sessionStorage.getItem('devId'),
+        cmd: 8,
+      })
     },
   },
 }

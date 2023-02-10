@@ -5,7 +5,7 @@
     <v-overlay
       ref="overlay"
       :opacity="opacity"
-      z-index="70"
+      z-index="60"
       :value="overlay"
       @click="closeOverlay"
     >
