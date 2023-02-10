@@ -5,8 +5,6 @@
         <v-swiper
           ref="swiper"
           class="bg-white h-full product-preview"
-          loop
-          autoplay
           :options="options"
           @touchmove.native.prevent
         >
@@ -15,8 +13,10 @@
             :key="src"
           >
             <vc-plyr
+              ref="player"
               class="img"
               :src="src"
+              :active="swiperIndex === 0"
               :options="optionsPlyr"
             />
           </v-swiper-slide>
@@ -42,6 +42,7 @@
           <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slidePrev()">
             <vc-icon>fas fa-chevron-left</vc-icon>
           </vc-btn>
+          <!--          <span class="mx-1 text-white">{{ swiperIndex + 1 }}/{{ infoData.imgList?.length }}</span> -->
           <span class="mx-1 text-white">{{ swiperIndex + 1 }}/{{ infoData.videoList ? infoData.imgList?.length + 1 : infoData.imgList?.length }}</span>
           <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slideNext()">
             <vc-icon>fas fa-chevron-right</vc-icon>
@@ -185,6 +186,7 @@ import VcPlyr from '../../../components/commons/Plyr/Plyr.vue'
 import { getSmallImage } from '../../../utils/helper'
 
 export default {
+  // eslint-disable-next-line vue/no-unused-components
   components: { VcPlyr, ProductPreview, Drawer },
   props: {
     productId: Number,
@@ -208,9 +210,13 @@ export default {
         controls: ['play', 'progress', 'play-large', 'fullscreen'],
         hideControls: false,
         clickToPlay: true,
-        currentProductId: '',
       },
     }
+  },
+  watch: {
+    swiperIndex() {
+      console.log(this.swiperIndex)
+    },
   },
   created() {
     this.currentProductId = this.productId || this.$route.params.productId
@@ -220,6 +226,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.$headerSwiper = this.$refs.swiper?.$swiper
+      this.$headerSwiper.realIndex = 1
     })
   },
   methods: {
@@ -227,6 +234,10 @@ export default {
     setSwiperOptions() {
       // 轮播图片集合
       this.options = {
+        // loop: true,
+        // loopedSlides: this.infoData.imgList?.length + 2,
+        // loopFillGroupWithBlank: false,
+        // loopPreventsSlide: true,
         on: {
           slideChange: () => {
             this.swiperIndex = this.$headerSwiper.realIndex

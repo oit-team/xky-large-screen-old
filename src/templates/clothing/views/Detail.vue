@@ -6,7 +6,6 @@
         <v-swiper
           ref="swiper"
           class="bg-white h-full product-preview"
-          loop
           :options="options"
           @touchmove.native.prevent
         >
@@ -221,6 +220,9 @@ export default {
     setSwiperOptions() {
       // 轮播图片集合
       this.options = {
+        // loop: true,
+        // slidesPerview: 'auto',
+        // loopedSlides: -1,
         on: {
           slideChange: () => {
             this.swiperIndex = this.$headerSwiper.realIndex
