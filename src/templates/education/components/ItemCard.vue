@@ -1,7 +1,7 @@
 <template>
   <v-card
     v-ripple="false"
-    class="product-item h-9/10 flex flex-col border-none"
+    class="product-item h-9/10 flex flex-col border-none overflow-hidden"
     :data-product-id="item.productId"
   >
     <div class="flex-1 bg-gray relative overflow-hidden" @click="$emit('click', item)">
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="bg-black p-2 flex items-center text-white">
+    <div class="bg-black p-2 flex items-center text-white !flex-grow-0">
       <v-btn
         small
         class="active-btn"

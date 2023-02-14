@@ -22,18 +22,18 @@ module.exports = {
   },
   devServer: {
     proxy: {
+      '/api/gdy': {
+        target: 'http://home.gaodanyi.com/gdy',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api/gdy': '',
+        },
+      },
       '/api': {
         target: 'http://192.168.9.67:9092',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '',
-        },
-      },
-      '/gdy': {
-        target: 'http://222.186.58.235:18104/gdy',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/gdy': '',
         },
       },
     },

@@ -78,6 +78,11 @@ const routes = [
     name: 'Lucky',
     component: () => import('@/views/Lucky.vue'),
   },
+  {
+    path: '/recommend',
+    name: 'Recommend',
+    component: () => import('@/views/Recommend.vue'),
+  },
 ]
 
 const router = new VueRouter({
