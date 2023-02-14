@@ -7,6 +7,7 @@ import store from './store'
 
 // 公共组件
 import '@/components/commons'
+import '@/plugins/Actions'
 
 import '@fortawesome/fontawesome-free/css/all.css'
 

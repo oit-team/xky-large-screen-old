@@ -4,3 +4,7 @@ import { post } from './index'
 export function sendCommandToDevice(params) {
   return post('/liveBroadcast/device/sendCommandToDevice', params)
 }
+
+export function addUserBehaviorRecord(params) {
+  return post('/log/behavior/addUserBehaviorRecord', params)
+}

@@ -6,6 +6,7 @@ specifiers:
   '@fortawesome/fontawesome-svg-core': ^1.2.36
   '@lucky-canvas/vue': ^0.1.11
   '@oit/eslint-config': ^0.3.3
+  '@oit/vue-actions': ^0.0.3
   '@vue/babel-helper-vue-jsx-merge-props': ^1.2.1
   '@vue/babel-preset-jsx': ^1.2.4
   '@vue/cli-plugin-babel': ~4.5.0
@@ -46,6 +47,7 @@ dependencies:
   '@fortawesome/fontawesome-free': 5.15.3
   '@fortawesome/fontawesome-svg-core': 1.2.36
   '@lucky-canvas/vue': 0.1.11_vue@2.7.14
+  '@oit/vue-actions': 0.0.3
   '@vue/composition-api': 1.7.1_vue@2.7.14
   axios: 0.24.0
   core-js: 3.27.2
@@ -1568,6 +1570,10 @@ packages:
       - eslint-import-resolver-webpack
       - supports-color
     dev: true
+
+  /@oit/vue-actions/0.0.3:
+    resolution: {integrity: sha512-Gbub/0I1hO59yqIqrkPWQ6+w8Jq/egWpXtjM+ToGmpYdCghu2hZgxfdHH2zgDWzSbwrhAN8mh6McMiDbozv/JA==}
+    dev: false
 
   /@sideway/address/4.1.4:
     resolution: {integrity: sha512-7vwq+rOHVWjyXxVlR76Agnvhy8I9rpzjosTESvmhNeXOXdZZB15Fl+TI9x1SiHZH5Jv2wTGduSxFDIaq0m3DUw==}
