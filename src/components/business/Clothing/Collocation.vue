@@ -1,6 +1,7 @@
 <template>
   <v-card
     v-ripple="false"
+    v-actions:detailPreview.click
     class="overflow-hidden"
     :height="height"
     :width="width"

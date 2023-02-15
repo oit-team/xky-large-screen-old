@@ -1,6 +1,6 @@
 <template>
   <!--  aspect-9/16 -->
-  <div class="grid bg-gray grid-rows-[620px,min-content,min-content,1fr] relative overflow-hidden overflow-y-auto">
+  <VueActions data="clothingDetailPage" class="grid bg-gray grid-rows-[620px,min-content,min-content,1fr] relative overflow-hidden overflow-y-auto">
     <header class="relative bg-white rounded-lg box-border flex justify-center overflow-hidden mx-4 my-2">
       <div class=" aspect-3/4">
         <v-swiper
@@ -24,6 +24,7 @@
             :key="src"
           >
             <v-img
+              v-actions:showPreview.click
               class="img"
               :src="getSmallImage(src, 'x')"
               height="100%"
@@ -38,11 +39,11 @@
         class="flex absolute bottom-0 right-2 z-10 justify-end p-2"
       >
         <div class="overflow-hidden bg-black bg-opacity-40 rounded">
-          <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slidePrev()">
+          <vc-btn v-actions:slidePrev.click class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slidePrev()">
             <vc-icon>fas fa-chevron-left</vc-icon>
           </vc-btn>
           <span class="mx-1 text-white">{{ swiperIndex + 1 }}/{{ infoData.videoList ? infoData.imgList?.length + 1 : infoData.imgList?.length }}</span>
-          <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slideNext()">
+          <vc-btn v-actions:slideNext.click class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slideNext()">
             <vc-icon>fas fa-chevron-right</vc-icon>
           </vc-btn>
         </div>
@@ -139,6 +140,7 @@
     <Drawer v-if="!isDialog" ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-md">
       <div class="py-1 px-4 text-center">
         <v-btn
+          v-actions:asideBackToHome.click
           icon
           dark
           fab
@@ -154,6 +156,7 @@
       <div class="border w-full"></div>
       <div class="py-1 px-4 text-center">
         <v-btn
+          v-actions:asideToTop.click
           icon
           dark
           fab
@@ -168,7 +171,7 @@
       </div>
     </Drawer>
     <ProductPreview v-model="showPreview" :index="swiperIndex" :list="infoData.imgList" />
-  </div>
+  </VueActions>
 </template>
 
 <script>
