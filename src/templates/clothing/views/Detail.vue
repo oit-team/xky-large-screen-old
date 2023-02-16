@@ -16,6 +16,7 @@
             <vc-plyr
               class="img"
               :src="src"
+              :active="swiperIndex === 0"
               :options="optionsPlyr"
             />
           </v-swiper-slide>
