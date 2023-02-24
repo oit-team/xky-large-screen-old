@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-rows-[560px,1fr,auto] aspect-9/16">
+  <VueActions data="educationDetailPage" class="grid grid-rows-[560px,1fr,auto] aspect-9/16">
     <header>
       <Banner />
       <div class="mx-6 flex h-[450px]">
@@ -16,6 +16,7 @@
                 :key="src"
               >
                 <v-img
+                  v-actions:preview.click
                   class="img"
                   :src="getSmallImage(src, 'x')"
                   height="100%"
@@ -29,11 +30,11 @@
               class="flex absolute bottom-0 z-10 justify-end p-2 w-full"
             >
               <div class="overflow-hidden bg-black bg-opacity-40 rounded">
-                <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="() => $headerSwiper.slidePrev()">
+                <vc-btn v-actions:slidePrev.click class="px-1 min-w-0 bg-transparent" tile dark @click="() => $headerSwiper.slidePrev()">
                   <vc-icon>fas fa-chevron-left</vc-icon>
                 </vc-btn>
                 <span class="mx-1 text-white">{{ swiperIndex + 1 }}/{{ data.imgList?.length }}</span>
-                <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="() => $headerSwiper.slideNext()">
+                <vc-btn v-actions:slideNext.click class="px-1 min-w-0 bg-transparent" tile dark @click="() => $headerSwiper.slideNext()">
                   <vc-icon>fas fa-chevron-right</vc-icon>
                 </vc-btn>
               </div>
@@ -66,6 +67,7 @@
           </div>
           <div class="flex gap-4 justify-start mt-6">
             <v-btn
+              v-actions:getInterested.click
               elevation="2"
               outlined
               @click="getInterested()"
@@ -87,6 +89,7 @@
             </v-btn>
             <v-btn
               v-if="!isDialog"
+              v-actions:backToHome.click
               depressed
               elevation="2"
               outlined
@@ -118,13 +121,13 @@
               <div v-if="data.detailsImgList?.length" class="flex-1 overflow-hidden flex">
                 <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-4 px-2 items-center overflow-x-auto">
                   <v-item v-for="item of data.detailsImgList" v-slot="{ active, toggle }" :key="item">
-                    <v-card class="rounded-xl shadow-none overflow-hidden w-300px" :class="active" @click="toggle(), preview(item)">
+                    <v-card v-actions:clickCourseItem.click class="rounded-xl shadow-none overflow-hidden w-300px" :class="active" @click="toggle(), preview(item)">
                       <v-img :src="item" class="h-full aspect-4/5"></v-img>
                     </v-card>
                   </v-item>
                 </v-item-group>
               </div>
-              <div v-else class="flex-1 grid place-content-center text-3xl">
+              <div v-else class="flex-1 grid place-content-center text-2xl p-4 text-gray-600">
                 敬请期待...
               </div>
             </div>
@@ -138,7 +141,7 @@
               <div v-if="data.videoList?.length" class="flex-1 overflow-hidden flex">
                 <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-4 px-2 items-center overflow-x-auto">
                   <v-item v-for="item of data.videoList" v-slot="{ active, toggle }" :key="item">
-                    <v-card class="rounded-xl shadow-none overflow-hidden relative w-300px" :class="active" @click="toggle(), preview(item)">
+                    <v-card v-actions:clickSplendidMomentItem.click class="rounded-xl shadow-none overflow-hidden relative w-300px" :class="active" @click="toggle(), preview(item)">
                       <v-img :src="getVideoFrame(item)" class="h-full aspect-4/5"></v-img>
                       <v-icon class="absolute top-1/2 left-1/2 z-10 text-white text-5xl transform -translate-x-1/2 -translate-y-1/2">
                         fas fa-play
@@ -147,7 +150,7 @@
                   </v-item>
                 </v-item-group>
               </div>
-              <div v-else class="flex-1 grid place-content-center text-3xl">
+              <div v-else class="flex-1 grid place-content-center text-2xl p-4 text-gray-600">
                 敬请期待...
               </div>
             </div>
@@ -173,11 +176,11 @@
             readonly
             :rules="phoneRules"
           ></v-text-field>
-          <Keyboard v-model="phone" class="w-4/5 mx-auto" @confirm="submitPhone()" />
+          <Keyboard v-model="phone" v-actions:submitPhone.click class="w-4/5 mx-auto" @confirm="submitPhone()" />
         </div>
       </v-card>
     </v-dialog>
-  </div>
+  </VueActions>
 </template>
 
 <script>

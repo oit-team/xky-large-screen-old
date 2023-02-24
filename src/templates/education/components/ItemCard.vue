@@ -4,7 +4,7 @@
     class="product-item h-9/10 flex flex-col border-none overflow-hidden"
     :data-product-id="item.productId"
   >
-    <div class="flex-1 bg-gray relative overflow-hidden" @click="$emit('click', item)">
+    <div v-actions:itemDetail.click class="flex-1 bg-gray relative overflow-hidden" @click="$emit('click', item)">
       <img :src="item.imgUrl" class="h-full w-full object-cover" />
 
       <div class="flex flex-col absolute bottom-0 bg-white bg-opacity-70 w-full">
@@ -32,12 +32,13 @@
     </div>
     <div class="bg-black p-2 flex items-center text-white !flex-grow-0">
       <v-btn
+        v-actions:itemInteresting.click
         small
         class="active-btn"
         :outlined="!active"
         :class="{ 'text-white': !active }"
         dark
-        @click="$emit('toggle', item.productId, item)"
+        @click="toggle($event, item)"
       >
         感兴趣
       </v-btn>
@@ -57,9 +58,25 @@ export default {
     item: Object,
     active: Boolean,
   },
+  data() {
+    return {
+    }
+  },
   computed: {
     tags() {
       return this.item?.productProjects ? JSON.parse(this.item.productProjects) : []
+    },
+  },
+  mounted() {
+    console.log(this.dropImage)
+  },
+  methods: {
+    toggle(e, item) {
+      const event = {
+        elLeft: e.target.getBoundingClientRect().left,
+        elTop: e.target.getBoundingClientRect().top,
+      }
+      this.$emit('toggle', item.productId, item, event)
     },
   },
 }

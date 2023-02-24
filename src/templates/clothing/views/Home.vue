@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <VueActions class="home" data="clothingPage">
     <header class="flex overflow-hidden bg-gray header">
       <div class="relative">
         <div>
@@ -14,6 +14,7 @@
               :key="src"
             >
               <v-img
+                v-actions:zoomPreview.click
                 class="img"
                 :src="getSmallImage(src, 'x')"
                 height="100%"
@@ -27,12 +28,13 @@
           v-if="selectedItem.imgList && selectedItem.imgList.length"
           class="flex absolute bottom-0 z-10 justify-end p-2 w-full"
         >
+          <!-- 点击左上角滑动查看小图 -->
           <div class="overflow-hidden bg-black bg-opacity-40 rounded">
-            <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slidePrev()">
+            <vc-btn v-actions:slidePrev.click class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slidePrev()">
               <vc-icon>fas fa-chevron-left</vc-icon>
             </vc-btn>
             <span class="mx-1 text-white">{{ swiperIndex + 1 }}/{{ selectedItem.imgList.length }}</span>
-            <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slideNext()">
+            <vc-btn v-actions:slideNext.click class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slideNext()">
               <vc-icon>fas fa-chevron-right</vc-icon>
             </vc-btn>
           </div>
@@ -84,7 +86,7 @@
         <!--        卡片 展示区 -->
         <div class="relative">
           <div class="absolute right-0 top-0 z-10">
-            <v-btn text large @click="$router.push(`/template/clothing/detail/${selectedProduct.productId}`)">
+            <v-btn v-actions:readMore.click text large @click="$router.push(`/template/clothing/detail/${selectedProduct.productId}`)">
               查看更多
               <vc-icon size="16">
                 fas fa-angle-double-right
@@ -127,7 +129,7 @@
     <section class="flex category overflow-hidden">
       <v-item-group v-model="withSelectedCategory" class="!flex items-center overflow-hidden overflow-x-auto !flex-1 p-4 mr-4">
         <v-item v-if="tab === TABS.COLLOCATION">
-          <div class="p-4" @click="onClickAll">
+          <div v-actions:onClickAll.click class="p-4" @click="onClickAll">
             <vc-img
               class="rounded transition items-center bg-gray"
               :class="{ 'transform scale-125 elevation-5': withSelectedCategory === undefined }"
@@ -150,6 +152,7 @@
           :value="item.typeName"
         >
           <ClothingCategory
+            v-actions:clothingCategory.click
             :active="active"
             :item="item"
             @click="toggle"
@@ -158,7 +161,7 @@
       </v-item-group>
 
       <div class="!flex items-stretch p-4 pb-8 space-x-2">
-        <vc-btn class="h-full text-left vertical-btn" dark @click="tab = TABS.COLLOCATION">
+        <vc-btn v-actions:asideRandomChoose.click class="h-full text-left vertical-btn" dark @click="tab = TABS.COLLOCATION">
           <vc-icon class="mb-2">
             fas fa-user
           </vc-icon>
@@ -172,10 +175,11 @@
             offset-x="12"
             offset-y="12"
           >
-            <vc-btn class="relative h-full text-left vertical-btn" @click="tab = TABS.SHOPPING_CART">
+            <vc-btn id="clothingBuycar" ref="fly-target" v-actions:asideGetIteresting.click class="relative h-full text-left vertical-btn" @click="tab = TABS.SHOPPING_CART">
               <vc-icon class="mb-2">
                 fas fa-shopping-cart
               </vc-icon>
+              <!-- 衣服类购物车感兴趣 -->
               <span class="flex-1 vertical-text">感兴趣</span>
             </vc-btn>
           </v-badge>
@@ -184,6 +188,7 @@
             class="absolute left-0 -bottom-7 px-0"
           >
             <vc-btn
+              v-actions:asideInputTelephone.click
               class="mb-1"
               @click="showDialog"
             >
@@ -202,6 +207,7 @@
             </vc-btn>
             <vc-btn
               v-else
+              v-actions:asideRemoveFromCart.click
               class="px-0 w-full"
               text
               color="error"
@@ -235,13 +241,21 @@
               />
 
               <div class="w-full mt-1">
-                <vc-btn v-if="!checkSelected(item)" block @click="addToCart(item)">
+                <!-- 衣服类单项按钮感兴趣 -->
+                <vc-btn v-if="!checkSelected(item)" v-actions:clothingItemInteresting.click block @click="addToCart($event, item)">
                   <vc-icon size="16" dark class="mr-1">
                     far fa-heart
                   </vc-icon>
                   感兴趣
                 </vc-btn>
-                <vc-btn v-else color="#4CAF50" dark block @click="removeFormCart(item)">
+                <vc-btn
+                  v-else
+                  v-actions:clothingItemUninteresting.click
+                  color="#4CAF50"
+                  dark
+                  block
+                  @click="removeFormCart(item)"
+                >
                   取消
                 </vc-btn>
               </div>
@@ -267,6 +281,7 @@
               height="400"
             >
               <vc-btn
+                v-actions:removeFromInteresting.click
                 class="mt-2 bg-white"
                 fab
                 small
@@ -285,7 +300,7 @@
               未选择任何商品
             </p>
             <div>
-              <vc-btn dark large @click="tab = TABS.COLLOCATION">
+              <vc-btn v-actions:toPickOut.click dark large @click="tab = TABS.COLLOCATION">
                 去挑选
               </vc-btn>
             </div>
@@ -382,7 +397,7 @@
               <vc-btn @click="andPhone += '0'">
                 0
               </vc-btn>
-              <vc-btn @click="subPhone">
+              <vc-btn v-actions:asideSubPhone.click @click="subPhone">
                 确认
               </vc-btn>
             </div>
@@ -400,7 +415,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+  </VueActions>
 </template>
 
 <script>
@@ -420,6 +435,7 @@ import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
 import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
 import Message from '@/components/commons/Message'
 import { getSmallImage } from '@/utils/helper'
+import { imageFlyToTarget } from '@/utils/anime'
 
 const TABS = {
   COLLOCATION: 0,
@@ -610,9 +626,33 @@ export default {
         },
       }
     },
-    addToCart(item) {
-      this.$store.commit('shoppingCart/add', item)
+    addToCart(e, item) {
+      const flyTarget = this.$refs['fly-target'].$el.getBoundingClientRect()
+      const startTarget = e.target.getBoundingClientRect()
+      imageFlyToTarget(item.imgUrl, {
+        start: {
+          x: startTarget.x + 20,
+          y: startTarget.y - 220,
+        },
+        end: {
+          x: flyTarget.x - 50,
+          y: flyTarget.y,
+          onComplete: () => {
+            this.$store.commit('shoppingCart/add', item)
+            this.listenInCart()
+          },
+        },
+      })
     },
+
+    listenInCart() {
+      document.getElementById('clothingBuycar').classList.add('moveToCart')
+      setTimeout(() => {
+      // 500毫秒后移除class
+        document.getElementById('clothingBuycar').classList.remove('moveToCart')
+      }, 500)
+    },
+
     hasCart(item) {
       return this.shoppingCartList.some(someItem => someItem.id === item.id)
     },
