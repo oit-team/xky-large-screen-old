@@ -23,6 +23,7 @@ specifiers:
   eslint: ^8.23.1
   eslint-plugin-import: ^2.25.4
   eslint-plugin-vue: ^8.2.0
+  gsap: ^3.11.4
   lodash: ^4.17.15
   mime-types: ^2.1.35
   plyr: ^3.6.12
@@ -51,6 +52,7 @@ dependencies:
   '@vue/composition-api': 1.7.1_vue@2.7.14
   axios: 0.24.0
   core-js: 3.27.2
+  gsap: 3.11.4
   lodash: 4.17.21
   mime-types: 2.1.35
   plyr: 3.7.3
@@ -6095,6 +6097,10 @@ packages:
   /grapheme-splitter/1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
+
+  /gsap/3.11.4:
+    resolution: {integrity: sha512-McHhEguHyExMMnjqKA8G+7TvxmlKQGMbjgwAilnFe1e4id7V/tFveRQ2YMZhTYu0oxHGWvbPltdVYQOu3z1SCA==}
+    dev: false
 
   /gzip-size/5.1.1:
     resolution: {integrity: sha512-FNHi6mmoHvs1mxZAds4PpdCS6QG8B4C1krxJsMutgxl5t3+GlRTzzI3NEkifXx2pVsOvJdOGSmIgDhQ55FwdPA==}

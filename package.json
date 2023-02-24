@@ -16,6 +16,7 @@
     "@vue/composition-api": "^1.4.3",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "gsap": "^3.11.4",
     "lodash": "^4.17.15",
     "mime-types": "^2.1.35",
     "plyr": "^3.6.12",

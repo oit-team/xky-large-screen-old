@@ -1,5 +1,5 @@
 <template>
-  <div class="aspect-9/16 overflow-hidden flex flex-col">
+  <VueActions data="educationPage" class="aspect-9/16 overflow-hidden flex flex-col">
     <Banner />
 
     <main class="flex flex-col flex-1 overflow-hidden">
@@ -11,12 +11,14 @@
               :key="i"
               class="flex flex-col overflow-hidden"
             >
+              <!-- 列表单个感兴趣卡片 -->
               <ItemCard :item="item" :active="hasItem(item.productId)"></ItemCard>
             </div>
           </div>
         </swiper-slide>
       </swiper>
 
+      <!-- 点击查看所有感兴趣 -->
       <div v-if="tab === TABS.SHOPPING_CART && selectedCount" class="w-80vw ml-5 grid grid-cols-3 grid-rows-[repeat(auto-fill,33%)] gap-x-5 flex-1">
         <div
           v-for="item of selectedMap"
@@ -56,10 +58,12 @@
 
     <Footer />
 
+    <!-- 健身类购物车 感兴趣 -->
     <div class="absolute right-0 top-1/5 w-150px">
       <v-item-group v-model="selectedType" class="flex flex-col gap-2 bg-white rounded-r-md" mandatory>
         <v-item v-for="item of typeList" v-slot="{ active, toggle }" :key="item.typeId" :value="item.key ?? item.typeName">
           <div
+            v-actions:asideTypeList.click
             class="flex rounded-l-lg p-2"
             :class="{ 'bg-gray': active }"
             @click="toggle"
@@ -83,7 +87,7 @@
           offset-x="12"
           offset-y="12"
         >
-          <v-btn outlined block @click="tab = TABS.SHOPPING_CART">
+          <v-btn id="educationBuycar" v-actions:asideGetIteresting.click outlined block @click="tab = TABS.SHOPPING_CART">
             感兴趣
           </v-btn>
         </v-badge>
@@ -102,6 +106,7 @@
             </v-btn>
             <v-btn
               v-else
+              v-actions:asideClearItem.click
               class="px-0 w-full"
               text
               color="error"
@@ -111,14 +116,21 @@
             </v-btn>
           </div>
           <v-divider vertical class="my-2" />
-          <v-btn text @click="tab = TABS.LIST">
+          <v-btn v-actions:asideBackToHome.click text @click="tab = TABS.LIST">
             <v-icon size="16" color="#8a8a8a">
               fas fa-home
             </v-icon>
           </v-btn>
         </div>
 
-        <v-btn depressed dark block class="mt-4" @click="keyboardDialog = true, phone = ''">
+        <v-btn
+          v-actions:asideInputTelephone.click
+          depressed
+          dark
+          block
+          class="mt-4"
+          @click="keyboardDialog = true, phone = ''"
+        >
           联系我们
         </v-btn>
         <!-- <div class="flex justify-around mt-2">
@@ -136,6 +148,20 @@
         </div> -->
       </div>
     </div>
+    <transition
+      v-for="(item, index) in flyList"
+      :key="index"
+      appear
+      @after-appear="afterEnter"
+      @before-appear="beforeEnter"
+    >
+      <div v-if="item" class="flyDots">
+        <img
+          :src="dropImage"
+          alt=""
+        >
+      </div>
+    </transition>
 
     <v-dialog
       v-model="keyboardDialog"
@@ -150,11 +176,11 @@
             readonly
             :rules="phoneRules"
           ></v-text-field>
-          <Keyboard v-model="phone" class="w-4/5 mx-auto" @confirm="submitPhone()" />
+          <Keyboard v-model="phone" v-actions:asideSubPhone.click class="w-4/5 mx-auto" @confirm="submitPhone()" />
         </div>
       </v-card>
     </v-dialog>
-  </div>
+  </VueActions>
 </template>
 
 <script>
@@ -197,6 +223,10 @@ export default {
         value => !!value || '请输入手机号',
         value => (value && value.length === 11) || '请输入正确的手机号',
       ],
+      flyList: [], // 感兴趣小球
+      elLeft: 0, // 小球初始位置
+      elTop: 0,
+      dropImage: '', // 点击小球获取当前商品图片
     }
   },
   computed: {
@@ -251,6 +281,9 @@ export default {
       const active = e.target.closest('.active-btn')
       if (!item) return
 
+      this.elLeft = item.getBoundingClientRect().left
+      this.elTop = item.getBoundingClientRect().top
+
       const productId = item.dataset.productId
 
       active ? this.toggleItem(productId) : this.toDetail(productId)
@@ -294,14 +327,54 @@ export default {
     removeItem(id) {
       this.$delete(this.selectedMap, id)
     },
-    toggleItem(id, item) {
+    toggleItem(id, item, event) {
       if (this.selectedMap[id]) {
         this.removeItem(id)
       } else {
         item ??= this.list.find(item => item.productId === +id)
         this.addItem(id, item)
+        this.flyList.push(true)
+        this.dropImage = item.imgUrl
       }
     },
+
+    // 飞入购物车动画之前
+    beforeEnter(el) {
+      el.style.transform = `translate3d(${this.elLeft + 50}px, ${this.elTop + 110}px, 0)`
+      // 设置透明度
+      el.style.opacity = 0
+    },
+
+    afterEnter(el) {
+      // 获取底部购物车徽标的位置
+      const badgePosition = document.getElementById('educationBuycar').getBoundingClientRect()
+      // 设置位移
+      el.style.transform = `translate3d(${badgePosition.left - 20}px,${badgePosition.top - 60}px,0)`
+      // 增加贝塞尔曲线
+      el.style.transition = 'transform 1.28s cubic-bezier(0.3, -0.25, 0.7, -0.15)'
+      el.style.transition = 'transform 1.28s linear'
+      this.flyList = []
+
+      el.style.opacity = 1
+      // 监听小球动画结束方法
+      el.addEventListener('transitionend', () => {
+        el.style.display = 'none'
+        this.listenInCart()
+      })
+      el.addEventListener('webkitAnimationEnd', () => {
+        el.style.display = 'none'
+        this.listenInCart()
+      })
+    },
+
+    listenInCart() {
+      document.getElementById('educationBuycar').classList.add('moveToCart')
+      setTimeout(() => {
+      // 500毫秒后移除class
+        document.getElementById('educationBuycar').classList.remove('moveToCart')
+      }, 500)
+    },
+
     hasItem(id) {
       return !!this.selectedMap[id]
     },
@@ -331,6 +404,60 @@ export default {
   .vertical-text {
     text-align: center;
     writing-mode: vertical-lr;
+  }
+}
+.flyDots{
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  img {
+    animation: 1.28s mymove ease-in-out;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+}
+.moveToCart {
+  animation: mymoveCar 0.5s ease-in-out;
+}
+
+@keyframes mymove {
+    0% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(0.6);
+    }
+    75% {
+      transform: scale(0.4);
+    }
+    100% {
+      transform: scale(0.2);
+    }
+  }
+  @keyframes mymoveCar {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  75% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 </style>
