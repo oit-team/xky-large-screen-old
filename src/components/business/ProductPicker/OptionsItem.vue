@@ -1,19 +1,35 @@
 <template>
-  <div class="goodsItem flex flex-col leading-relaxed">
-    <div class="relative">
-      <v-img
-        v-if="itemInfo.resUrl"
-        :src="itemInfo.resUrl"
-        class="rounded-xl bg-white"
-        :class="clickItem ? 'boxShadow' : ''"
-        :light="true"
-        :width="size"
-        :height="size"
-      ></v-img>
-    </div>
-    <div class="text-sm text-center">
-      <div class="my-2 w-7em truncate mx-auto">
-        {{ itemInfo.productName }}
+  <div class="goodsItem flex flex-col items-center leading-relaxed relative">
+    <v-img
+      :src="itemInfo.imgUrl"
+      class="rounded-xl bg-white"
+      :class="clickItem ? 'boxShadow' : ''"
+      :light="true"
+      :width="size"
+      :height="size"
+    ></v-img>
+    <v-img
+      v-if="showRightBtn && checkType()"
+      width="25"
+      height="25"
+      class="btn absolute -top-2 -right-2"
+      src="@/asset/image/plus.png"
+      @click.stop="addList()"
+    ></v-img>
+    <v-img
+      v-if="showRightBtn && !checkType()"
+      class="btn absolute -top-2 -right-2"
+      width="25"
+      height="25"
+      src="@/asset/image/minus.png"
+      @click.stop="delList()"
+    ></v-img>
+    <div class="text-sm text-center truncate w-full">
+      <div class="my-1">
+        {{ itemInfo.productNo }}
+      </div>
+      <div class="mb-1">
+        ￥{{ itemInfo.productPrice }}
       </div>
     </div>
   </div>
@@ -25,8 +41,21 @@ export default {
     itemInfo: Object,
     size: Number,
     clickItem: Boolean,
+    showRightBtn: Boolean,
   },
   methods: {
+    addList() {
+      if (this.$store.state.shoppingCart.list.length === 15) return false
+      this.$store.commit('shoppingCart/add', this.itemInfo)
+      this.$emit('lock')
+    },
+    delList() {
+      this.$store.commit('shoppingCart/remove', this.itemInfo)
+      this.$emit('lock')
+    },
+    checkType() {
+      return !this.$store.state.shoppingCart.list.some(e => e.id === this.itemInfo.id)
+    },
   },
 }
 </script>
@@ -38,8 +67,5 @@ export default {
 
 .btn {
   border-radius: 50%;
-  -webkit-animation-name: greenPulse;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-iteration-count: infinite;
 }
 </style>

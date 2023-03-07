@@ -87,13 +87,13 @@
             </v-btn>
           </div>
           <v-tabs v-model="tabItem" color="#000" background-color="#f2f2f2" slider-color="#d9d9d9">
-            <v-tab class="text-xl">
+            <v-tab v-if="selectedItem.productInstructions?.indexDescrip" class="text-xl">
               {{ selectedItem.productInstructions?.indexDescrip }}
             </v-tab>
-            <v-tab class="text-xl">
+            <v-tab v-if="selectedItem.productPrecautions?.indexDescrip" class="text-xl">
               {{ selectedItem.productPrecautions?.indexDescrip }}
             </v-tab>
-            <v-tab class="text-xl">
+            <v-tab v-if="selectedItem.productSource?.indexDescrip" class="text-xl">
               {{ selectedItem.productSource?.indexDescrip }}
             </v-tab>
           </v-tabs>
@@ -131,24 +131,24 @@
 
     <!--    分类 -->
     <section class="flex category overflow-hidden">
-      <v-item-group v-model="withSelectedCategory" class="!flex items-center overflow-hidden overflow-x-auto !flex-1 p-4 mr-4">
-        <v-item v-if="tab === TABS.COLLOCATION">
-          <div v-actions:onClick.click class="p-4" @click="onClickAll">
-            <vc-img
-              class="rounded transition items-center bg-gray"
-              :class="{ 'transform scale-125 elevation-5': withSelectedCategory === undefined }"
-              src="assets/img/jewellery/all.png"
-              size="60"
-            />
-            <div
-              class="mt-2 text-xs text-center text-gray-400"
-              :class="{ 'font-bold text-gray-900': withSelectedCategory === undefined }"
-            >
-              <div>全部</div>
-              <div>{{ count }}样</div>
-            </div>
-          </div>
-        </v-item>
+      <v-item-group v-model="selectedCategory" class="!flex items-center overflow-hidden overflow-x-auto !flex-1 p-4 mr-4">
+        <!--        <v-item v-if="tab === TABS.COLLOCATION"> -->
+        <!--          <div class="p-4" @click="onClickAll"> -->
+        <!--            <vc-img -->
+        <!--              class="rounded transition items-center bg-gray" -->
+        <!--              :class="{ 'transform scale-125 elevation-5': withSelectedCategory === undefined }" -->
+        <!--              src="assets/img/jewellery/all.png" -->
+        <!--              size="60" -->
+        <!--            /> -->
+        <!--            <div -->
+        <!--              class="mt-2 text-xs text-center text-gray-400" -->
+        <!--              :class="{ 'font-bold text-gray-900': withSelectedCategory === undefined }" -->
+        <!--            > -->
+        <!--              <div>全部</div> -->
+        <!--              <div>{{ count }}样</div> -->
+        <!--            </div> -->
+        <!--          </div> -->
+        <!--        </v-item> -->
         <v-item
           v-for="item of obsCategoryList"
           v-slot="{ active, toggle }"
@@ -165,84 +165,82 @@
       </v-item-group>
 
       <div class="!flex items-stretch p-4 pb-8 space-x-2">
-        <vc-btn v-actions:asideRandomChoose.click class="h-full text-left vertical-btn" dark @click="tab = TABS.COLLOCATION">
-          <vc-icon class="mb-2">
-            fas fa-user
-          </vc-icon>
-          <span class="flex-1 vertical-text">自助挑选</span>
-        </vc-btn>
-        <div class="relative">
-          <v-badge
-            class="z-10"
-            :content="shoppingCartList.length || '0'"
-            color="#c00000"
-            offset-x="12"
-            offset-y="12"
-          >
-            <vc-btn id="jewelleryBuycar" ref="fly-target" v-actions:asideGetIteresting.click class="relative h-full text-left vertical-btn" @click="tab = TABS.SHOPPING_CART">
-              <vc-icon class="mb-2">
-                fas fa-shopping-cart
-              </vc-icon>
-              <!-- 珠宝类购物车感兴趣 -->
-              <span class="flex-1 vertical-text">感兴趣</span>
-            </vc-btn>
-          </v-badge>
-          <div
-            v-click-outside="() => changeBtn(false)"
-            class="absolute left-0 -bottom-7 px-0"
-          >
-            <vc-btn
-              v-actions:asideInputTelephone.click
-              class="mb-1"
-              @click="showDialog"
-            >
-              <vc-icon size="16">
-                fas fa-phone
-              </vc-icon>
-            </vc-btn>
-            <vc-btn
-              v-if="!deleteConfirm"
-              text
-              @click="changeBtn(true)"
-            >
-              <vc-icon size="16" color="#d9d9d9">
-                fas fa-trash-alt
-              </vc-icon>
-            </vc-btn>
-            <vc-btn
-              v-else
-              v-actions:asideRemoveFromCart.click
-              class="px-0 w-full"
-              text
-              color="error"
-              @click="removeFormCart()"
-            >
-              确定
-            </vc-btn>
-          </div>
-        </div>
+        <div class="w-8"></div>
+
+        <!--        <vc-btn class="h-full text-left vertical-btn" dark @click="tab = TABS.COLLOCATION"> -->
+        <!--          <vc-icon class="mb-2"> -->
+        <!--            fas fa-user -->
+        <!--          </vc-icon> -->
+        <!--          <span class="flex-1 vertical-text">自助挑选</span> -->
+        <!--        </vc-btn> -->
+        <!--        <div class="relative"> -->
+        <!--          <v-badge -->
+        <!--            class="z-10" -->
+        <!--            :content="shoppingCartList.length || '0'" -->
+        <!--            color="#c00000" -->
+        <!--            offset-x="12" -->
+        <!--            offset-y="12" -->
+        <!--          > -->
+        <!--            <vc-btn class="relative h-full text-left vertical-btn" @click="tab = TABS.SHOPPING_CART"> -->
+        <!--              <vc-icon class="mb-2"> -->
+        <!--                fas fa-shopping-cart -->
+        <!--              </vc-icon> -->
+        <!--              <span class="flex-1 vertical-text">感兴趣</span> -->
+        <!--            </vc-btn> -->
+        <!--          </v-badge> -->
+        <!--          <div -->
+        <!--            v-click-outside="() => changeBtn(false)" -->
+        <!--            class="absolute left-0 -bottom-7 px-0" -->
+        <!--          > -->
+        <!--            <vc-btn -->
+        <!--              class="mb-1" -->
+        <!--              @click="showDialog" -->
+        <!--            > -->
+        <!--              <vc-icon size="16"> -->
+        <!--                fas fa-phone -->
+        <!--              </vc-icon> -->
+        <!--            </vc-btn> -->
+        <!--            <vc-btn -->
+        <!--              v-if="!deleteConfirm" -->
+        <!--              text -->
+        <!--              @click="changeBtn(true)" -->
+        <!--            > -->
+        <!--              <vc-icon size="16" color="#d9d9d9"> -->
+        <!--                fas fa-trash-alt -->
+        <!--              </vc-icon> -->
+        <!--            </vc-btn> -->
+        <!--            <vc-btn -->
+        <!--              v-else -->
+        <!--              class="px-0 w-full" -->
+        <!--              text -->
+        <!--              color="error" -->
+        <!--              @click="removeFormCart()" -->
+        <!--            > -->
+        <!--              确定 -->
+        <!--            </vc-btn> -->
+        <!--          </div> -->
+        <!--        </div> -->
       </div>
     </section>
 
     <keep-alive>
       <section class="bg-gray flex overflow-hidden">
-        <template v-if="tab === TABS.COLLOCATION">
+        <!--        <template v-if="tab === TABS.COLLOCATION"> -->
+        <div
+          ref="collocationList"
+          class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-x-auto"
+          @scroll.passive="scroll"
+        >
           <div
-            v-if="collocationList.length"
-            ref="collocationList"
-            class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-x-auto"
-            @scroll.passive="scroll"
+            v-for="item of collocationList"
+            :key="item.productId"
           >
-            <div
-              v-for="item of collocationList"
-              :key="item.productId"
-            >
-              <Collocation
-                class="transition"
-                :class="`elevation-${selectedProduct === item ? 5 : 0}`"
-                :item="item"
-                width="225"
-              />
+            <Collocation
+              class="transition"
+              :class="`elevation-${selectedProduct === item ? 5 : 0}`"
+              :item="item"
+              width="225"
+            />
 
               <!-- 珠宝类单项感兴趣 -->
               <div class="w-full mt-1">
@@ -265,51 +263,50 @@
               </div>
             </div>
           </div>
-          <div v-else class="flex-1 flex-center">
+          <div v-if="!collocationList.length" class="flex-1 flex-center">
             <p class="text-xl">
               暂无信息
             </p>
           </div>
-        </template>
+        <!--        </template> -->
 
-        <template v-if="tab === TABS.SHOPPING_CART">
-          <div
-            ref="shoppingCartList"
-            class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-hidden overflow-x-auto"
-          >
-            <ClothingPriceCard
-              v-for="item of shoppingCartListFiltered"
-              :key="item.id"
-              :item="item"
-              width="210"
-              height="400"
-            >
-              <vc-btn
-                v-actions:removeFromInteresting.click
-                class="mt-2 bg-white"
-                fab
-                small
-                color="error"
-                text
-                @click="removeFormCart(item)"
-              >
-                <vc-icon class="text-red-300" size="18">
-                  fas fa-trash-alt
-                </vc-icon>
-              </vc-btn>
-            </ClothingPriceCard>
-          </div>
-          <div v-if="!shoppingCartListFiltered.length" class="flex-col flex-1 flex-center">
-            <p class="text-xl">
-              未选择任何商品
-            </p>
-            <div>
-              <vc-btn v-actions:toPickOut.click dark large @click="tab = TABS.COLLOCATION">
-                去挑选
-              </vc-btn>
-            </div>
-          </div>
-        </template>
+        <!--        <template v-if="tab === TABS.SHOPPING_CART"> -->
+        <!--          <div -->
+        <!--            ref="shoppingCartList" -->
+        <!--            class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-hidden overflow-x-auto" -->
+        <!--          > -->
+        <!--            <ClothingPriceCard -->
+        <!--              v-for="item of shoppingCartListFiltered" -->
+        <!--              :key="item.id" -->
+        <!--              :item="item" -->
+        <!--              width="210" -->
+        <!--              height="400" -->
+        <!--            > -->
+        <!--              <vc-btn -->
+        <!--                class="mt-2 bg-white" -->
+        <!--                fab -->
+        <!--                small -->
+        <!--                color="error" -->
+        <!--                text -->
+        <!--                @click="removeFormCart(item)" -->
+        <!--              > -->
+        <!--                <vc-icon class="text-red-300" size="18"> -->
+        <!--                  fas fa-trash-alt -->
+        <!--                </vc-icon> -->
+        <!--              </vc-btn> -->
+        <!--            </ClothingPriceCard> -->
+        <!--          </div> -->
+        <!--          <div v-if="!shoppingCartListFiltered.length" class="flex-col flex-1 flex-center"> -->
+        <!--            <p class="text-xl"> -->
+        <!--              未选择任何商品 -->
+        <!--            </p> -->
+        <!--            <div> -->
+        <!--              <vc-btn dark large @click="tab = TABS.COLLOCATION"> -->
+        <!--                去挑选 -->
+        <!--              </vc-btn> -->
+        <!--            </div> -->
+        <!--          </div> -->
+        <!--        </template> -->
       </section>
     </keep-alive>
 
@@ -419,15 +416,49 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog>
-      确定订单并发送给工作人员吗？
-      <v-card>
+
+    <!--    <v-dialog> -->
+    <!--      确定订单并发送给工作人员吗？ -->
+    <!--      <v-card> -->
+    <!--        <v-btn -->
+    <!--          color="blue darken-1" -->
+    <!--          text -->
+    <!--          @click="dialogClose" -->
+    <!--        > -->
+    <!--          取消 -->
+    <!--        </v-btn> -->
+    <!--        <v-btn -->
+    <!--          color="blue darken-1" -->
+    <!--          text -->
+    <!--          @click="dialogClose" -->
+    <!--        > -->
+    <!--          确定 -->
+    <!--        </v-btn> -->
+    <!--      </v-card> -->
+    <!--    </v-dialog> -->
+    <v-overlay
+      ref="overlay"
+      z-index="60"
+      :value="overlay"
+      @click="closeOverlay"
+    >
+    </v-overlay>
+
+    <Drawer ref="drawer" position="right" offset="58%" class="text-white flex flex-col items-center box-border rounded-l-3xl">
+      <div
+        v-if="showBack"
+        class="py-2 px-4 text-center"
+        @click="back"
+      >
         <v-btn
-          color="blue darken-1"
-          text
-          @click="dialogClose"
+          icon
+          dark
+          fab
+          small
         >
-          取消
+          <vc-icon>
+            fas fa-angle-double-left
+          </vc-icon>
         </v-btn>
         <v-btn
           color="blue darken-1"
@@ -436,8 +467,70 @@
         >
           确定
         </v-btn>
-      </v-card>
-    </v-dialog>
+        <div>返回</div>
+      </div>
+      <v-divider v-if="showBack" class="w-full" color="#fff"></v-divider>
+
+      <div
+        class="py-2 px-4 text-center w-full"
+        @click="showFitting"
+      >
+        <v-badge
+          class="z-10 h-full"
+          :content="shoppingCartList.length || '0'"
+          :value="!!shoppingCartList.length"
+          color="#f47b7b"
+          offset-x="12"
+          offset-y="12"
+        >
+          <v-btn
+            icon
+            dark
+            fab
+            small
+          >
+            <vc-icon>
+              fas fa-shopping-cart
+            </vc-icon>
+          </v-btn>
+          <div>感兴趣</div>
+        </v-badge>
+      </div>
+      <v-divider class="w-full" color="#fff"></v-divider>
+
+      <div
+        v-click-outside="() => changeBtn(false)"
+        class="py-2 px-4 text-center"
+      >
+        <vc-btn
+          v-if="!deleteConfirm"
+          text
+          @click="changeBtn(true)"
+        >
+          <vc-icon size="16" color="#d9d9d9">
+            fas fa-trash-alt
+          </vc-icon>
+        </vc-btn>
+        <vc-btn
+          v-else
+          class="px-0 w-full"
+          text
+          color="error"
+          @click="removeFormCart()"
+        >
+          确定
+        </vc-btn>
+      </div>
+    </Drawer>
+    <!--    <Permission ref="permission" title="提示" content="确定呼叫导购员试穿吗？" @unlock="closeOverlay" @accept="$refs.fitting?.submit()" /> -->
+
+    <SelectGoods
+      ref="fitting"
+      :goods-list="shoppingCartList"
+      :offset="50"
+      @touchmove.native.prevent
+      @dialog-open="dialogOpen"
+    ></SelectGoods>
   </VueActions>
 </template>
 
@@ -453,9 +546,10 @@ import {
   insertGoodsPhoneRelation,
 } from '@/api/product'
 import ClothingCategory from '@/components/business/Clothing/Category.vue'
-import Collocation from '@/components/business/Clothing/Collocation.vue'
-import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
+import Collocation from '@/components/business/Clothing/Collocation.vue' // import Permission from '@/components/business/Permission.vue'
+import SelectGoods from '@/components/business/ProductPicker/SelectGoods' // import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
 import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
+import Drawer from '@/components/commons/Drawer'
 import Message from '@/components/commons/Message'
 import { getSmallImage } from '@/utils/helper'
 import { imageFlyToTarget } from '@/utils/anime'
@@ -479,10 +573,13 @@ export default {
   name: 'Jewellery',
 
   components: {
-    ClothingPriceCard,
+    // ClothingPriceCard,
     ClothingCategory,
     Collocation,
     ProductPreview,
+    Drawer,
+    SelectGoods,
+    // Permission,
   },
 
   data() {
@@ -511,6 +608,10 @@ export default {
         value => !!value || '必填项',
         value => (value && value.length === 11) || '只支持11位字符',
       ],
+      showBack: false,
+      darwerTimer: null,
+      timer: null,
+      overlay: false,
     }
   },
 
@@ -533,24 +634,24 @@ export default {
 
       return this.shoppingCartList
     },
-    withSelectedCategory: {
-      set(value) {
-        if (this.tab === TABS.COLLOCATION)
-          this.selectedCategory = value
-
-        if (this.tab === TABS.SHOPPING_CART)
-          this.selectedCartCategory = value
-      },
-      get() {
-        if (this.tab === TABS.COLLOCATION)
-          return this.selectedCategory
-
-        if (this.tab === TABS.SHOPPING_CART)
-          return this.selectedCartCategory
-
-        return ''
-      },
-    },
+    // withSelectedCategory: {
+    //   set(value) {
+    //     if (this.tab === TABS.COLLOCATION)
+    //       this.selectedCategory = value
+    //
+    //     if (this.tab === TABS.SHOPPING_CART)
+    //       this.selectedCartCategory = value
+    //   },
+    //   get() {
+    //     if (this.tab === TABS.COLLOCATION)
+    //       return this.selectedCategory
+    //
+    //     if (this.tab === TABS.SHOPPING_CART)
+    //       return this.selectedCartCategory
+    //
+    //     return ''
+    //   },
+    // },
     collocationList: {
       set(value) {
         this.$set(this.collocationListCache, this.selectedCategory, value)
@@ -561,14 +662,15 @@ export default {
     },
     // 分类列表
     obsCategoryList() {
-      switch (this.tab) {
-        case TABS.COLLOCATION:
-          return this.categoryList
-        case TABS.SHOPPING_CART:
-          return this.shoppingCartCategory
-        default:
-          return []
-      }
+      return this.categoryList || []
+      // switch (this.tab) {
+      //   case TABS.COLLOCATION:
+      //     return this.categoryList
+      //   case TABS.SHOPPING_CART:
+      //     return this.shoppingCartCategory
+      //   default:
+      //     return []
+      // }
     },
     categoryMap() {
       return keyBy(this.categoryList, 'typeName')
@@ -627,7 +729,9 @@ export default {
 
   activated() {
     this.setScrollRecord()
+    this.closeOverlay()
 
+    this.showBack = this.$route.query.showBack
     const { query } = this.$route
     enterShopPage({
       devId: query.devId,
@@ -652,6 +756,7 @@ export default {
       }
     },
     addToCart(e, item) {
+      this.resetTimer()
       const flyTarget = this.$refs['fly-target'].$el.getBoundingClientRect()
       const startTarget = e.target.getBoundingClientRect()
       imageFlyToTarget(item.imgUrl, {
@@ -682,6 +787,7 @@ export default {
       return this.shoppingCartList.some(someItem => someItem.id === item.id)
     },
     removeFormCart(item) {
+      this.resetTimer()
       if (item) {
         this.$store.commit('shoppingCart/remove', item)
       } else {
@@ -730,6 +836,7 @@ export default {
     },
     // 获取当前选择商品详情
     async getProductById(id) {
+      this.resetTimer()
       const res = await getProductById({
         productId: id,
         brandId: sessionStorage.getItem('brandId'),
@@ -758,6 +865,7 @@ export default {
     },
     // 点击手机号按钮  显示关联手机号对话框
     showDialog() {
+      this.resetTimer()
       if (!this.$store.state.shoppingCart.list?.length) {
         Message.warning('请选择感兴趣的商品')
         return false
@@ -766,6 +874,7 @@ export default {
     },
     // 填写手机号  点击提交
     async subPhone() {
+      this.resetTimer()
       if (this.andPhone === '' || this.andPhone.length !== 11) {
         Message.error('请输入正确手机号')
         return false
@@ -799,10 +908,12 @@ export default {
     },
     // 关闭dialog
     dialogClose() {
+      this.resetTimer()
       this.dialog = false
       this.andPhone = ''
     },
     scroll(e) {
+      this.resetTimer()
       const {
         clientWidth,
         scrollLeft,
@@ -813,12 +924,15 @@ export default {
         this.loadData()
     },
     changeBtn(value) {
+      this.resetTimer()
       this.deleteConfirm = value
     },
     zoomPreview() {
+      this.resetTimer()
       this.showPreview = true
     },
     saveScrollRecord(scrollLeft) {
+      this.resetTimer()
       if (this.$refs.shoppingCartList)
         scrollRecord.shoppingCartList = scrollLeft ?? this.$refs.shoppingCartList.scrollLeft
 
@@ -826,6 +940,7 @@ export default {
         scrollRecord.collocationList = scrollLeft ?? this.$refs.collocationList.scrollLeft
     },
     setScrollRecord() {
+      this.resetTimer()
       this.loading = true
       this.$nextTick(() => {
         if (this.$refs.shoppingCartList)
@@ -838,6 +953,49 @@ export default {
           this.loading = false
         })
       })
+    },
+    showFitting() {
+      clearTimeout(this.darwerTimer)
+      delete this.darwerTimer
+      this.resetTimer()
+      this.$refs.fitting.open()
+      this.overlay = true
+      this.darwerTimer = setTimeout(() => {
+        this.$refs.fitting.close()
+        this.overlay = false
+      }, 60000)
+    },
+    closeOverlay() {
+      this.resetTimer()
+      this.overlay = false
+      this.$refs.fitting.close()
+      // this.$refs.info.close()
+    },
+    dialogOpen() {
+      this.resetTimer()
+      this.$refs.fitting.close()
+      // this.$refs.permission.open()
+      this.dialog = true
+      this.overlay = false
+    },
+    resetTimer() {
+      if (this.showBack) {
+        clearTimeout(this.timer)
+        delete this.timer
+        this.timer = setTimeout(() => {
+          this.overlay = false
+          this.$refs.fitting.close()
+          // this.$refs.permission.close()
+          this.back()
+        }, 60000)
+      }
+    },
+    back() {
+      clearTimeout(this.timer)
+      delete this.timer
+      clearTimeout(this.darwerTimer)
+      delete this.darwerTimer
+      this.$router.back()
     },
   },
 }

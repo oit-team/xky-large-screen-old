@@ -27,6 +27,7 @@ export default {
       if (!value) {
         // 重置播放
         this.stopPlay()
+        this.carousel.currentPlayer = null
       }
     },
     // 'carousel.show': function (value) {

@@ -1,5 +1,6 @@
-import { VBtn, VSnackbar } from 'vuetify/lib/components'
 import Vue from 'vue'
+import { VBtn, VSnackbar } from 'vuetify/lib/components'
+import './Message.scss'
 
 const MESSAGE_TYPE = ['success', 'warning', 'info', 'error']
 

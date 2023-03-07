@@ -85,12 +85,13 @@
         </v-item>
       </v-item-group>
       <div class="flex items-stretch p-4 space-x-2">
-        <vc-btn class="h-full text-left vertical-btn" dark @click="sendCommandToDevice()">
-          <vc-icon class="mb-2">
-            fas fa-camera
-          </vc-icon>
-          <span class="flex-1 vertical-text">智能搭配</span>
-        </vc-btn>
+        <div class="w-8"></div>
+        <!--        <vc-btn class="h-full text-left vertical-btn" dark @click="sendCommandToDevice()"> -->
+        <!--          <vc-icon class="mb-2"> -->
+        <!--            fas fa-camera -->
+        <!--          </vc-icon> -->
+        <!--          <span class="flex-1 vertical-text">智能搭配</span> -->
+        <!--        </vc-btn> -->
       </div>
     </section>
 
@@ -170,20 +171,56 @@
     </footer>
 
     <ProductPreview v-model="showPreview" :index="swiperIndex" />
+    <Drawer ref="drawer" position="right" offset="58%" class="text-white flex flex-col items-center box-border rounded-l-md">
+      <div class="py-2 px-4 text-center">
+        <v-btn
+          icon
+          dark
+          fab
+          small
+          @click="back"
+        >
+          <vc-icon>
+            fas fa-angle-double-left
+          </vc-icon>
+        </v-btn>
+        <div>返回</div>
+      </div>
+      <v-divider class="w-full" color="#fff"></v-divider>
+
+      <div
+        class="py-2 px-4 text-center w-full"
+        @click="sendCommandToDevice()"
+      >
+        <v-btn
+          icon
+          dark
+          fab
+          small
+        >
+          <vc-icon>
+            fas fa-camera
+          </vc-icon>
+        </v-btn>
+        <div>智能搭配</div>
+      </div>
+      <v-divider class="w-full" color="#fff"></v-divider>
+    </Drawer>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import { keyBy } from 'lodash'
+import { mapState } from 'vuex'
 import { enterShopPage } from '../api/frame'
-import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
-import Collocation from '@/components/business/Clothing/Collocation.vue'
-import ClothingCategory from '@/components/business/Clothing/Category.vue'
-import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
-import { getRecommendColl, getRecommendStyle } from '@/api/recommend'
-import { getSmallImage } from '@/utils/helper'
 import { sendCommandToDevice } from '@/api/common'
+import { getRecommendColl, getRecommendStyle } from '@/api/recommend'
+import ClothingCategory from '@/components/business/Clothing/Category.vue'
+import Collocation from '@/components/business/Clothing/Collocation.vue'
+import ClothingPriceCard from '@/components/business/Clothing/PriceCard.vue'
+import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
+import Drawer from '@/components/commons/Drawer'
+import { getSmallImage } from '@/utils/helper'
 
 const TABS = {
   COLLOCATION: 0,
@@ -206,6 +243,7 @@ export default {
     ClothingCategory,
     Collocation,
     ProductPreview,
+    Drawer,
   },
 
   data() {
@@ -339,6 +377,7 @@ export default {
 
   created() {
     this.setSwiperOptions()
+    this.resetTimer()
   },
 
   async mounted() {
@@ -360,6 +399,8 @@ export default {
 
   deactivated() {
     this.saveScrollRecord()
+    clearTimeout(timer)
+    timer = null
   },
 
   methods: {
@@ -374,12 +415,14 @@ export default {
       }
     },
     addToCart(item) {
+      this.resetTimer()
       this.$store.commit('shoppingCart/add', item)
     },
     hasCart(item) {
       return this.shoppingCartList.some(someItem => someItem.id === item.id)
     },
     removeFormCart(item) {
+      this.resetTimer()
       if (item) {
         this.$store.commit('shoppingCart/remove', item)
       } else {
@@ -425,6 +468,7 @@ export default {
         })
     },
     scroll(e) {
+      this.resetTimer()
       const {
         clientWidth,
         scrollLeft,
@@ -435,16 +479,15 @@ export default {
         this.loadData()
     },
     changeBtn(value) {
+      this.resetTimer()
       this.deleteConfirm = value
     },
     zoomPreview() {
+      this.resetTimer()
       this.showPreview = true
-      // this.$router.push({
-      //   name: 'Carousel',
-      //   params: { preview: true },
-      // })
     },
     saveScrollRecord(scrollLeft) {
+      this.resetTimer()
       if (this.$refs.shoppingCartList)
         scrollRecord.shoppingCartList = scrollLeft ?? this.$refs.shoppingCartList.scrollLeft
 
@@ -452,6 +495,7 @@ export default {
         scrollRecord.collocationList = scrollLeft ?? this.$refs.collocationList.scrollLeft
     },
     setScrollRecord() {
+      this.resetTimer()
       this.loading = true
       this.$nextTick(() => {
         if (this.$refs.shoppingCartList)
@@ -466,6 +510,7 @@ export default {
       })
     },
     async getRecommendStyle() {
+      this.resetTimer()
       const res = await getRecommendStyle({
         ids: this.ids,
       })
@@ -481,6 +526,22 @@ export default {
         devId: this.$route.query.devId,
         cmd: 8,
       })
+    },
+    async back() {
+      clearTimeout(timer)
+      timer = null
+      await sendCommandToDevice({
+        devId: this.$route.query.devId,
+        cmd: 9,
+        functionName: 'OnTabFocus',
+      })
+    },
+    resetTimer() {
+      clearTimeout(timer)
+      timer = null
+      timer = setTimeout(() => {
+        this.back()
+      }, 60000)
     },
   },
 }

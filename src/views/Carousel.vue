@@ -40,14 +40,14 @@
         </div>
         <div
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
-          @click="() => $refs.permission.open()"
+          @click="open"
         >
           <vc-img src="/assets/img/guide/1.png" size="100px"></vc-img>
           <div>趣味搭配</div>
         </div>
         <div
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
-          @click="$router.push(`/template/${detailPage}`)"
+          @click="toHome"
         >
           <vc-img src="/assets/img/guide/2.png" size="100px"></vc-img>
           <div>了解更多</div>
@@ -55,17 +55,18 @@
       </div>
     </v-overlay>
 
-    <Permission ref="permission" @accept="sendCommandToDevice()" />
+    <!--    <Permission ref="permission" @accept="sendCommandToDevice()" /> -->
+    <Permission ref="permission" title="授权许可" content="智能搭配需启用拍摄功能<br />仅用于搭配,不做其他用途" @unlock="unlock" @accept="sendCommandToDevice()" />
   </div>
 </template>
 
 <script>
 import { debounce } from 'lodash'
+import { sendCommandToDevice } from '@/api/common'
 import { enterCarouselPage } from '@/api/frame'
 import { getAdvertsInfo } from '@/api/product'
-import { sendCommandToDevice } from '@/api/common'
-import Permission from '@/components/business/Permission.vue'
 import PageCarousel from '@/components/business/Carousel'
+import Permission from '@/components/business/Permission.vue'
 import ProductPicker from '@/components/business/ProductPicker'
 import Footer from '@/templates/education/components/Footer.vue'
 
@@ -101,9 +102,10 @@ export default {
   }),
   created() {
     this.getData()
+    this.unlock()
 
     window.OnHumanDetectResult = (status) => {
-      if (this.$refs.carousel.lockSwiper) return
+      if (this.$refs.carousel.lockSwiper || this.$refs.permission.accredit) return
 
       this.status = status
       switch (+status) {
@@ -117,9 +119,13 @@ export default {
           break
       }
     }
+    window.OnTabFocus = () => {
+      this.unlock()
+    }
   },
   activated() {
     this.getData()
+    this.unlock()
   },
   methods: {
     getData() {
@@ -171,17 +177,33 @@ export default {
       this.$refs.picker.changeList()
     },
     lock() {
-      this.$refs.carousel.lock()
-      this.$refs.carousel.currentPlayer?.pause()
+      this.$refs.carousel?.lock()
+      this.$refs.carousel?.currentPlayer?.pause()
     },
     unlock() {
-      this.$refs.carousel.unlock()
-      this.$refs.carousel.currentPlayer?.play()
+      this.$refs.carousel?.unlock()
+      this.$refs.carousel?.currentPlayer?.play()
     },
     async sendCommandToDevice() {
       await sendCommandToDevice({
         devId: sessionStorage.getItem('devId'),
         cmd: 8,
+      })
+    },
+    open() {
+      this.lock()
+      this.$refs.permission.open()
+    },
+    toHome() {
+      this.lock()
+      this.$refs.permission.close()
+      this.$router.push({
+        path: `/template/${this.detailPage}`,
+        query: {
+          brandId: sessionStorage.getItem('brandId'),
+          devId: sessionStorage.getItem('devId'),
+          showBack: true,
+        },
       })
     },
   },

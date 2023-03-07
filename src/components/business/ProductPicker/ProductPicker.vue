@@ -10,17 +10,30 @@
       @dialog-close="dialogClose"
       @away="onAway"
     ></GoodsInfo>
+    <!--    <CarouselInfo ref="info"> -->
+    <!--      <div -->
+    <!--        class="h-full flex items-center whitespace-nowrap" -->
+    <!--        @click="toHome" -->
+    <!--      > -->
+    <!--        更多搭配 -->
+    <!--        <vc-icon dark class="ml-2"> -->
+    <!--          fas fa-angle-double-right -->
+    <!--        </vc-icon> -->
+    <!--      </div> -->
+    <!--    </CarouselInfo> -->
   </div>
 </template>
 
 <script>
 import Collocation from './Collocation.vue'
 import GoodsInfo from '@/components/business/ProductPicker/GoodsInfo'
+// import CarouselInfo from './CarouselInfo.vue'
 
 export default {
   components: {
     Collocation,
     GoodsInfo,
+    // CarouselInfo,
   },
   props: {
     options: Array,
@@ -61,6 +74,20 @@ export default {
     },
     onAway() {
       this.$refs.info.closedialog()
+    },
+    toHome() {
+      this.$refs.info.close()
+      this.overlay = false
+      this.lock()
+      this.clearTime()
+      this.$router.push({
+        name: 'Home',
+        query: {
+          brandId: sessionStorage.getItem('brandId'),
+          abilityId: sessionStorage.getItem('devId'),
+          showBack: true,
+        },
+      })
     },
   },
 }

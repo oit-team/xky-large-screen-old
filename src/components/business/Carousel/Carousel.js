@@ -29,6 +29,9 @@ export default {
     currentPlayer: null,
   }),
 
+  activated() {
+    this.$refs.swiper?.swipeTo(this.realIndex, { immediate: true })
+  },
   methods: {
     genSwiper() {
       return this.$createElement(Swipe, {
