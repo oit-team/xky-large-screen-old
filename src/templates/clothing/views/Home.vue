@@ -220,72 +220,72 @@
               width="225"
             />
 
-              <div class="w-full mt-1">
-                <!-- 衣服类单项按钮感兴趣 -->
-                <vc-btn v-if="!checkSelected(item)" v-actions:clothingItemInteresting.click block @click="addToCart($event, item)">
-                  <vc-icon size="16" dark class="mr-1">
-                    far fa-heart
-                  </vc-icon>
-                  感兴趣
-                </vc-btn>
-                <vc-btn
-                  v-else
-                  v-actions:clothingItemUninteresting.click
-                  color="#4CAF50"
-                  dark
-                  block
-                  @click="removeFormCart(item)"
-                >
-                  取消
-                </vc-btn>
-              </div>
+            <div class="w-full mt-1">
+              <!-- 衣服类单项按钮感兴趣 -->
+              <vc-btn v-if="!checkSelected(item)" v-actions:clothingItemInteresting.click block @click="addToCart($event, item)">
+                <vc-icon size="16" dark class="mr-1">
+                  far fa-heart
+                </vc-icon>
+                感兴趣
+              </vc-btn>
+              <vc-btn
+                v-else
+                v-actions:clothingItemUninteresting.click
+                color="#4CAF50"
+                dark
+                block
+                @click="removeFormCart(item)"
+              >
+                取消
+              </vc-btn>
             </div>
           </div>
-          <div v-if="!collocationList.length" class="flex-1 flex-center">
-            <p class="text-xl">
-              暂无信息
-            </p>
-          </div>
-<!--        </template>-->
+        </div>
+        <div v-if="!collocationList.length" class="flex-1 flex-center">
+          <p class="text-xl">
+            暂无信息
+          </p>
+        </div>
+        <!--        </template> -->
 
-<!--        <template v-if="tab === TABS.SHOPPING_CART">-->
-<!--          <div-->
-<!--            ref="shoppingCartList"-->
-<!--            class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-hidden overflow-x-auto"-->
-<!--          >-->
-<!--            <ClothingPriceCard-->
-<!--              v-for="item of shoppingCartListFiltered"-->
-<!--              :key="item.id"-->
-<!--              :item="item"-->
-<!--              width="210"-->
-<!--              height="400"-->
-<!--            >-->
-<!--              <vc-btn-->
-<!--                v-actions:removeFromInteresting.click-->
-<!--                class="mt-2 bg-white"-->
-<!--                fab-->
-<!--                small-->
-<!--                color="error"-->
-<!--                text-->
-<!--                @click="removeFormCart(item)"-->
-<!--              >-->
-<!--                <vc-icon class="text-red-300" size="18">-->
-<!--                  fas fa-trash-alt-->
-<!--                </vc-icon>-->
-<!--              </vc-btn>-->
-<!--            </ClothingPriceCard>-->
-<!--          </div>-->
-<!--          <div v-if="!shoppingCartListFiltered.length" class="flex-col flex-1 flex-center">-->
-<!--            <p class="text-xl">-->
-<!--              未选择任何商品-->
-<!--            </p>-->
-<!--            <div>-->
-<!--              <vc-btn v-actions:toPickOut.click dark large @click="tab = TABS.COLLOCATION">-->
-<!--                去挑选-->
-<!--              </vc-btn>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </template>-->
+        <!--        <template v-if="tab === TABS.SHOPPING_CART"> -->
+        <!--          <div -->
+        <!--            ref="shoppingCartList" -->
+        <!--            class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-hidden overflow-x-auto" -->
+        <!--          > -->
+        <!--            <ClothingPriceCard -->
+        <!--              v-for="item of shoppingCartListFiltered" -->
+        <!--              :key="item.id" -->
+        <!--              :item="item" -->
+        <!--              width="210" -->
+        <!--              height="400" -->
+        <!--            > -->
+        <!--              <vc-btn -->
+        <!--                v-actions:removeFromInteresting.click -->
+        <!--                class="mt-2 bg-white" -->
+        <!--                fab -->
+        <!--                small -->
+        <!--                color="error" -->
+        <!--                text -->
+        <!--                @click="removeFormCart(item)" -->
+        <!--              > -->
+        <!--                <vc-icon class="text-red-300" size="18"> -->
+        <!--                  fas fa-trash-alt -->
+        <!--                </vc-icon> -->
+        <!--              </vc-btn> -->
+        <!--            </ClothingPriceCard> -->
+        <!--          </div> -->
+        <!--          <div v-if="!shoppingCartListFiltered.length" class="flex-col flex-1 flex-center"> -->
+        <!--            <p class="text-xl"> -->
+        <!--              未选择任何商品 -->
+        <!--            </p> -->
+        <!--            <div> -->
+        <!--              <vc-btn v-actions:toPickOut.click dark large @click="tab = TABS.COLLOCATION"> -->
+        <!--                去挑选 -->
+        <!--              </vc-btn> -->
+        <!--            </div> -->
+        <!--          </div> -->
+        <!--        </template> -->
       </section>
     </keep-alive>
 
@@ -354,6 +354,7 @@
         @click="showFitting"
       >
         <v-badge
+          ref="fly-target"
           class="z-10 h-full"
           :content="shoppingCartList.length || '0'"
           :value="!!shoppingCartList.length"
@@ -422,32 +423,12 @@
           <!--          自定义键盘 -->
           <div class="flex-center mt-8 mb-4">
             <div class="grid grid-cols-3 gap-2 w-1/2">
-              <vc-btn @click="andPhone += '1'">
-                1
-              </vc-btn>
-              <vc-btn @click="andPhone += '2'">
-                2
-              </vc-btn>
-              <vc-btn @click="andPhone += '3'">
-                3
-              </vc-btn>
-              <vc-btn @click="andPhone += '4'">
-                4
-              </vc-btn>
-              <vc-btn @click="andPhone += '5'">
-                5
-              </vc-btn>
-              <vc-btn @click="andPhone += '6'">
-                6
-              </vc-btn>
-              <vc-btn @click="andPhone += '7'">
-                7
-              </vc-btn>
-              <vc-btn @click="andPhone += '8'">
-                8
-              </vc-btn>
-              <vc-btn @click="andPhone += '9'">
-                9
+              <vc-btn
+                v-for="(item, index) in 9"
+                :key="index"
+                @click="andPhone = `${andPhone}${item}`"
+              >
+                {{ item }}
               </vc-btn>
               <vc-btn @click="andPhone = andPhone.slice(0, andPhone.length - 1)">
                 <vc-icon>
@@ -475,7 +456,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <!--    <Permission ref="permission" title="提示" content="确定呼叫导购员试穿吗？" @unlock="closeOverlay" @accept="$refs.fitting?.submit()" /> -->
     <SelectGoods
       ref="fitting"
       :goods-list="shoppingCartListFiltered"
@@ -505,8 +485,8 @@ import SelectGoods from '@/components/business/ProductPicker/SelectGoods'
 import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
 import Drawer from '@/components/commons/Drawer'
 import Message from '@/components/commons/Message'
-import { getSmallImage } from '@/utils/helper'
 import { imageFlyToTarget } from '@/utils/anime'
+import { getSmallImage } from '@/utils/helper'
 
 const TABS = {
   COLLOCATION: 0,
@@ -718,7 +698,7 @@ export default {
         },
         end: {
           x: flyTarget.x - 50,
-          y: flyTarget.y,
+          y: flyTarget.y - 68,
           onComplete: () => {
             this.$store.commit('shoppingCart/add', item)
             this.listenInCart()
@@ -1026,6 +1006,11 @@ $product-preview-width: $header-height / 4 * 3;
   }
 }
 
+:deep{
+  .v-dialog{
+    margin-top: -10vh;
+  }
+}
 .description {
   display: -webkit-box;
   overflow: hidden;

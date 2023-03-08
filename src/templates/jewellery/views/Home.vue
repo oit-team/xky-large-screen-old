@@ -166,66 +166,11 @@
 
       <div class="!flex items-stretch p-4 pb-8 space-x-2">
         <div class="w-8"></div>
-
-        <!--        <vc-btn class="h-full text-left vertical-btn" dark @click="tab = TABS.COLLOCATION"> -->
-        <!--          <vc-icon class="mb-2"> -->
-        <!--            fas fa-user -->
-        <!--          </vc-icon> -->
-        <!--          <span class="flex-1 vertical-text">自助挑选</span> -->
-        <!--        </vc-btn> -->
-        <!--        <div class="relative"> -->
-        <!--          <v-badge -->
-        <!--            class="z-10" -->
-        <!--            :content="shoppingCartList.length || '0'" -->
-        <!--            color="#c00000" -->
-        <!--            offset-x="12" -->
-        <!--            offset-y="12" -->
-        <!--          > -->
-        <!--            <vc-btn class="relative h-full text-left vertical-btn" @click="tab = TABS.SHOPPING_CART"> -->
-        <!--              <vc-icon class="mb-2"> -->
-        <!--                fas fa-shopping-cart -->
-        <!--              </vc-icon> -->
-        <!--              <span class="flex-1 vertical-text">感兴趣</span> -->
-        <!--            </vc-btn> -->
-        <!--          </v-badge> -->
-        <!--          <div -->
-        <!--            v-click-outside="() => changeBtn(false)" -->
-        <!--            class="absolute left-0 -bottom-7 px-0" -->
-        <!--          > -->
-        <!--            <vc-btn -->
-        <!--              class="mb-1" -->
-        <!--              @click="showDialog" -->
-        <!--            > -->
-        <!--              <vc-icon size="16"> -->
-        <!--                fas fa-phone -->
-        <!--              </vc-icon> -->
-        <!--            </vc-btn> -->
-        <!--            <vc-btn -->
-        <!--              v-if="!deleteConfirm" -->
-        <!--              text -->
-        <!--              @click="changeBtn(true)" -->
-        <!--            > -->
-        <!--              <vc-icon size="16" color="#d9d9d9"> -->
-        <!--                fas fa-trash-alt -->
-        <!--              </vc-icon> -->
-        <!--            </vc-btn> -->
-        <!--            <vc-btn -->
-        <!--              v-else -->
-        <!--              class="px-0 w-full" -->
-        <!--              text -->
-        <!--              color="error" -->
-        <!--              @click="removeFormCart()" -->
-        <!--            > -->
-        <!--              确定 -->
-        <!--            </vc-btn> -->
-        <!--          </div> -->
-        <!--        </div> -->
       </div>
     </section>
 
     <keep-alive>
       <section class="bg-gray flex overflow-hidden">
-        <!--        <template v-if="tab === TABS.COLLOCATION"> -->
         <div
           ref="collocationList"
           class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-x-auto"
@@ -242,32 +187,32 @@
               width="225"
             />
 
-              <!-- 珠宝类单项感兴趣 -->
-              <div class="w-full mt-1">
-                <vc-btn v-if="!checkSelected(item)" v-actions:jewelleryItemInteresting.click block @click="addToCart($event, item)">
-                  <vc-icon size="16" dark class="mr-1">
-                    far fa-heart
-                  </vc-icon>
-                  感兴趣
-                </vc-btn>
-                <vc-btn
-                  v-else
-                  v-actions:jewelleryItemUninteresting.click
-                  color="#4CAF50"
-                  dark
-                  block
-                  @click="removeFormCart(item)"
-                >
-                  取消
-                </vc-btn>
-              </div>
+            <!-- 珠宝类单项感兴趣 -->
+            <div class="w-full mt-1">
+              <vc-btn v-if="!checkSelected(item)" v-actions:jewelleryItemInteresting.click block @click="addToCart($event, item)">
+                <vc-icon size="16" dark class="mr-1">
+                  far fa-heart
+                </vc-icon>
+                感兴趣
+              </vc-btn>
+              <vc-btn
+                v-else
+                v-actions:jewelleryItemUninteresting.click
+                color="#4CAF50"
+                dark
+                block
+                @click="removeFormCart(item)"
+              >
+                取消
+              </vc-btn>
             </div>
           </div>
-          <div v-if="!collocationList.length" class="flex-1 flex-center">
-            <p class="text-xl">
-              暂无信息
-            </p>
-          </div>
+        </div>
+        <div v-if="!collocationList.length" class="flex-1 flex-center">
+          <p class="text-xl">
+            暂无信息
+          </p>
+        </div>
         <!--        </template> -->
 
         <!--        <template v-if="tab === TABS.SHOPPING_CART"> -->
@@ -363,32 +308,12 @@
           <!--          自定义键盘 -->
           <div class="flex-center mt-8 mb-4">
             <div class="grid grid-cols-3 gap-2 w-1/2">
-              <vc-btn @click="andPhone = `${andPhone}1`">
-                1
-              </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}2`">
-                2
-              </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}3`">
-                3
-              </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}4`">
-                4
-              </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}5`">
-                5
-              </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}6`">
-                6
-              </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}7`">
-                7
-              </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}8`">
-                8
-              </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}9`">
-                9
+              <vc-btn
+                v-for="(item, index) in 9"
+                :key="index"
+                @click="andPhone = `${andPhone}${item}`"
+              >
+                {{ item }}
               </vc-btn>
               <vc-btn @click="andPhone = andPhone.slice(0, andPhone.length - 1)">
                 <vc-icon>
@@ -417,25 +342,6 @@
       </v-card>
     </v-dialog>
 
-    <!--    <v-dialog> -->
-    <!--      确定订单并发送给工作人员吗？ -->
-    <!--      <v-card> -->
-    <!--        <v-btn -->
-    <!--          color="blue darken-1" -->
-    <!--          text -->
-    <!--          @click="dialogClose" -->
-    <!--        > -->
-    <!--          取消 -->
-    <!--        </v-btn> -->
-    <!--        <v-btn -->
-    <!--          color="blue darken-1" -->
-    <!--          text -->
-    <!--          @click="dialogClose" -->
-    <!--        > -->
-    <!--          确定 -->
-    <!--        </v-btn> -->
-    <!--      </v-card> -->
-    <!--    </v-dialog> -->
     <v-overlay
       ref="overlay"
       z-index="60"
@@ -460,13 +366,6 @@
             fas fa-angle-double-left
           </vc-icon>
         </v-btn>
-        <v-btn
-          color="blue darken-1"
-          text
-          @click="dialogClose"
-        >
-          确定
-        </v-btn>
         <div>返回</div>
       </div>
       <v-divider v-if="showBack" class="w-full" color="#fff"></v-divider>
@@ -476,6 +375,7 @@
         @click="showFitting"
       >
         <v-badge
+          ref="fly-target"
           class="z-10 h-full"
           :content="shoppingCartList.length || '0'"
           :value="!!shoppingCartList.length"
@@ -551,8 +451,8 @@ import SelectGoods from '@/components/business/ProductPicker/SelectGoods' // imp
 import ProductPreview from '@/components/business/ProductPreview/ProductPreview.vue'
 import Drawer from '@/components/commons/Drawer'
 import Message from '@/components/commons/Message'
-import { getSmallImage } from '@/utils/helper'
 import { imageFlyToTarget } from '@/utils/anime'
+import { getSmallImage } from '@/utils/helper'
 
 const TABS = {
   COLLOCATION: 0,
@@ -766,7 +666,7 @@ export default {
         },
         end: {
           x: flyTarget.x - 50,
-          y: flyTarget.y,
+          y: flyTarget.y - 68,
           onComplete: () => {
             this.$store.commit('shoppingCart/add', item)
             this.listenInCart()
@@ -986,6 +886,7 @@ export default {
           this.overlay = false
           this.$refs.fitting.close()
           // this.$refs.permission.close()
+          this.showPreview = false
           this.back()
         }, 60000)
       }
@@ -1072,6 +973,11 @@ $product-preview-width: $header-height / 4 * 3;
   }
 }
 
+:deep{
+  .v-dialog{
+    margin-top: -10vh;
+  }
+}
 .description {
   display: -webkit-box;
   overflow: hidden;
