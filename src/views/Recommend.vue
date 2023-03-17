@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <div class="flex flex-1 gap-6 overflow-hidden flex-col mt-12 mb-6 px-6">
+      <div class="w-full flex flex-1 gap-6 overflow-hidden flex-col mt-12 mb-6 px-6">
         <div class="flex items-center justify-between">
           <v-chip
             class="px-6 h-10 text-2xl text-white"
@@ -171,6 +171,7 @@
     </footer>
 
     <ProductPreview v-model="showPreview" :index="swiperIndex" />
+
     <Drawer ref="drawer" position="right" offset="58%" class="text-white flex flex-col items-center box-border rounded-l-md">
       <div class="py-2 px-4 text-center">
         <v-btn

@@ -73,10 +73,8 @@ export default {
       this.dialog = false
     },
     submit() {
-      clearTimeout(this.timer)
-      delete this.timer
+      this.close()
       this.$emit('accept')
-      this.dialog = false
     },
   },
 }

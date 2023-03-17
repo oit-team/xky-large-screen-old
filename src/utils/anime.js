@@ -24,7 +24,7 @@ export function imageFlyToTarget(src, option = {}) {
         { x: option.end.x - 50, y: option.end.y - 50 },
         { x: option.end.x, y: option.end.y },
       ],
-      duration: 1.88,
+      duration: 1.5,
       scale: 0,
       opacity: 1,
       ...option.end,
