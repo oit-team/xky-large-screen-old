@@ -1,5 +1,5 @@
 <template>
-  <VueActions class="home" data="jewelleryPage">
+  <VueActions class="home carousel-wrap" data="jewelleryPage">
     <header class="flex overflow-hidden bg-gray header">
       <div class="relative">
         <div>
@@ -422,7 +422,6 @@
         </vc-btn>
       </div>
     </Drawer>
-    <!--    <Permission ref="permission" title="提示" content="确定呼叫导购员试穿吗？" @unlock="closeOverlay" @accept="$refs.fitting?.submit()" /> -->
 
     <SelectGoods
       ref="fitting"
@@ -657,6 +656,7 @@ export default {
     },
     addToCart(e, item) {
       this.resetTimer()
+      this.$store.commit('shoppingCart/add', item)
       const flyTarget = this.$refs['fly-target'].$el.getBoundingClientRect()
       const startTarget = e.target.getBoundingClientRect()
       imageFlyToTarget(item.imgUrl, {
@@ -668,7 +668,6 @@ export default {
           x: flyTarget.x - 50,
           y: flyTarget.y - 68,
           onComplete: () => {
-            this.$store.commit('shoppingCart/add', item)
             this.listenInCart()
           },
         },
@@ -856,7 +855,7 @@ export default {
     },
     showFitting() {
       clearTimeout(this.darwerTimer)
-      delete this.darwerTimer
+      this.darwerTimer = null
       this.resetTimer()
       this.$refs.fitting.open()
       this.overlay = true
@@ -881,7 +880,6 @@ export default {
     resetTimer() {
       if (this.showBack) {
         clearTimeout(this.timer)
-        delete this.timer
         this.timer = setTimeout(() => {
           this.overlay = false
           this.$refs.fitting.close()
@@ -893,9 +891,8 @@ export default {
     },
     back() {
       clearTimeout(this.timer)
-      delete this.timer
       clearTimeout(this.darwerTimer)
-      delete this.darwerTimer
+      this.darwerTimer = null
       this.$router.back()
     },
   },
@@ -915,6 +912,14 @@ $chip-white-space: unset;
 
 $product-preview-width: $header-height / 4 * 3;
 
+.carousel-wrap {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  //width: 100vw;
+  //height: 100vh;
+}
 .home {
   width: $screen-width;
   height: $screen-height;
