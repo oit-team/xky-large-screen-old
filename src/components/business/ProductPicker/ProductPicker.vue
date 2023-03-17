@@ -8,7 +8,6 @@
       ref="info"
       :detail-dialog="detailDialog"
       @dialog-close="dialogClose"
-      @away="onAway"
     ></GoodsInfo>
     <!--    <CarouselInfo ref="info"> -->
     <!--      <div -->
@@ -54,14 +53,17 @@ export default {
       return this.$store.state.shoppingCart.list
     },
   },
+  watch: {
+    options: 'changeList',
+    optionsIndex: 'changeList',
+  },
   methods: {
     showInfo(item) {
-      clearTimeout(this.timer)
       this.$refs.info.open(item)
       this.$emit('lock')
     },
     changeList() {
-      const goods = this.options[this.optionsIndex].goods
+      const goods = this.options[this.optionsIndex]?.goods
       const optionsItem = goods?.reduce((def, next) => [...def, this.advertsStyleMap[next]], [])
       this.rightList = optionsItem
     },
@@ -70,10 +72,8 @@ export default {
     },
     dialogClose() {
       this.$emit('unlock')
+      // 隐藏当前选中商品的 阴影 css
       this.$refs.collocation.reset()
-    },
-    onAway() {
-      this.$refs.info.closedialog()
     },
     toHome() {
       this.$refs.info.close()
