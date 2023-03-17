@@ -35,27 +35,26 @@
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
           @click="$router.push('/lucky')"
         >
-          <vc-img src="/assets/img/guide/0.png" size="100px"></vc-img>
+          <vc-img src="/assets/img/guide/0.png" size="130px"></vc-img>
           <div>趣味抽奖</div>
         </div>
         <div
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
           @click="open"
         >
-          <vc-img src="/assets/img/guide/1.png" size="100px"></vc-img>
+          <vc-img src="/assets/img/guide/1.png" size="130px"></vc-img>
           <div>趣味搭配</div>
         </div>
         <div
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
           @click="toHome"
         >
-          <vc-img src="/assets/img/guide/2.png" size="100px"></vc-img>
+          <vc-img src="/assets/img/guide/2.png" size="130px"></vc-img>
           <div>了解更多</div>
         </div>
       </div>
     </v-overlay>
 
-    <!--    <Permission ref="permission" @accept="sendCommandToDevice()" /> -->
     <Permission ref="permission" title="授权许可" content="智能搭配需启用拍摄功能<br />仅用于搭配,不做其他用途" @unlock="unlock" @accept="sendCommandToDevice()" />
   </div>
 </template>
@@ -102,8 +101,6 @@ export default {
   }),
   created() {
     this.getData()
-    this.unlock()
-
     window.OnHumanDetectResult = (status) => {
       if (this.$refs.carousel.lockSwiper || this.$refs.permission.accredit) return
 
@@ -125,7 +122,6 @@ export default {
   },
   activated() {
     this.getData()
-    this.unlock()
   },
   methods: {
     getData() {
@@ -163,6 +159,8 @@ export default {
       this.options = JSON.parse(rotationRules)
       this.resources = resEntityMap
       this.advertsStyleMap = advertsStyleMap
+      this.$refs.picker.changeList()
+      this.unlock()
     },
     close: debounce(function () {
       const disabledBack = Number(this.$route.query.disabledBack)
@@ -174,7 +172,6 @@ export default {
     // 轮播图改变 - index
     changeIndex(index) {
       this.optionsIndex = index
-      this.$refs.picker.changeList()
     },
     lock() {
       this.$refs.carousel?.lock()
@@ -191,7 +188,7 @@ export default {
       })
     },
     open() {
-      this.lock()
+      this.guideDialog = false
       this.$refs.permission.open()
     },
     toHome() {
