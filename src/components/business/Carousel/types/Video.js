@@ -1,10 +1,10 @@
-import Vue from 'vue'
-
 import Plyr from 'plyr'
 import 'plyr/dist/plyr.css'
+import Vue from 'vue'
 
 import { VBtn } from 'vuetify/lib/components'
 import mixin from './mixin'
+import './Video.css'
 
 // 双击判定时间(ms)
 const INTERVAL = 300
@@ -27,6 +27,7 @@ export default {
       if (!value) {
         // 重置播放
         this.stopPlay()
+        this.carousel.currentPlayer = null
       }
     },
     // 'carousel.show': function (value) {

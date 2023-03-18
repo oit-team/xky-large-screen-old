@@ -1,12 +1,12 @@
 import { Swipe, SwipeItem } from 'vant'
+import 'vant/lib/swipe-item/style'
 
-import Image from './types/Image'
-import Video from './types/Video'
+import 'vant/lib/swipe/style'
 
 import './Carousel.scss'
 
-import 'vant/lib/swipe/style'
-import 'vant/lib/swipe-item/style'
+import Image from './types/Image'
+import Video from './types/Video'
 
 export default {
   name: 'page-carousel',
@@ -29,6 +29,9 @@ export default {
     currentPlayer: null,
   }),
 
+  activated() {
+    this.$refs.swiper?.swipeTo(this.realIndex, { immediate: true })
+  },
   methods: {
     genSwiper() {
       return this.$createElement(Swipe, {

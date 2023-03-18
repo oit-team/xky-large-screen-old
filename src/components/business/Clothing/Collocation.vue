@@ -20,14 +20,14 @@
       </div>
       <div class="flex my-1 items-center justify-center">
         <div class="text-base font-bold text-red-500">
-          <span class="text-xs font-normal">￥</span>{{ item.productPrice }}
+          <span class="text-xs font-normal">￥</span>{{ item.productPrice || '0' }}
         </div>
-        <div v-if="JSON.parse(item.originalPrice)" class="text-xs font-normal ml-1 line-through text-[#888888]">
-          ￥{{ item.originalPrice }}
+        <div v-if="Number(item.originalPrice) > 0" class="text-xs font-normal ml-1 line-through text-[#888888]">
+          ￥{{ item.originalPrice || 0 }}
         </div>
       </div>
       <div class="mb-1 h-1.25em">
-        <div v-if="JSON.parse(item.productLabel)">
+        <div v-if="item.productLabel && JSON.parse(item.productLabel)">
           <v-chip
             v-for="ele in JSON.parse(item.productLabel)"
             :key="ele"

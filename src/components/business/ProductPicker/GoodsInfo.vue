@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import Fitness from '@/templates/education/views/Detail.vue'
 import Clothing from '@/templates/clothing/views/Detail.vue'
+import Fitness from '@/templates/education/views/Detail.vue'
 import Jewellery from '@/templates/jewellery/views/Detail.vue'
 
 const AWAY_TIME = 30000 // 30s
@@ -49,13 +49,14 @@ export default {
     },
     // 点击dialog容器之外触发关闭
     closedialog() {
+      clearTimeout(timer)
       this.dialog = false
       this.$emit('dialog-close')
     },
     onTouchstart() {
       clearTimeout(timer)
       timer = setTimeout(() => {
-        this.$emit('away')
+        this.closedialog()
       }, AWAY_TIME)
     },
   },
@@ -66,7 +67,7 @@ export default {
 ::v-deep{
   .v-dialog:not([v-dialog--fullscreen]) {
     max-height: 75%;
-    margin-top: -15%;
+    margin-top: -17%;
   }
 }
 </style>

@@ -68,7 +68,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.dropImage)
   },
   methods: {
     toggle(e, item) {
