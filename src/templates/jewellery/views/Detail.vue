@@ -84,6 +84,16 @@
       <div class="text-2xl font-bold">
         {{ infoData.productName?.indexValue }}
       </div>
+      <div
+        v-if="isDialog"
+        v-actions:toMore.click
+        class="w-full text-right"
+        @click="$emit('more')"
+      >
+        <v-btn outlined color="#0077AA">
+          了解更多
+        </v-btn>
+      </div>
     </div>
 
     <div class="rounded-lg text-lg mx-4 my-2 box-border bg-white">
@@ -144,7 +154,7 @@
       </div>
     </div>
 
-    <Drawer v-if="!isDialog" ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-md">
+    <Drawer v-if="!isDialog" ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-3xl">
       <div class="py-1 px-4 text-center">
         <v-btn
           v-actions:asideBackToHome.click
@@ -164,7 +174,6 @@
       <div class="py-1 px-4 text-center">
         <v-btn
           v-actions:asideToTop.click
-          icon
           dark
           fab
           small

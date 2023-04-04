@@ -102,7 +102,8 @@ export default {
                 this.$refs.swiper.next()
             },
             close: () => {
-              this.$emit('close')
+              // 用不到
+              // this.$emit('close')
             },
           },
         }, item.type)
