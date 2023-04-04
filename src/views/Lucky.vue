@@ -130,7 +130,14 @@
 
 <script>
 import { LuckyGrid } from '@lucky-canvas/vue'
-import { getAwardInfo, getAwardInfoQrCode, getJackpotCount, getJackpotInfoList, getLuckyDrawConfig, getResetPrizeInfo } from '@/api/lucky'
+import {
+  getAwardInfo,
+  getAwardInfoQrCode,
+  getJackpotCount,
+  getJackpotInfoList,
+  getLuckyDrawConfig,
+  getResetPrizeInfo,
+} from '@/api/lucky'
 
 let timer
 let countTimer
@@ -152,6 +159,7 @@ export default {
     exchangeList: [],
     code: '',
     countdown: 0,
+    optionalList: [],
   }),
 
   computed: {
@@ -238,9 +246,9 @@ export default {
       this.$refs.lucky.play()
       setTimeout(() => {
         // 假设后端返回的中奖索引是0
-        const index = Math.floor(Math.random() * 8)
+        const randomIndex = Math.floor(Math.random() * this.optionalList.length)
         // 调用stop停止旋转并传递中奖索引
-        this.$refs.lucky.stop(index)
+        this.$refs.lucky.stop(this.optionalList[randomIndex])
       }, 3000)
     },
     async getLuckyDrawConfig() {
@@ -254,7 +262,9 @@ export default {
         { x: 0, y: 2 },
         { x: 0, y: 1 },
       ]
-      const res = await getLuckyDrawConfig()
+      const res = await getLuckyDrawConfig({
+        devId: sessionStorage.getItem('devId'),
+      })
       const result = res.body.resultList
       this.prizes = pos.map((posItem, index) => {
         const item = result[index]
@@ -289,6 +299,9 @@ export default {
             },
           ],
         }
+      })
+      this.prizes.forEach((item, index) => {
+        if (item.data.countNum > 0) this.optionalList.push(index)
       })
     },
     async getAwardInfoQrCode(content) {
