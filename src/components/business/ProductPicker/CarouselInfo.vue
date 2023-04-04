@@ -89,6 +89,7 @@
         <div
           v-for="(item, index) in infoData.stylePicture"
           :key="index"
+          v-actions:currentIndex.click
           class="rounded-lg mr-2 bg-black"
           @click="currentIndex = index"
         >

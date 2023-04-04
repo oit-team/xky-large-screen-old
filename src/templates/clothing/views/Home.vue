@@ -70,6 +70,7 @@
           >
             <template #activator="{ on, attrs }">
               <div
+                v-actions:isShowTips.click
                 class="truncate w-full"
                 v-bind="attrs"
                 @click="showTips = !showTips"
@@ -145,59 +146,6 @@
 
       <div class="!flex items-stretch p-4 pb-8 space-x-2">
         <div class="w-8"></div>
-        <!--        <vc-btn class="h-full text-left vertical-btn" dark @click="tab = TABS.COLLOCATION"> -->
-        <!--          <vc-icon class="mb-2"> -->
-        <!--            fas fa-user -->
-        <!--          </vc-icon> -->
-        <!--          <span class="flex-1 vertical-text">自助挑选</span> -->
-        <!--        </vc-btn> -->
-        <!--        <div class="relative"> -->
-        <!--          <v-badge -->
-        <!--            class="z-10" -->
-        <!--            :content="shoppingCartList.length || '0'" -->
-        <!--            color="#c00000" -->
-        <!--            offset-x="12" -->
-        <!--            offset-y="12" -->
-        <!--          > -->
-        <!--            <vc-btn class="relative h-full text-left vertical-btn" @click="tab = TABS.SHOPPING_CART"> -->
-        <!--              <vc-icon class="mb-2"> -->
-        <!--                fas fa-shopping-cart -->
-        <!--              </vc-icon> -->
-        <!--              <span class="flex-1 vertical-text">感兴趣</span> -->
-        <!--            </vc-btn> -->
-        <!--          </v-badge> -->
-        <!--          <div -->
-        <!--            v-click-outside="() => changeBtn(false)" -->
-        <!--            class="absolute left-0 -bottom-7 px-0" -->
-        <!--          > -->
-        <!--            <vc-btn -->
-        <!--              class="mb-1" -->
-        <!--              @click="showDialog" -->
-        <!--            > -->
-        <!--              <vc-icon size="16"> -->
-        <!--                fas fa-phone -->
-        <!--              </vc-icon> -->
-        <!--            </vc-btn> -->
-        <!--            <vc-btn -->
-        <!--              v-if="!deleteConfirm" -->
-        <!--              text -->
-        <!--              @click="changeBtn(true)" -->
-        <!--            > -->
-        <!--              <vc-icon size="16" color="#d9d9d9"> -->
-        <!--                fas fa-trash-alt -->
-        <!--              </vc-icon> -->
-        <!--            </vc-btn> -->
-        <!--            <vc-btn -->
-        <!--              v-else -->
-        <!--              class="px-0 w-full" -->
-        <!--              text -->
-        <!--              color="error" -->
-        <!--              @click="removeFormCart()" -->
-        <!--            > -->
-        <!--              确定 -->
-        <!--            </vc-btn> -->
-        <!--          </div> -->
-        <!--        </div> -->
       </div>
     </section>
 
@@ -323,6 +271,7 @@
 
     <v-overlay
       ref="overlay"
+      v-actions:closeOverlay.click
       z-index="60"
       :value="overlay"
       @click="closeOverlay"
@@ -332,6 +281,7 @@
     <Drawer ref="drawer" position="right" offset="58%" class="text-white flex flex-col items-center box-border rounded-l-3xl">
       <div
         v-if="showBack"
+        v-actions:back.click
         class="py-2 px-4 text-center"
         @click="back"
       >
@@ -350,6 +300,7 @@
       <v-divider v-if="showBack" class="w-full" color="#fff"></v-divider>
 
       <div
+        v-actions:showFitting.click
         class="py-2 px-4 text-center w-full"
         @click="showFitting"
       >
@@ -383,6 +334,7 @@
       >
         <vc-btn
           v-if="!deleteConfirm"
+          v-actions:changeBtn.click
           text
           @click="changeBtn(true)"
         >
@@ -392,6 +344,7 @@
         </vc-btn>
         <vc-btn
           v-else
+          v-actions:removeFormCart.click
           class="px-0 w-full"
           text
           color="error"
@@ -426,16 +379,17 @@
               <vc-btn
                 v-for="(item, index) in 9"
                 :key="index"
+                v-actions:changePhone.click
                 @click="andPhone = `${andPhone}${item}`"
               >
                 {{ item }}
               </vc-btn>
-              <vc-btn @click="andPhone = andPhone.slice(0, andPhone.length - 1)">
+              <vc-btn v-actions:slicePhone.click @click="andPhone = andPhone.slice(0, andPhone.length - 1)">
                 <vc-icon>
                   fas fa-backspace
                 </vc-icon>
               </vc-btn>
-              <vc-btn @click="andPhone += '0'">
+              <vc-btn v-actions:slicePhone.click @click="andPhone += '0'">
                 0
               </vc-btn>
               <vc-btn v-actions:asideSubPhone.click @click="subPhone">
@@ -447,6 +401,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+            v-actions:dialogClose.click
             color="blue darken-1"
             text
             @click="dialogClose"
@@ -649,18 +604,21 @@ export default {
 
   created() {
     this.setSwiperOptions()
-    this.getBrandNameCard()
   },
 
   mounted() {
     this.$headerSwiper = this.$refs.swiper?.$swiper
-    this.getCategory()
-    this.loadData()
+    // this.getCategory()
+    // this.loadData()
   },
 
-  activated() {
+  async activated() {
+    this.getBrandNameCard()
     this.setScrollRecord()
     this.closeOverlay()
+    await this.$nextTick()
+    await this.getCategory()
+    this.loadData()
 
     this.showBack = this.$route.query.showBack
     const { query } = this.$route
@@ -675,6 +633,14 @@ export default {
     clearTimeout(timer)
     timer = null
     clearTimeout(this.timer)
+    this.timer = null
+  },
+
+  beforeDestroy() {
+    clearTimeout(this.timer)
+    this.timer = null
+    clearTimeout(timer)
+    timer = null
   },
 
   methods: {
@@ -892,7 +858,6 @@ export default {
     },
     showFitting() {
       clearTimeout(this.darwerTimer)
-      delete this.darwerTimer
       this.resetTimer()
       this.$refs.fitting.open()
       this.overlay = true
@@ -926,8 +891,16 @@ export default {
     back() {
       clearTimeout(this.timer)
       clearTimeout(this.darwerTimer)
+      this.timer = null
       this.darwerTimer = null
-      this.$router.back()
+      // this.$router.back()
+      this.$router.push({
+        path: '/carousel',
+        query: {
+          brandId: sessionStorage.getItem('brandId'),
+          devId: sessionStorage.getItem('devId'),
+        },
+      })
     },
   },
 }

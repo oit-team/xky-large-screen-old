@@ -27,11 +27,23 @@
           class="flex absolute bottom-0 z-10 justify-end p-2 w-full"
         >
           <div class="overflow-hidden bg-black bg-opacity-40 rounded">
-            <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="() => $headerSwiper.slidePrev()">
+            <vc-btn
+              v-actions:swiperPrev.click
+              class="px-1 min-w-0 bg-transparent"
+              tile
+              dark
+              @click="() => $headerSwiper.slidePrev()"
+            >
               <vc-icon>fas fa-chevron-left</vc-icon>
             </vc-btn>
             <span class="mx-1 text-white">{{ swiperIndex + 1 }}/{{ selectedCategoryItem.styleImg.length }}</span>
-            <vc-btn class="px-1 min-w-0 bg-transparent" tile dark @click="() => $headerSwiper.slideNext()">
+            <vc-btn
+              v-actions:swiperNext.click
+              class="px-1 min-w-0 bg-transparent"
+              tile
+              dark
+              @click="() => $headerSwiper.slideNext()"
+            >
               <vc-icon>fas fa-chevron-right</vc-icon>
             </vc-btn>
           </div>
@@ -77,6 +89,7 @@
           :value="item.styleId"
         >
           <ClothingCategory
+            v-actions:toggle.click
             :active="active"
             :item="item"
             hide-name
@@ -86,12 +99,6 @@
       </v-item-group>
       <div class="flex items-stretch p-4 space-x-2">
         <div class="w-8"></div>
-        <!--        <vc-btn class="h-full text-left vertical-btn" dark @click="sendCommandToDevice()"> -->
-        <!--          <vc-icon class="mb-2"> -->
-        <!--            fas fa-camera -->
-        <!--          </vc-icon> -->
-        <!--          <span class="flex-1 vertical-text">智能搭配</span> -->
-        <!--        </vc-btn> -->
       </div>
     </section>
 
@@ -134,6 +141,7 @@
               height="400"
             >
               <vc-btn
+                v-actions:removeFormCart.click
                 class="mt-2 bg-white"
                 fab
                 small
@@ -152,7 +160,12 @@
               未选择任何商品
             </p>
             <div>
-              <vc-btn dark large @click="tab = TABS.COLLOCATION">
+              <vc-btn
+                v-actions:changeTab.click
+                dark
+                large
+                @click="tab = TABS.COLLOCATION"
+              >
                 去挑选
               </vc-btn>
             </div>
@@ -175,6 +188,7 @@
     <Drawer ref="drawer" position="right" offset="58%" class="text-white flex flex-col items-center box-border rounded-l-md">
       <div class="py-2 px-4 text-center">
         <v-btn
+          v-actions:back.click
           icon
           dark
           fab
@@ -190,6 +204,7 @@
       <v-divider class="w-full" color="#fff"></v-divider>
 
       <div
+        v-actions:sendCommandToDevice.click
         class="py-2 px-4 text-center w-full"
         @click="sendCommandToDevice()"
       >

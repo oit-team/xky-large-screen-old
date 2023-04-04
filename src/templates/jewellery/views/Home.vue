@@ -213,45 +213,6 @@
             暂无信息
           </p>
         </div>
-        <!--        </template> -->
-
-        <!--        <template v-if="tab === TABS.SHOPPING_CART"> -->
-        <!--          <div -->
-        <!--            ref="shoppingCartList" -->
-        <!--            class="h-full max-w-full inline-grid grid-rows-2 grid-flow-col gap-x-4 py-2 px-8 items-center overflow-hidden overflow-x-auto" -->
-        <!--          > -->
-        <!--            <ClothingPriceCard -->
-        <!--              v-for="item of shoppingCartListFiltered" -->
-        <!--              :key="item.id" -->
-        <!--              :item="item" -->
-        <!--              width="210" -->
-        <!--              height="400" -->
-        <!--            > -->
-        <!--              <vc-btn -->
-        <!--                class="mt-2 bg-white" -->
-        <!--                fab -->
-        <!--                small -->
-        <!--                color="error" -->
-        <!--                text -->
-        <!--                @click="removeFormCart(item)" -->
-        <!--              > -->
-        <!--                <vc-icon class="text-red-300" size="18"> -->
-        <!--                  fas fa-trash-alt -->
-        <!--                </vc-icon> -->
-        <!--              </vc-btn> -->
-        <!--            </ClothingPriceCard> -->
-        <!--          </div> -->
-        <!--          <div v-if="!shoppingCartListFiltered.length" class="flex-col flex-1 flex-center"> -->
-        <!--            <p class="text-xl"> -->
-        <!--              未选择任何商品 -->
-        <!--            </p> -->
-        <!--            <div> -->
-        <!--              <vc-btn dark large @click="tab = TABS.COLLOCATION"> -->
-        <!--                去挑选 -->
-        <!--              </vc-btn> -->
-        <!--            </div> -->
-        <!--          </div> -->
-        <!--        </template> -->
       </section>
     </keep-alive>
 
@@ -311,16 +272,23 @@
               <vc-btn
                 v-for="(item, index) in 9"
                 :key="index"
+                v-actions:changePhone.click
                 @click="andPhone = `${andPhone}${item}`"
               >
                 {{ item }}
               </vc-btn>
-              <vc-btn @click="andPhone = andPhone.slice(0, andPhone.length - 1)">
+              <vc-btn
+                v-actions:slicePhone.click
+                @click="andPhone = andPhone.slice(0, andPhone.length - 1)"
+              >
                 <vc-icon>
                   fas fa-backspace
                 </vc-icon>
               </vc-btn>
-              <vc-btn @click="andPhone = `${andPhone}0`">
+              <vc-btn
+                v-actions:changePhone.click
+                @click="andPhone = `${andPhone}0`"
+              >
                 0
               </vc-btn>
               <vc-btn v-actions:asideSubPhone.click @click="subPhone">
@@ -332,6 +300,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+            v-actions:dialogClose.click
             color="blue darken-1"
             text
             @click="dialogClose"
@@ -344,6 +313,7 @@
 
     <v-overlay
       ref="overlay"
+      v-actions:closeOverlay.click
       z-index="60"
       :value="overlay"
       @click="closeOverlay"
@@ -353,6 +323,7 @@
     <Drawer ref="drawer" position="right" offset="58%" class="text-white flex flex-col items-center box-border rounded-l-3xl">
       <div
         v-if="showBack"
+        v-actions:back.click
         class="py-2 px-4 text-center"
         @click="back"
       >
@@ -371,6 +342,7 @@
       <v-divider v-if="showBack" class="w-full" color="#fff"></v-divider>
 
       <div
+        v-actions:showFitting.click
         class="py-2 px-4 text-center w-full"
         @click="showFitting"
       >
@@ -404,6 +376,7 @@
       >
         <vc-btn
           v-if="!deleteConfirm"
+          v-actions:changeBtn.click
           text
           @click="changeBtn(true)"
         >
@@ -413,6 +386,7 @@
         </vc-btn>
         <vc-btn
           v-else
+          v-actions:removeFormCart.click
           class="px-0 w-full"
           text
           color="error"
@@ -622,13 +596,14 @@ export default {
 
   mounted() {
     this.$headerSwiper = this.$refs.swiper?.$swiper
-    this.getCategory()
-    this.loadData()
   },
 
-  activated() {
+  async activated() {
     this.setScrollRecord()
     this.closeOverlay()
+    await this.$nextTick()
+    await this.getCategory()
+    this.loadData()
 
     this.showBack = this.$route.query.showBack
     const { query } = this.$route
@@ -892,8 +867,15 @@ export default {
     back() {
       clearTimeout(this.timer)
       clearTimeout(this.darwerTimer)
+      this.timer = null
       this.darwerTimer = null
-      this.$router.back()
+      this.$router.push({
+        path: '/carousel',
+        query: {
+          brandId: sessionStorage.getItem('brandId'),
+          devId: sessionStorage.getItem('devId'),
+        },
+      })
     },
   },
 }
@@ -917,8 +899,6 @@ $product-preview-width: $header-height / 4 * 3;
   z-index: 60;
   top: 0;
   left: 0;
-  //width: 100vw;
-  //height: 100vh;
 }
 .home {
   width: $screen-width;

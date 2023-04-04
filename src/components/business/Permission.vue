@@ -1,5 +1,6 @@
 <template>
   <v-overlay
+    v-actions:closeOverlay.click
     :value="dialog"
     color="black"
     z-index="100"
@@ -14,12 +15,13 @@
         </div>
         <div class="text-center p-4 flex justify-around">
           <v-btn
+            v-actions:dialog.click
             elevation="2"
             outlined
             dark
             large
             class="text-xl"
-            @click="accredit = false"
+            @click="dialog = false"
           >
             <vc-icon
               class="mr-2 font-600"
@@ -30,6 +32,7 @@
             <span class="text-[#ef4444]">拒绝</span>
           </v-btn>
           <v-btn
+            v-actions:submit.click
             elevation="2"
             outlined
             dark

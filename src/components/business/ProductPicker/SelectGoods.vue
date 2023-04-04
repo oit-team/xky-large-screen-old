@@ -1,5 +1,5 @@
 <template>
-  <!--    试衣间 -->
+  <!--  珠宝/服装  感兴趣 -->
   <Drawer ref="drawer" position="left" :offset="`${offset}%`" class="rounded-r-3xl drawerW2 z-61">
     <div>
       <div class="p-6 grid grid-cols-5 gap-6 min-h-xs">
@@ -7,7 +7,7 @@
           v-for="(item, index) in goodsList"
           :key="index"
         >
-          <OptionsItem :item-info="item" :size="120" :show-right-btn="true" />
+          <OptionsItem :item-info="item" :size="120" :is-fitting="true" />
         </div>
       </div>
       <v-divider class="!border-current"></v-divider>
@@ -15,7 +15,10 @@
         <div class="text-base">
           共 {{ goodsList.length }}/15 件
         </div>
-        <div @click="clear">
+        <div
+          v-actions:clear.click
+          @click="clear"
+        >
           <v-btn
             color="blue-grey"
             large
@@ -27,6 +30,7 @@
             </vc-icon>
           </v-btn>
           <v-btn
+            v-actions:dialogOpen.click
             class="text-base"
             large
             :disabled="goodsList.length === 0"

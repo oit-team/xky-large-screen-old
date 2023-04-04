@@ -3,6 +3,7 @@
     <div class="flex flex-col gap-10">
       <div class="bg-[#f3ecdc] px-5 pt-5 rounded-2xl shadow-xl relative -mt-4">
         <v-btn
+          v-actions:back.click
           class="absolute -right-5 -top-5"
           fab
           dark
@@ -66,7 +67,11 @@
         </v-card-text>
       </v-card>
       <v-card v-else class="border-none">
-        <v-icon class="absolute right-4 top-3 text-4xl" @click="luckyDialog = false">
+        <v-icon
+          v-actions:luckyDialog.click
+          class="absolute right-4 top-3 text-4xl"
+          @click="luckyDialog = false"
+        >
           fas fa-times
         </v-icon>
         <div class="text-4xl font-bold pt-6 text-center mx-60px">
@@ -130,7 +135,14 @@
 
 <script>
 import { LuckyGrid } from '@lucky-canvas/vue'
-import { getAwardInfo, getAwardInfoQrCode, getJackpotCount, getJackpotInfoList, getLuckyDrawConfig, getResetPrizeInfo } from '@/api/lucky'
+import {
+  getAwardInfo,
+  getAwardInfoQrCode,
+  getJackpotCount,
+  getJackpotInfoList,
+  getLuckyDrawConfig,
+  getResetPrizeInfo,
+} from '@/api/lucky'
 
 let timer
 let countTimer
