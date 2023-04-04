@@ -6,17 +6,17 @@
       :options="options"
       :resources="resources"
       @change="changeIndex"
-      @close="close"
       @click.stop
     />
+    <!--    @close="close" -->
     <div
       v-else
       class="w-full h-full flex justify-center items-center text-7xl"
     >
       暂无内容
     </div>
-
-    <Footer class="carousel-footer z-100 bg-opacity-30" />
+    <!--    bg-opacity-30 -->
+    <Footer class="carousel-footer z-100" />
 
     <ProductPicker
       ref="picker"
@@ -29,16 +29,23 @@
       @unlock="unlock"
     />
 
-    <v-overlay :value="guideDialog" z-index="70" @click="guideDialog = false">
+    <v-overlay
+      v-actions:guideDialog.click
+      :value="guideDialog"
+      z-index="70"
+      @click="guideDialog = false"
+    >
       <div class="grid grid-cols-[repeat(3,200px)] grid-rows-[250px] gap-6 -mt-[15vh] text-center">
         <div
+          v-actions:toLucky.click
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
-          @click="$router.push('/lucky')"
+          @click="toLucky"
         >
           <vc-img src="/assets/img/guide/0.png" size="130px"></vc-img>
           <div>趣味抽奖</div>
         </div>
         <div
+          v-actions:open.click
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
           @click="open"
         >
@@ -46,6 +53,7 @@
           <div>趣味搭配</div>
         </div>
         <div
+          v-actions:toHome.click
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
           @click="toHome"
         >
@@ -60,7 +68,6 @@
 </template>
 
 <script>
-import { debounce } from 'lodash'
 import { sendCommandToDevice } from '@/api/common'
 import { enterCarouselPage } from '@/api/frame'
 import { getAdvertsInfo } from '@/api/product'
@@ -100,9 +107,9 @@ export default {
     detailPage: '',
   }),
   created() {
-    this.getData()
+    // this.getData()
     window.OnHumanDetectResult = (status) => {
-      if (this.$refs.carousel.lockSwiper || this.$refs.permission.accredit) return
+      if (this.$refs.carousel.lockSwiper || this.$refs.permission.dialog) return
 
       this.status = status
       switch (+status) {
@@ -162,13 +169,14 @@ export default {
       this.$refs.picker.changeList()
       this.unlock()
     },
-    close: debounce(function () {
-      const disabledBack = Number(this.$route.query.disabledBack)
-      !disabledBack && this.$router.back()
-    }, 500, {
-      leading: true,
-      trailing: false,
-    }),
+    // 用不到
+    // close: debounce(function () {
+    //   const disabledBack = Number(this.$route.query.disabledBack)
+    //   !disabledBack && this.$router.back()
+    // }, 500, {
+    //   leading: true,
+    //   trailing: false,
+    // }),
     // 轮播图改变 - index
     changeIndex(index) {
       this.optionsIndex = index
@@ -181,7 +189,13 @@ export default {
       this.$refs.carousel?.unlock()
       this.$refs.carousel?.currentPlayer?.play()
     },
+    toLucky() {
+      this.lock()
+      this.$router.push('/lucky')
+    },
     async sendCommandToDevice() {
+      this.lock()
+      this.$refs.permission.close()
       await sendCommandToDevice({
         devId: sessionStorage.getItem('devId'),
         cmd: 8,

@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-2vh bg-black grid grid-cols-1 place-content-center text-white">
+  <footer class="py-2vh grid grid-cols-1 place-content-center text-white footer bg-gradient-to-t from-[#000000] to-transparent">
     <div class="flex items-center max-w-4/5 mx-auto">
       <v-img :src="brandInfo.brandLogo" class="w-180px h-180px flex-grow-0" />
       <div class="ml-8 flex flex-col gap-2">
@@ -36,3 +36,6 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+</style>
