@@ -1,5 +1,5 @@
 <template>
-  <div class="goodsItem flex flex-col items-center leading-relaxed relative">
+  <div class="goodsItem flex flex-col items-center leading-relaxed relative w-160px">
     <v-img
       :src="itemInfo.imgUrl"
       class="rounded-xl bg-white"
@@ -9,7 +9,8 @@
       :height="size"
     ></v-img>
     <v-img
-      v-if="showRightBtn && checkType()"
+      v-if="isFitting && checkType()"
+      v-actions:addList.click
       width="25"
       height="25"
       class="btn absolute -top-2 -right-2"
@@ -17,19 +18,28 @@
       @click.stop="addList()"
     ></v-img>
     <v-img
-      v-if="showRightBtn && !checkType()"
+      v-if="isFitting && !checkType()"
+      v-actions:delList.click
       class="btn absolute -top-2 -right-2"
       width="25"
       height="25"
       src="@/asset/image/minus.png"
       @click.stop="delList()"
     ></v-img>
-    <div class="text-sm text-center truncate w-full">
-      <div class="my-1">
+    <div v-if="isFitting" class="text-sm text-center w-full">
+      <div class="my-1 truncate">
         {{ itemInfo.productNo }}
       </div>
-      <div class="mb-1">
+      <div class="mb-1 truncate">
         ￥{{ itemInfo.productPrice }}
+      </div>
+    </div>
+    <div v-else class="text-sm text-center w-full">
+      <div v-for="(item, index) in publicInfoList" :key="index" class="my-1 text-center w-full">
+        <div class="truncate">
+          <span v-if="item === 'productPrice'">￥</span>
+          {{ itemInfo.publicInfo[item] }}
+        </div>
       </div>
     </div>
   </div>
@@ -41,7 +51,13 @@ export default {
     itemInfo: Object,
     size: Number,
     clickItem: Boolean,
-    showRightBtn: Boolean,
+    isFitting: Boolean,
+    detailDialog: String, // 当前行业字段
+  },
+  computed: {
+    publicInfoList() {
+      return Object.keys(this.itemInfo.publicInfo)
+    },
   },
   methods: {
     addList() {
