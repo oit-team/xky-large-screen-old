@@ -16,7 +16,7 @@
       暂无内容
     </div>
     <!--    bg-opacity-30 -->
-    <Footer class="carousel-footer z-100" />
+    <Footer class="carousel-footer z-100" :info="brandInfo" />
 
     <ProductPicker
       ref="picker"
@@ -105,6 +105,7 @@ export default {
     opacity: 0.6,
     showEmpty: true,
     detailPage: '',
+    brandInfo: {},
   }),
   created() {
     // this.getData()
@@ -157,6 +158,7 @@ export default {
     async getAdvertsInfo() {
       const res = await getAdvertsInfo(sessionStorage.getItem('devId'))
       this.showEmpty = false
+      this.brandInfo = res.body.businessCard
       this.detailPage = res.body.detailPage
       const {
         rotationRules,
