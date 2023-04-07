@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 右侧列表 -->
-    <Collocation ref="collocation" :right-list="rightList" @show-info="showInfo" />
+    <Collocation ref="collocation" :detail-dialog="detailDialog" :right-list="rightList" @show-info="showInfo" />
 
     <!-- dialog展示不同行业详情信息 -->
     <GoodsInfo

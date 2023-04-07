@@ -1,7 +1,7 @@
 import { post } from '.'
 
-export function getLuckyDrawConfig() {
-  return post('/goods/dictitemInfo/getLuckyDrawConfig')
+export function getLuckyDrawConfig(params) {
+  return post('/goods/dictitemInfo/getLuckyDrawConfig', params)
 }
 
 export function getAwardInfo(params) {

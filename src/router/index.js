@@ -39,7 +39,7 @@ const routes = [
     path: '/template/education',
     component: () => import('@/templates/education/views/Home.vue'),
     meta: {
-      cache: true,
+      cache: false,
     },
   },
   {
@@ -47,19 +47,12 @@ const routes = [
     component: () => import('@/templates/education/views/Detail.vue'),
   },
   /**
-   * 教培
+   * 商场互动
    */
-  // {
-  //   path: '/template/training',
-  //   component: () => import('@/templates/training/views/Home.vue'),
-  //   meta: {
-  //     cache: true,
-  //   },
-  // },
-  // {
-  //   path: '/template/training/detail/:productId',
-  //   component: () => import('@/templates/training/views/Detail.vue'),
-  // },
+  {
+    path: '/template/education',
+    component: () => import('@/templates/education/views/Home.vue'),
+  },
   {
     path: '/carousel',
     name: 'Carousel',

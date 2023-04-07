@@ -1,6 +1,11 @@
 <template>
   <v-fade-transition>
-    <div v-show="value" class="product-preview" @click="$emit('input', !value)">
+    <div
+      v-show="value"
+      v-actions:input.click
+      class="product-preview"
+      @click="$emit('input', !value)"
+    >
       <Swiper ref="swiper" :options="swiperOption" @touchmove.native.prevent>
         <SwiperSlide v-for="item of imgResources" :key="item">
           <v-img :src="item" height="100%" />

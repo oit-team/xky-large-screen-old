@@ -2,13 +2,14 @@
   <div class="text-center">
     <v-dialog
       v-model="dialog"
+      v-actions:closedialog.click
       width="75%"
       @click:outside="closedialog"
     >
       <div v-if="dialog" class="h-[75vh] bg-white" @touchstart="onTouchstart">
-        <Fitness v-if="detailDialog === 'education'" ref="education" :product-id="productId" :is-dialog="isDialog"></Fitness>
-        <Clothing v-if="detailDialog === 'clothing'" ref="clothing" :product-id="productId" :is-dialog="isDialog"></Clothing>
-        <Jewellery v-if="detailDialog === 'jewellery'" ref="jewellery" :product-id="productId" :is-dialog="isDialog"></Jewellery>
+        <Fitness v-if="detailDialog === 'education'" ref="education" :product-id="productId" :is-dialog="isDialog" @more="toMore"></Fitness>
+        <Clothing v-if="detailDialog === 'clothing'" ref="clothing" :product-id="productId" :is-dialog="isDialog" @more="toMore"></Clothing>
+        <Jewellery v-if="detailDialog === 'jewellery'" ref="jewellery" :product-id="productId" :is-dialog="isDialog" @more="toMore"></Jewellery>
       </div>
     </v-dialog>
   </div>
@@ -58,6 +59,17 @@ export default {
       timer = setTimeout(() => {
         this.closedialog()
       }, AWAY_TIME)
+    },
+    toMore() {
+      this.closedialog()
+      this.$router.push({
+        path: `/template/${this.detailDialog}`,
+        query: {
+          brandId: sessionStorage.getItem('brandId'),
+          devId: sessionStorage.getItem('devId'),
+          showBack: true,
+        },
+      })
     },
   },
 }

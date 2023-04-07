@@ -1,5 +1,5 @@
 <template>
-  <VueActions data="educationDetailPage" class="grid grid-rows-[560px,1fr,auto] aspect-9/16">
+  <VueActions data="educationDetailPage" class="grid grid-rows-[560px,1fr,auto] aspect-9/16 page-wrap">
     <header>
       <Banner />
       <div class="mx-6 flex h-[450px]">
@@ -7,7 +7,7 @@
           <div class="relative aspect-3/4 h-[450px]">
             <v-swiper
               ref="swiper"
-              class="bg-gray rounded-md h-full"
+              class="bg-gray rounded-md aspect-3/4 h-full"
               :options="options"
               @touchmove.native.prevent
             >
@@ -100,6 +100,16 @@
               </v-icon>
               返回
             </v-btn>
+            <v-btn
+              v-else
+              v-actions:backToHome.click
+              depressed
+              elevation="2"
+              outlined
+              @click="$emit('more')"
+            >
+              了解更多
+            </v-btn>
           </div>
         </div>
       </div>
@@ -184,14 +194,15 @@
 </template>
 
 <script>
-import Preview from '../components/Preview.vue'
 import Banner from '../components/Banner.vue'
 import Footer from '../components/Footer.vue'
 import Keyboard from '../components/Keyboard'
+import Preview from '../components/Preview.vue'
 import * as events from '../enums/events'
-import { getBrandNameCard, getProductById, insertGoodsPhoneRelation } from '@/api/product'
 import { getSmallImage, getVideoFrame } from '@/utils/helper'
+import { getBrandNameCard, getProductById, insertGoodsPhoneRelation } from '@/api/product'
 
+let timer = null
 export default {
   components: { Preview, Banner, Footer, Keyboard },
   props: {
@@ -233,6 +244,7 @@ export default {
 
   mounted() {
     this.$headerSwiper = this.$refs.swiper?.$swiper
+    if (!this.isDialog) this.setTime()
   },
 
   methods: {
@@ -253,10 +265,12 @@ export default {
       this.brandInfo = res.body
     },
     async getInterested() {
+      if (!this.isDialog) this.setTime()
       this.isInterested = !this.isInterested
       this.$root.$emit(events.TOGGLE_ACTIVE, this.currentProductId)
     },
     async submitPhone() {
+      if (!this.isDialog) this.setTime()
       if (this.phone === '' || this.phone.length !== 11) {
         this.$message.error('请输入正确手机号')
         return false
@@ -281,7 +295,20 @@ export default {
       return this.data[key]?.indexDescrip
     },
     preview(src) {
+      if (!this.isDialog) this.setTime()
       this.$refs.preview.preview([src])
+    },
+    setTime() {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        this.$router.push({
+          path: '/carousel',
+          query: {
+            brandId: sessionStorage.getItem('brandId'),
+            devId: sessionStorage.getItem('devId'),
+          },
+        })
+      }, 60000)
     },
   },
 }
@@ -290,5 +317,13 @@ export default {
 <style lang="scss" scoped>
 .goodAtStyle :last-child{
   border: 0px;
+}
+.page-wrap{
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 </style>

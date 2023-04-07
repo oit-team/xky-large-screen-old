@@ -133,6 +133,18 @@
         >
           联系我们
         </v-btn>
+        <v-btn
+          v-actions:back.click
+          depressed
+          block
+          class="mt-4"
+          @click="$router.back()"
+        >
+          <v-icon class="text-xs pr-2">
+            fas fa-angle-double-left
+          </v-icon>
+          返回
+        </v-btn>
         <!-- <div class="flex justify-around mt-2">
           <v-btn text>
             <v-icon size="16" color="#8a8a8a">
@@ -184,12 +196,12 @@
 </template>
 
 <script>
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import { chunk, throttle } from 'lodash'
-import ItemCard from '../components/ItemCard'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import Banner from '../components/Banner'
-import Keyboard from '../components/Keyboard'
 import Footer from '../components/Footer'
+import ItemCard from '../components/ItemCard'
+import Keyboard from '../components/Keyboard'
 import * as events from '../enums/events'
 import { getProductAll, getProductParent, insertGoodsPhoneRelation } from '@/api/product'
 
@@ -261,6 +273,8 @@ export default {
     this.getProductParent()
     this.getProductAll()
   },
+  activated() {
+  },
   methods: {
     async getProductAll() {
       this.loading = true
@@ -319,6 +333,7 @@ export default {
       })
       this.keyboardDialog = false
       this.phone = ''
+      this.clearMap()
       this.$message.success('已通知工作人员')
     },
     addItem(id, item) {
@@ -326,6 +341,9 @@ export default {
     },
     removeItem(id) {
       this.$delete(this.selectedMap, id)
+    },
+    clearMap() {
+      this.selectedMap = {}
     },
     toggleItem(id, item, event) {
       if (this.selectedMap[id]) {

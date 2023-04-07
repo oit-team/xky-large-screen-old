@@ -83,6 +83,16 @@
       <div class="text-2xl font-bold">
         {{ infoData.productName?.indexValue }}
       </div>
+      <div
+        v-if="isDialog"
+        v-actions:toMore.click
+        class="w-full text-right"
+        @click="$emit('more')"
+      >
+        <v-btn outlined color="#0077AA">
+          了解更多
+        </v-btn>
+      </div>
     </div>
 
     <div class="rounded-lg text-lg mx-4 my-2 box-border bg-white">
@@ -138,7 +148,8 @@
         />
       </div>
     </div>
-    <Drawer v-if="!isDialog" ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-md">
+
+    <Drawer v-if="!isDialog" ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-3xl">
       <div class="py-1 px-4 text-center">
         <v-btn
           v-actions:asideBackToHome.click
@@ -171,7 +182,8 @@
         <div>TOP</div>
       </div>
     </Drawer>
-    <ProductPreview v-model="showPreview" :index="swiperIndex" :list="infoData.imgList" />
+
+    <ProductPreview v-model="showPreview" :index="infoData.videoList?.length ? swiperIndex - 1 : swiperIndex" :list="infoData.imgList" />
   </VueActions>
 </template>
 
@@ -182,6 +194,7 @@ import VcPlyr from '../../../components/commons/Plyr/Plyr.vue'
 import { getSmallImage } from '@/utils/helper'
 import Drawer from '@/components/commons/Drawer'
 
+let timer = null
 export default {
   components: { VcPlyr, ProductPreview, Drawer },
   props: {
@@ -242,7 +255,20 @@ export default {
       this.infoData = res.body
     },
     toTop() {
+      if (!this.isDialog) this.setTime()
       window.scrollTo(0, 0)
+    },
+    setTime() {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        this.$router.push({
+          path: '/carousel',
+          query: {
+            brandId: sessionStorage.getItem('brandId'),
+            devId: sessionStorage.getItem('devId'),
+          },
+        })
+      }, 60000)
     },
   },
 }
