@@ -170,7 +170,12 @@
 
             <div class="w-full mt-1">
               <!-- 衣服类单项按钮感兴趣 -->
-              <vc-btn v-if="!checkSelected(item)" v-actions:clothingItemInteresting.click block @click="addToCart($event, item)">
+              <vc-btn
+                v-if="!checkSelected(item)"
+                v-actions:clothingItemInteresting.click
+                block
+                @click="addToCart($event, item)"
+              >
                 <vc-icon size="16" dark class="mr-1">
                   far fa-heart
                 </vc-icon>
@@ -300,7 +305,8 @@
       <v-divider v-if="showBack" class="w-full" color="#fff"></v-divider>
 
       <div
-        v-actions:showFitting.click
+        id="clothingBuycar"
+        v-actions:asideGetIteresting.click
         class="py-2 px-4 text-center w-full"
         @click="showFitting"
       >
@@ -411,6 +417,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <SelectGoods
       ref="fitting"
       :goods-list="shoppingCartListFiltered"
@@ -655,8 +662,10 @@ export default {
         },
       }
     },
+
     addToCart(e, item) {
       this.resetTimer()
+      if (this.$store.state.shoppingCart.list.length === 15) return
       this.$store.commit('shoppingCart/add', item)
       const flyTarget = this.$refs['fly-target'].$el.getBoundingClientRect()
       const startTarget = e.target.getBoundingClientRect()

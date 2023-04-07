@@ -342,6 +342,7 @@
       <v-divider v-if="showBack" class="w-full" color="#fff"></v-divider>
 
       <div
+        id="jewelleryBuycar"
         v-actions:showFitting.click
         class="py-2 px-4 text-center w-full"
         @click="showFitting"
@@ -631,6 +632,7 @@ export default {
     },
     addToCart(e, item) {
       this.resetTimer()
+      if (this.$store.state.shoppingCart.list.length === 15) return
       this.$store.commit('shoppingCart/add', item)
       const flyTarget = this.$refs['fly-target'].$el.getBoundingClientRect()
       const startTarget = e.target.getBoundingClientRect()
