@@ -252,9 +252,9 @@ export default {
       this.$refs.lucky.play()
       setTimeout(() => {
         // 假设后端返回的中奖索引是0
-        const randomIndex = Math.floor(Math.random() * 8)
+        const index = Math.floor(Math.random() * 8)
         // 调用stop停止旋转并传递中奖索引
-        this.$refs.lucky.stop(this.optionalList[randomIndex])
+        this.$refs.lucky.stop(index)
       }, 3000)
     },
     async getLuckyDrawConfig() {
@@ -306,9 +306,9 @@ export default {
           ],
         }
       })
-      this.prizes.forEach((item, index) => {
-        if (item.data.countNum > 0) this.optionalList.push(index)
-      })
+      // this.prizes.forEach((item, index) => {
+      //   if (item.data.countNum > 0) this.optionalList.push(index)
+      // })
     },
     async getAwardInfoQrCode(content) {
       const code = await getAwardInfoQrCode({
