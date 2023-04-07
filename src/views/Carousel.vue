@@ -35,7 +35,7 @@
       z-index="70"
       @click="guideDialog = false"
     >
-      <div class="grid grid-cols-[repeat(3,200px)] grid-rows-[250px] gap-6 -mt-[15vh] text-center">
+      <div class="grid grid-cols-[repeat(2,200px)] grid-rows-[250px] gap-6 -mt-[15vh] text-center">
         <div
           v-actions:toLucky.click
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
@@ -44,14 +44,14 @@
           <vc-img src="/assets/img/guide/0.png" size="130px"></vc-img>
           <div>趣味抽奖</div>
         </div>
-        <div
-          v-actions:open.click
-          class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"
-          @click="open"
-        >
-          <vc-img src="/assets/img/guide/1.png" size="130px"></vc-img>
-          <div>趣味搭配</div>
-        </div>
+        <!--        <div -->
+        <!--          v-actions:open.click -->
+        <!--          class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5" -->
+        <!--          @click="open" -->
+        <!--        > -->
+        <!--          <vc-img src="/assets/img/guide/1.png" size="130px"></vc-img> -->
+        <!--          <div>趣味搭配</div> -->
+        <!--        </div> -->
         <div
           v-actions:toHome.click
           class="bg-black bg-opacity-50 rounded-xl grid place-content-center gap-5"

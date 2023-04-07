@@ -1,9 +1,14 @@
 <template>
-  <div class="grid place-content-center h-full bg-gray-100">
+  <div class="grid place-content-center h-full bg-gray-100 lucky-wrap">
+    <div class="w-full flex justify-center">
+      <div class="page-top w-[90%] h-200px mb-5rem">
+      </div>
+    </div>
     <div class="flex flex-col gap-10">
-      <div class="bg-[#f3ecdc] px-5 pt-5 rounded-2xl shadow-xl relative -mt-4">
+      <!--      px-5 pt-5 -->
+      <div class="rounded-3xl  relative -mt-8 border_bg">
         <v-btn
-          class="absolute -right-5 -top-5"
+          class="absolute -right-14 -top-14"
           fab
           dark
           color="error"
@@ -13,8 +18,9 @@
             fa fa-times
           </v-icon>
         </v-btn>
-        <LuckyGrid ref="lucky" class="bg-[#eec578] rounded-2xl" v-bind="config" @start="start" @end="lucky"></LuckyGrid>
-        <div class="text-xl text-gray-500 text-center py-3">
+        <LuckyGrid ref="lucky" class="rounded-2xl" v-bind="config" @start="start" @end="lucky"></LuckyGrid>
+        <!--          text-gray-500 -->
+        <div class="text-xl text-white text-center py-3">
           ·抽奖即同意活动规则·
         </div>
       </div>
@@ -23,7 +29,7 @@
         已有<span class="text-red-500"> {{ countInfo.raffleCount || 0 }} </span>人参与抽奖，现奖池奖品数：<span class="text-red-500">{{ countInfo.stockCount || 0 }}</span>
       </div>
 
-      <div class="rounded-50px py-6 px-12 w-60vw mx-auto bg-white shadow-lg">
+      <div class="rounded-50px py-6 px-12 w-70vw mx-auto bg-white shadow-lg">
         <div class="text-2xl text-center pb-6">
           抽奖规则
         </div>
@@ -246,7 +252,7 @@ export default {
       this.$refs.lucky.play()
       setTimeout(() => {
         // 假设后端返回的中奖索引是0
-        const randomIndex = Math.floor(Math.random() * this.optionalList.length)
+        const randomIndex = Math.floor(Math.random() * 8)
         // 调用stop停止旋转并传递中奖索引
         this.$refs.lucky.stop(this.optionalList[randomIndex])
       }, 3000)
@@ -347,3 +353,25 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.lucky-wrap {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: center / cover no-repeat url("/assets/img/lucky/lucky-bgi.jpg");
+}
+.page-top{
+  background: center / cover no-repeat url("/assets/img/lucky/lucky-top.png");
+  background-size: 660px 180px;
+}
+.border_bg{
+  //background: center / cover no-repeat url("/assets/img/lucky/border_bg.svg");
+  border-image-source: url("/assets/img/lucky/border_bg.svg");
+  border-width: 60px;
+  border-image-slice: 22 fill;
+}
+</style>
