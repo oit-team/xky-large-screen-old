@@ -1,5 +1,5 @@
 <template>
-  <VueActions data="educationDetailPage" class="grid grid-rows-[560px,1fr,auto] aspect-9/16">
+  <VueActions data="educationDetailPage" class="grid grid-rows-[560px,1fr,auto] aspect-9/16 page-wrap">
     <header>
       <Banner />
       <div class="mx-6 flex h-[450px]">
@@ -317,5 +317,13 @@ export default {
 <style lang="scss" scoped>
 .goodAtStyle :last-child{
   border: 0px;
+}
+.page-wrap{
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 </style>
