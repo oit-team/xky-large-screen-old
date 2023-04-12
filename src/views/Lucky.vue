@@ -12,7 +12,7 @@
           fab
           dark
           color="error"
-          @click="$router.back()"
+          @click="back"
         >
           <v-icon>
             fa fa-times
@@ -26,7 +26,7 @@
       </div>
 
       <div class="text-center text-xl">
-        已有<span class="text-red-500"> {{ countInfo.raffleCount || 0 }} </span>人参与抽奖，现奖池奖品数：<span class="text-red-500">{{ countInfo.stockCount || 0 }}</span>
+        已有<span class="text-white"> {{ countInfo.raffleCount || 0 }} </span>人参与抽奖，现奖池奖品数：<span class="text-white">{{ countInfo.stockCount || 0 }}</span>
       </div>
 
       <div class="rounded-50px py-6 px-12 w-70vw mx-auto bg-white shadow-lg">
@@ -146,7 +146,6 @@ import {
 } from '@/api/lucky'
 
 let timer
-let countTimer
 
 export default {
   components: {
@@ -166,6 +165,7 @@ export default {
     code: '',
     countdown: 0,
     optionalList: [],
+    oneTimer: null,
   }),
 
   computed: {
@@ -215,9 +215,8 @@ export default {
     setInterval(this.getJackpotCount, 30000)
   },
 
-  destroyed() {
-    clearInterval(timer)
-    clearInterval(countTimer)
+  beforeDestroy() {
+    clearTimeout(this.oneTimer)
   },
 
   methods: {
@@ -238,6 +237,7 @@ export default {
         this.raffleRecord = info.body.raffleRecord
         await Promise.all([this.getAwardInfoQrCode(info.body.content), this.getJackpotInfoList()])
         this.startCountdown(this.jackpotInfo.validTime * 60)
+        this.setTimer()
       }
 
       promise()
@@ -249,6 +249,7 @@ export default {
         })
     },
     start() {
+      this.setTimer()
       this.$refs.lucky.play()
       setTimeout(() => {
         // 假设后端返回的中奖索引是0
@@ -258,6 +259,7 @@ export default {
       }, 3000)
     },
     async getLuckyDrawConfig() {
+      this.setTimer()
       const pos = [
         { x: 0, y: 0 },
         { x: 1, y: 0 },
@@ -350,18 +352,25 @@ export default {
       })
       this.countInfo = res.body
     },
+    back() {
+      clearTimeout(this.oneTimer)
+      this.$router.back()
+    },
+    setTimer() {
+      clearTimeout(this.oneTimer)
+      this.oneTimer = setTimeout(() => {
+        this.$router.back()
+      }, 60000)
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .lucky-wrap {
-  position: fixed;
-  z-index: 60;
-  top: 0;
-  left: 0;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
   background: center / cover no-repeat url("/assets/img/lucky/lucky-bgi.jpg");
 }
 .page-top{
