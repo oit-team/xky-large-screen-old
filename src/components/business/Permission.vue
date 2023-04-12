@@ -66,13 +66,13 @@ export default {
   methods: {
     open() {
       this.dialog = true
+      clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.dialog = false
       }, 60000)
     },
     close() {
       clearTimeout(this.timer)
-      delete this.timer
       this.dialog = false
     },
     submit() {
