@@ -53,6 +53,19 @@
 
     <!--    详情内容展示 -->
     <div class="bg-white h-min rounded-lg mx-4 my-2 py-3 px-6 box-border">
+      <div class="flex justify-between items-center mb-2 text-xl text-[#222]">
+        <div>基础信息</div>
+        <div
+          v-if="isDialog"
+          v-actions:toMore.click
+          class="text-right"
+          @click="$emit('more')"
+        >
+          <v-btn outlined color="#0077AA">
+            了解更多
+          </v-btn>
+        </div>
+      </div>
       <div class="flex justify-between w-full">
         <div class="text-2xl font-bold text-red-500">
           <span class="text-sm font-normal">
@@ -82,16 +95,6 @@
       </div>
       <div class="text-2xl font-bold">
         {{ infoData.productName?.indexValue }}
-      </div>
-      <div
-        v-if="isDialog"
-        v-actions:toMore.click
-        class="w-full text-right"
-        @click="$emit('more')"
-      >
-        <v-btn outlined color="#0077AA">
-          了解更多
-        </v-btn>
       </div>
     </div>
 
@@ -157,7 +160,7 @@
           dark
           fab
           small
-          @click="$router.back()"
+          @click="back"
         >
           <vc-icon>
             fas fa-angle-double-left
@@ -257,6 +260,10 @@ export default {
     toTop() {
       if (!this.isDialog) this.setTime()
       window.scrollTo(0, 0)
+    },
+    back() {
+      clearTimeout(timer)
+      this.$router.back()
     },
     setTime() {
       clearTimeout(timer)

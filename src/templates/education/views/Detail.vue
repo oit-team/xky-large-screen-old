@@ -1,5 +1,5 @@
 <template>
-  <VueActions data="educationDetailPage" class="grid grid-rows-[560px,1fr,auto] aspect-9/16 page-wrap">
+  <VueActions data="educationDetailPage" class="grid grid-rows-[560px,1fr,auto] aspect-9/16 overflow-hidden">
     <header>
       <Banner />
       <div class="mx-6 flex h-[450px]">
@@ -93,7 +93,7 @@
               depressed
               elevation="2"
               outlined
-              @click="$router.back()"
+              @click="back"
             >
               <v-icon class="text-xs pr-2">
                 fas fa-angle-double-left
@@ -171,7 +171,6 @@
 
     <!-- dialog时候页面去掉footer -->
     <Footer v-if="!isDialog" />
-
     <Preview ref="preview" />
     <v-dialog
       v-model="keyboardDialog"
@@ -298,6 +297,10 @@ export default {
       if (!this.isDialog) this.setTime()
       this.$refs.preview.preview([src])
     },
+    back() {
+      this.$router.back()
+      clearTimeout(timer)
+    },
     setTime() {
       clearTimeout(timer)
       timer = setTimeout(() => {
@@ -317,13 +320,5 @@ export default {
 <style lang="scss" scoped>
 .goodAtStyle :last-child{
   border: 0px;
-}
-.page-wrap{
-  position: fixed;
-  z-index: 60;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
 }
 </style>
