@@ -615,6 +615,12 @@ export default {
 
   deactivated() {
     this.saveScrollRecord()
+    clearTimeout(this.darwerTimer)
+  },
+
+  beforeDestroy() {
+    clearTimeout(this.timer)
+    clearTimeout(this.darwerTimer)
   },
 
   methods: {
@@ -730,6 +736,7 @@ export default {
     },
     // 获取一级分类
     async getCategory() {
+      this.resetTimer()
       const res = await getProductParent({
         brandId: sessionStorage.getItem('brandId'),
       })
@@ -831,7 +838,6 @@ export default {
     },
     showFitting() {
       clearTimeout(this.darwerTimer)
-      this.darwerTimer = null
       this.resetTimer()
       this.$refs.fitting.open()
       this.overlay = true
@@ -859,7 +865,6 @@ export default {
         this.timer = setTimeout(() => {
           this.overlay = false
           this.$refs.fitting.close()
-          // this.$refs.permission.close()
           this.showPreview = false
           this.back()
         }, 60000)
@@ -867,9 +872,6 @@ export default {
     },
     back() {
       clearTimeout(this.timer)
-      clearTimeout(this.darwerTimer)
-      this.timer = null
-      this.darwerTimer = null
       this.$router.push({
         path: '/carousel',
         query: {

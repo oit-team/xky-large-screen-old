@@ -47,6 +47,20 @@ const routes = [
     component: () => import('@/templates/education/views/Detail.vue'),
   },
   /**
+   * 餐饮
+   */
+  {
+    path: '/template/catering',
+    component: () => import('@/templates/catering/views/Home.vue'),
+    meta: {
+      cache: false,
+    },
+  },
+  {
+    path: '/template/catering/detail/:productId',
+    component: () => import('@/templates/catering/views/Detail.vue'),
+  },
+  /**
    * 商场互动
    */
   {

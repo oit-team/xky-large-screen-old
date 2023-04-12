@@ -619,7 +619,7 @@ export default {
   },
 
   async activated() {
-    this.getBrandNameCard()
+    await this.getBrandNameCard()
     this.setScrollRecord()
     this.closeOverlay()
     await this.$nextTick()
@@ -633,14 +633,15 @@ export default {
       brandId: query.brandId,
     })
   },
-
   deactivated() {
     this.saveScrollRecord()
     clearTimeout(this.timer)
+    clearTimeout(this.darwerTimer)
   },
 
   beforeDestroy() {
     clearTimeout(this.timer)
+    clearTimeout(this.darwerTimer)
   },
 
   methods: {
@@ -760,6 +761,7 @@ export default {
     },
     // 获取一级分类
     async getCategory() {
+      this.resetTimer()
       const res = await getProductParent({
         brandId: sessionStorage.getItem('brandId'),
       })
@@ -896,8 +898,6 @@ export default {
     },
     back() {
       clearTimeout(this.timer)
-      clearTimeout(this.darwerTimer)
-      this.darwerTimer = null
       this.$router.push({
         path: '/carousel',
         query: {
