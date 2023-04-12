@@ -1,5 +1,5 @@
 <template>
-  <VueActions class="home carousel-wrap" data="clothingPage">
+  <VueActions class="home" data="clothingPage">
     <header class="flex overflow-hidden bg-gray header">
       <div class="relative">
         <div>
@@ -87,7 +87,7 @@
         <!--        卡片 展示区 -->
         <div class="relative">
           <div class="absolute right-0 top-0 z-10">
-            <v-btn v-actions:readMore.click text large @click="$router.push(`/template/clothing/detail/${selectedProduct.productId}`)">
+            <v-btn v-actions:readMore.click text large @click="toDetail">
               查看更多
               <vc-icon size="16">
                 fas fa-angle-double-right
@@ -591,7 +591,6 @@ export default {
     selectedCategory() {
       this.page = 1
       this.loading = false
-      clearTimeout(timer)
       this.loadData()
       this.saveScrollRecord(0)
       this.setScrollRecord()
@@ -620,7 +619,7 @@ export default {
   },
 
   async activated() {
-    this.getBrandNameCard()
+    await this.getBrandNameCard()
     this.setScrollRecord()
     this.closeOverlay()
     await this.$nextTick()
@@ -634,20 +633,15 @@ export default {
       brandId: query.brandId,
     })
   },
-
   deactivated() {
     this.saveScrollRecord()
-    clearTimeout(timer)
-    timer = null
     clearTimeout(this.timer)
-    this.timer = null
+    clearTimeout(this.darwerTimer)
   },
 
   beforeDestroy() {
     clearTimeout(this.timer)
-    this.timer = null
-    clearTimeout(timer)
-    timer = null
+    clearTimeout(this.darwerTimer)
   },
 
   methods: {
@@ -692,6 +686,10 @@ export default {
       }, 500)
     },
 
+    toDetail() {
+      clearTimeout(this.timer)
+      this.$router.push(`/template/clothing/detail/${this.selectedProduct.productId}`)
+    },
     hasCart(item) {
       return this.shoppingCartList.some(someItem => someItem.id === item.id)
     },
@@ -763,6 +761,7 @@ export default {
     },
     // 获取一级分类
     async getCategory() {
+      this.resetTimer()
       const res = await getProductParent({
         brandId: sessionStorage.getItem('brandId'),
       })
@@ -899,10 +898,6 @@ export default {
     },
     back() {
       clearTimeout(this.timer)
-      clearTimeout(this.darwerTimer)
-      this.timer = null
-      this.darwerTimer = null
-      // this.$router.back()
       this.$router.push({
         path: '/carousel',
         query: {
@@ -928,14 +923,6 @@ $chip-white-space: unset;
 
 $product-preview-width: $header-height / 4 * 3;
 
-.carousel-wrap {
-  position: fixed;
-  z-index: 60;
-  top: 0;
-  left: 0;
-  //width: 100vw;
-  //height: 100vh;
-}
 .home {
   width: $screen-width;
   height: $screen-height;

@@ -1,5 +1,5 @@
 <template>
-  <div class="goodsItem flex flex-col items-center leading-relaxed relative w-160px">
+  <div class="goodsItem flex flex-col items-center leading-relaxed relative w-120px">
     <v-img
       :src="itemInfo.imgUrl"
       class="rounded-xl bg-white"

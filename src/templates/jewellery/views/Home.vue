@@ -1,5 +1,5 @@
 <template>
-  <VueActions class="home carousel-wrap" data="jewelleryPage">
+  <VueActions class="home" data="jewelleryPage">
     <header class="flex overflow-hidden bg-gray header">
       <div class="relative">
         <div>
@@ -572,7 +572,6 @@ export default {
     selectedCategory() {
       this.page = 1
       this.loading = false
-      clearTimeout(timer)
       this.loadData()
       this.saveScrollRecord(0)
       this.setScrollRecord()
@@ -616,6 +615,12 @@ export default {
 
   deactivated() {
     this.saveScrollRecord()
+    clearTimeout(this.darwerTimer)
+  },
+
+  beforeDestroy() {
+    clearTimeout(this.timer)
+    clearTimeout(this.darwerTimer)
   },
 
   methods: {
@@ -731,6 +736,7 @@ export default {
     },
     // 获取一级分类
     async getCategory() {
+      this.resetTimer()
       const res = await getProductParent({
         brandId: sessionStorage.getItem('brandId'),
       })
@@ -832,7 +838,6 @@ export default {
     },
     showFitting() {
       clearTimeout(this.darwerTimer)
-      this.darwerTimer = null
       this.resetTimer()
       this.$refs.fitting.open()
       this.overlay = true
@@ -860,7 +865,6 @@ export default {
         this.timer = setTimeout(() => {
           this.overlay = false
           this.$refs.fitting.close()
-          // this.$refs.permission.close()
           this.showPreview = false
           this.back()
         }, 60000)
@@ -868,9 +872,6 @@ export default {
     },
     back() {
       clearTimeout(this.timer)
-      clearTimeout(this.darwerTimer)
-      this.timer = null
-      this.darwerTimer = null
       this.$router.push({
         path: '/carousel',
         query: {
@@ -896,12 +897,6 @@ $chip-white-space: unset;
 
 $product-preview-width: $header-height / 4 * 3;
 
-.carousel-wrap {
-  position: fixed;
-  z-index: 60;
-  top: 0;
-  left: 0;
-}
 .home {
   width: $screen-width;
   height: $screen-height;

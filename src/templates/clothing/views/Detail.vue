@@ -1,190 +1,201 @@
 <template>
-  <!--  aspect-9/16 -->
-  <VueActions data="clothingDetailPage" class="grid bg-gray grid-rows-[620px,min-content,min-content,1fr] relative overflow-hidden overflow-y-auto">
-    <header class="relative bg-white rounded-lg box-border flex justify-center overflow-hidden mx-4 my-2">
-      <div class=" aspect-3/4">
-        <v-swiper
-          ref="swiper"
-          class="bg-white h-full product-preview"
-          :options="options"
-          @touchmove.native.prevent
-        >
-          <v-swiper-slide
-            v-for="src in infoData.videoList"
-            :key="src"
+  <div id="page" class="h-[100vh] overflow-hidden overflow-y-auto">
+    <VueActions data="clothingDetailPage" class="grid bg-gray grid-rows-[620px,min-content,min-content,1fr] relative overflow-hidden overflow-y-auto">
+      <header class="relative bg-white rounded-lg box-border flex justify-center overflow-hidden mx-4 my-2">
+        <div class=" aspect-3/4">
+          <v-swiper
+            ref="swiper"
+            class="bg-white h-full product-preview"
+            :options="options"
+            @touchmove.native.prevent
           >
-            <vc-plyr
-              class="img"
-              :src="src"
-              :active="swiperIndex === 0"
-              :options="optionsPlyr"
-            />
-          </v-swiper-slide>
-          <v-swiper-slide
-            v-for="src in infoData.imgList"
-            :key="src"
+            <v-swiper-slide
+              v-for="src in infoData.videoList"
+              :key="src"
+            >
+              <vc-plyr
+                class="img"
+                :src="src"
+                :active="swiperIndex === 0"
+                :options="optionsPlyr"
+              />
+            </v-swiper-slide>
+            <v-swiper-slide
+              v-for="src in infoData.imgList"
+              :key="src"
+            >
+              <v-img
+                v-actions:showPreview.click
+                class="img"
+                :src="getSmallImage(src, 'x')"
+                height="100%"
+                contain
+                @click="showPreview = true, setTime()"
+              />
+            </v-swiper-slide>
+          </v-swiper>
+        </div>
+        <div
+          v-if="infoData.imgList && infoData.imgList?.length"
+          class="flex absolute bottom-0 right-2 z-10 justify-end p-2"
+        >
+          <div class="overflow-hidden bg-black bg-opacity-40 rounded">
+            <vc-btn v-actions:slidePrev.click class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slidePrev(), setTime()">
+              <vc-icon>fas fa-chevron-left</vc-icon>
+            </vc-btn>
+            <span class="mx-1 text-white">
+              {{ swiperIndex + 1 }}/{{ infoData.videoList?.length ? infoData.imgList?.length + 1 : infoData.imgList?.length }}
+            </span>
+            <vc-btn v-actions:slideNext.click class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slideNext(), setTime()">
+              <vc-icon>fas fa-chevron-right</vc-icon>
+            </vc-btn>
+          </div>
+        </div>
+      </header>
+
+      <!--    详情内容展示 -->
+      <div class="bg-white h-min rounded-lg mx-4 my-2 py-3 px-6 box-border">
+        <div class="flex justify-between items-center mb-2 text-xl text-[#222]">
+          <div class="font-semibold">
+            基础信息
+          </div>
+          <div
+            v-if="isDialog"
+            v-actions:toMore.click
+            class="text-right"
+            @click="$emit('more')"
           >
-            <v-img
-              v-actions:showPreview.click
-              class="img"
-              :src="getSmallImage(src, 'x')"
-              height="100%"
-              contain
-              @click="showPreview = true"
-            />
-          </v-swiper-slide>
-        </v-swiper>
-      </div>
-      <div
-        v-if="infoData.imgList && infoData.imgList?.length"
-        class="flex absolute bottom-0 right-2 z-10 justify-end p-2"
-      >
-        <div class="overflow-hidden bg-black bg-opacity-40 rounded">
-          <vc-btn v-actions:slidePrev.click class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slidePrev()">
-            <vc-icon>fas fa-chevron-left</vc-icon>
-          </vc-btn>
-          <span class="mx-1 text-white">{{ swiperIndex + 1 }}/{{ infoData.videoList ? infoData.imgList?.length + 1 : infoData.imgList?.length }}</span>
-          <vc-btn v-actions:slideNext.click class="px-1 min-w-0 bg-transparent" tile dark @click="$headerSwiper.slideNext()">
-            <vc-icon>fas fa-chevron-right</vc-icon>
-          </vc-btn>
+            <div class="text-sm">
+              了解更多
+              <vc-icon size="18">
+                fas fa-angle-double-right
+              </vc-icon>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-between w-full">
+          <div class="text-2xl font-bold text-red-500">
+            <span class="text-sm font-normal">
+              ￥
+            </span>
+            {{ infoData.productPrice?.indexValue }}
+            <span v-if="infoData.originalPrice?.indexValue" class="text-sm font-normal ml-1 line-through text-[#888888]">
+              ￥{{ infoData.originalPrice?.indexValue }}
+            </span>
+          </div>
+          <div class="text-[#888888] text-xl">
+            库存：{{ infoData.productInventory?.indexValue || 0 }}
+          </div>
+        </div>
+        <div>
+          <v-chip
+            v-for="txt in infoData.productLabel?.indexValue"
+            :key="txt"
+            color="#fc6d41"
+            outlined
+            label
+            small
+            class="mr-2 my-1"
+          >
+            {{ txt }}
+          </v-chip>
+        </div>
+        <div class="text-2xl font-bold">
+          {{ infoData.productName?.indexValue }}
         </div>
       </div>
-    </header>
 
-    <!--    详情内容展示 -->
-    <div class="bg-white h-min rounded-lg mx-4 my-2 py-3 px-6 box-border">
-      <div class="flex justify-between w-full">
-        <div class="text-2xl font-bold text-red-500">
-          <span class="text-sm font-normal">
-            ￥
-          </span>
-          {{ infoData.productPrice?.indexValue }}
-          <span v-if="infoData.originalPrice?.indexValue" class="text-sm font-normal ml-1 line-through text-[#888888]">
-            ￥{{ infoData.originalPrice?.indexValue }}
-          </span>
+      <div class="rounded-lg text-lg mx-4 my-2 box-border bg-white">
+        <div class="px-8 py-4 flex items-center">
+          <div class="text-[#888888] pr-3 whitespace-nowrap">
+            {{ infoData.productNo?.indexDescrip }}
+          </div>
+
+          <div>{{ infoData.productNo?.indexValue }}</div>
         </div>
-        <div class="text-[#888888] text-xl">
-          库存：{{ infoData.productInventory?.indexValue || 0 }}
+        <v-divider></v-divider>
+        <div class="px-8 py-4 flex items-center">
+          <div class=" text-[#888888] pr-3 whitespace-nowrap">
+            {{ infoData.productFabric?.indexDescrip }}
+          </div>
+          <div>{{ infoData.productFabric?.indexValue }}</div>
+        </div>
+        <v-divider></v-divider>
+        <div class="px-8 py-4 flex items-center">
+          <div class=" text-[#888888] pr-3 whitespace-nowrap">
+            {{ infoData.productTypeName?.indexDescrip }}
+          </div>
+
+          <div>{{ infoData.productTypeName?.indexValue }}</div>
+        </div>
+        <v-divider></v-divider>
+        <div class="px-8 py-4 flex items-center">
+          <div class=" text-[#888888] pr-3 whitespace-nowrap">
+            {{ infoData.wearSellingPoint?.indexDescrip }}
+          </div>
+          <div v-html="infoData.wearSellingPoint?.indexValue"></div>
+        </div>
+        <v-divider></v-divider>
+        <div class="px-8 py-4 flex items-center">
+          <div class=" text-[#888888] pr-3 whitespace-nowrap">
+            {{ infoData.styleInfo?.indexDescrip }}
+          </div>
+          <div>{{ infoData.styleInfo?.indexValue }}</div>
         </div>
       </div>
-      <div>
-        <v-chip
-          v-for="txt in infoData.productLabel?.indexValue"
-          :key="txt"
-          color="#fc6d41"
-          outlined
-          label
-          small
-          class="mr-2 my-1"
+
+      <div v-if="infoData.detailsImgList?.length" class="flex flex-col bg-white mx-4 my-2 p-2 box-border rounded-lg overflow-x-hidden">
+        <div
+          v-for="del in infoData.detailsImgList"
+          :key="del"
+          class="mb-2"
         >
-          {{ txt }}
-        </v-chip>
-      </div>
-      <div class="text-2xl font-bold">
-        {{ infoData.productName?.indexValue }}
-      </div>
-      <div
-        v-if="isDialog"
-        v-actions:toMore.click
-        class="w-full text-right"
-        @click="$emit('more')"
-      >
-        <v-btn outlined color="#0077AA">
-          了解更多
-        </v-btn>
-      </div>
-    </div>
-
-    <div class="rounded-lg text-lg mx-4 my-2 box-border bg-white">
-      <div class="px-8 py-4 flex items-center">
-        <div class="text-[#888888] pr-3 whitespace-nowrap">
-          {{ infoData.productNo?.indexDescrip }}
+          <v-img
+            class="img"
+            :src="getSmallImage(del, 'x')"
+            height="100%"
+            contain
+          />
         </div>
-
-        <div>{{ infoData.productNo?.indexValue }}</div>
       </div>
-      <v-divider></v-divider>
-      <div class="px-8 py-4 flex items-center">
-        <div class=" text-[#888888] pr-3 whitespace-nowrap">
-          {{ infoData.productFabric?.indexDescrip }}
+
+      <Drawer v-if="!isDialog" ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-3xl">
+        <div class="py-1 px-4 text-center">
+          <v-btn
+            v-actions:asideBackToHome.click
+            icon
+            dark
+            fab
+            small
+            @click="back"
+          >
+            <vc-icon>
+              fas fa-angle-double-left
+            </vc-icon>
+          </v-btn>
+          <div>返回</div>
         </div>
-        <div>{{ infoData.productFabric?.indexValue }}</div>
-      </div>
-      <v-divider></v-divider>
-      <div class="px-8 py-4 flex items-center">
-        <div class=" text-[#888888] pr-3 whitespace-nowrap">
-          {{ infoData.productTypeName?.indexDescrip }}
+        <div class="border w-full"></div>
+        <div class="py-1 px-4 text-center">
+          <v-btn
+            v-actions:asideToTop.click
+            icon
+            dark
+            fab
+            small
+            @click="toTop"
+          >
+            <vc-icon>
+              fas fa-angle-double-up
+            </vc-icon>
+          </v-btn>
+          <div>TOP</div>
         </div>
+      </Drawer>
 
-        <div>{{ infoData.productTypeName?.indexValue }}</div>
-      </div>
-      <v-divider></v-divider>
-      <div class="px-8 py-4 flex items-center">
-        <div class=" text-[#888888] pr-3 whitespace-nowrap">
-          {{ infoData.wearSellingPoint?.indexDescrip }}
-        </div>
-        <div v-html="infoData.wearSellingPoint?.indexValue"></div>
-      </div>
-      <v-divider></v-divider>
-      <div class="px-8 py-4 flex items-center">
-        <div class=" text-[#888888] pr-3 whitespace-nowrap">
-          {{ infoData.styleInfo?.indexDescrip }}
-        </div>
-        <div>{{ infoData.styleInfo?.indexValue }}</div>
-      </div>
-    </div>
-
-    <div v-if="infoData.detailsImgList?.length" class="flex flex-col bg-white mx-4 my-2 p-2 box-border rounded-lg overflow-x-hidden">
-      <div
-        v-for="del in infoData.detailsImgList"
-        :key="del"
-        class="mb-2"
-      >
-        <v-img
-          class="img"
-          :src="getSmallImage(del, 'x')"
-          height="100%"
-          contain
-        />
-      </div>
-    </div>
-
-    <Drawer v-if="!isDialog" ref="drawer" position="right" offset="55%" class="text-white flex flex-col items-center box-border rounded-l-3xl">
-      <div class="py-1 px-4 text-center">
-        <v-btn
-          v-actions:asideBackToHome.click
-          icon
-          dark
-          fab
-          small
-          @click="$router.back()"
-        >
-          <vc-icon>
-            fas fa-angle-double-left
-          </vc-icon>
-        </v-btn>
-        <div>返回</div>
-      </div>
-      <div class="border w-full"></div>
-      <div class="py-1 px-4 text-center">
-        <v-btn
-          v-actions:asideToTop.click
-          icon
-          dark
-          fab
-          small
-          @click="toTop"
-        >
-          <vc-icon>
-            fas fa-angle-double-up
-          </vc-icon>
-        </v-btn>
-        <div>TOP</div>
-      </div>
-    </Drawer>
-
-    <ProductPreview v-model="showPreview" :index="infoData.videoList?.length ? swiperIndex - 1 : swiperIndex" :list="infoData.imgList" />
-  </VueActions>
+      <ProductPreview v-model="showPreview" :index="infoData.videoList?.length ? swiperIndex - 1 : swiperIndex" :list="infoData.imgList" />
+    </VueActions>
+  </div>
 </template>
 
 <script>
@@ -232,6 +243,9 @@ export default {
       this.$headerSwiper = this.$refs.swiper?.$swiper
     })
   },
+  beforeDestroy() {
+    clearTimeout(timer)
+  },
   methods: {
     getSmallImage,
     setSwiperOptions() {
@@ -248,6 +262,7 @@ export default {
       }
     },
     async getProductById() {
+      this.setTime()
       const res = await getProductById({
         productId: this.currentProductId,
         brandId: sessionStorage.getItem('brandId'),
@@ -255,20 +270,26 @@ export default {
       this.infoData = res.body
     },
     toTop() {
-      if (!this.isDialog) this.setTime()
-      window.scrollTo(0, 0)
+      document.getElementById('page').scrollTo(0, 0)
+      this.setTime()
+    },
+    back() {
+      clearTimeout(timer)
+      this.$router.back()
     },
     setTime() {
-      clearTimeout(timer)
-      timer = setTimeout(() => {
-        this.$router.push({
-          path: '/carousel',
-          query: {
-            brandId: sessionStorage.getItem('brandId'),
-            devId: sessionStorage.getItem('devId'),
-          },
-        })
-      }, 60000)
+      if (!this.isDialog) {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          this.$router.push({
+            path: '/carousel',
+            query: {
+              brandId: sessionStorage.getItem('brandId'),
+              devId: sessionStorage.getItem('devId'),
+            },
+          })
+        }, 60000)
+      }
     },
   },
 }
@@ -318,6 +339,11 @@ $product-preview-width: $header-height / 4 * 3;
     :deep(.v-tabs-slider-wrapper) {
       display: none;
     }
+  }
+}
+:deep{
+  .swiper-slide{
+    display: flex;
   }
 }
 </style>

@@ -10,12 +10,14 @@
         <Fitness v-if="detailDialog === 'education'" ref="education" :product-id="productId" :is-dialog="isDialog" @more="toMore"></Fitness>
         <Clothing v-if="detailDialog === 'clothing'" ref="clothing" :product-id="productId" :is-dialog="isDialog" @more="toMore"></Clothing>
         <Jewellery v-if="detailDialog === 'jewellery'" ref="jewellery" :product-id="productId" :is-dialog="isDialog" @more="toMore"></Jewellery>
+        <Catering v-if="detailDialog === 'catering'" ref="catering" :product-id="productId" :is-dialog="isDialog" @more="toMore"></Catering>
       </div>
     </v-dialog>
   </div>
 </template>
 
 <script>
+import Catering from '@/templates/catering/views/Detail.vue'
 import Clothing from '@/templates/clothing/views/Detail.vue'
 import Fitness from '@/templates/education/views/Detail.vue'
 import Jewellery from '@/templates/jewellery/views/Detail.vue'
@@ -28,6 +30,7 @@ export default {
     Fitness,
     Clothing,
     Jewellery,
+    Catering,
   },
   props: {
     detailDialog: String,

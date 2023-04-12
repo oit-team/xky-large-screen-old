@@ -415,7 +415,7 @@ export default {
     toDetail(productId) {
       // 是否已选中，number类型
       const active = +!!this.selectedMap[productId]
-      this.$router.push(`/template/education/detail/${productId}?active=${active}`)
+      this.$router.push(`/template/catering/detail/${productId}?active=${active}`)
       this.$root.$off(events.TOGGLE_ACTIVE, this.toggleItem)
       this.$root.$on(events.TOGGLE_ACTIVE, this.toggleItem)
     },

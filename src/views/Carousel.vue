@@ -15,8 +15,7 @@
     >
       暂无内容
     </div>
-    <!--    bg-opacity-30 -->
-    <Footer class="carousel-footer z-100" :info="brandInfo" />
+    <Footer :info="brandInfo" class="carousel-footer z-100" />
 
     <ProductPicker
       ref="picker"
@@ -106,6 +105,7 @@ export default {
     showEmpty: true,
     detailPage: '',
     brandInfo: {},
+    brandType: null, // 1 商场 0 店铺
   }),
   created() {
     // this.getData()
@@ -158,6 +158,7 @@ export default {
     async getAdvertsInfo() {
       const res = await getAdvertsInfo(sessionStorage.getItem('devId'))
       this.showEmpty = false
+      this.brandType = res.body.brandType
       this.brandInfo = res.body.businessCard
       this.detailPage = res.body.detailPage
       const {
@@ -211,7 +212,7 @@ export default {
       this.lock()
       this.$refs.permission.close()
       this.$router.push({
-        path: `/template/${this.detailPage}`,
+        path: `/template/${this.brandType === 0 ? this.detailPage : 'shangchang'}`,
         query: {
           brandId: sessionStorage.getItem('brandId'),
           devId: sessionStorage.getItem('devId'),
@@ -225,10 +226,6 @@ export default {
 
 <style lang="scss">
 .carousel-wrap {
-  position: fixed;
-  z-index: 60;
-  top: 0;
-  left: 0;
   width: 100vw;
   height: 100vh;
 
