@@ -1,5 +1,5 @@
 <template>
-  <VueActions class="home carousel-wrap" data="jewelleryPage">
+  <VueActions class="home" data="jewelleryPage">
     <header class="flex overflow-hidden bg-gray header">
       <div class="relative">
         <div>
@@ -572,7 +572,6 @@ export default {
     selectedCategory() {
       this.page = 1
       this.loading = false
-      clearTimeout(timer)
       this.loadData()
       this.saveScrollRecord(0)
       this.setScrollRecord()
@@ -896,12 +895,6 @@ $chip-white-space: unset;
 
 $product-preview-width: $header-height / 4 * 3;
 
-.carousel-wrap {
-  position: fixed;
-  z-index: 60;
-  top: 0;
-  left: 0;
-}
 .home {
   width: $screen-width;
   height: $screen-height;
