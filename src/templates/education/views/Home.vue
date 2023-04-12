@@ -56,7 +56,7 @@
       </template>
     </main>
 
-    <Footer />
+    <Footer class="z-100 w-full" />
 
     <!-- 健身类购物车 感兴趣 -->
     <div class="absolute right-0 top-1/5 w-150px">
@@ -87,7 +87,15 @@
           offset-x="12"
           offset-y="12"
         >
-          <v-btn id="educationBuycar" v-actions:asideGetIteresting.click outlined block @click="tab = TABS.SHOPPING_CART">
+          <v-btn
+            id="educationBuycar"
+            v-actions:asideGetIteresting.click
+            outlined
+            block
+            @click="changeTab"
+          >
+            <!--              :outlined="!shopDark" -->
+            <!--              :dark="shopDark" -->
             感兴趣
           </v-btn>
         </v-badge>
@@ -116,7 +124,7 @@
             </v-btn>
           </div>
           <v-divider vertical class="my-2" />
-          <v-btn v-actions:asideBackToHome.click text @click="tab = TABS.LIST">
+          <v-btn v-actions:asideBackToHome.click text @click="changeTabList">
             <v-icon size="16" color="#8a8a8a">
               fas fa-home
             </v-icon>
@@ -125,20 +133,21 @@
 
         <v-btn
           v-actions:asideInputTelephone.click
-          depressed
-          dark
           block
+          dark
           class="mt-4"
-          @click="keyboardDialog = true, phone = ''"
+          @click="showPhone"
         >
+          <!--            :outlined="!phoneDark" -->
+          <!--            :dark="phoneDark" -->
           联系我们
         </v-btn>
         <v-btn
           v-actions:back.click
-          depressed
+          outlined
           block
           class="mt-4"
-          @click="$router.back()"
+          @click="back"
         >
           <v-icon class="text-xs pr-2">
             fas fa-angle-double-left
@@ -146,18 +155,18 @@
           返回
         </v-btn>
         <!-- <div class="flex justify-around mt-2">
-          <v-btn text>
-            <v-icon size="16" color="#8a8a8a">
-              fab fa-weixin
-            </v-icon>
-          </v-btn>
-          <v-divider vertical class="my-2" />
-          <v-btn text>
-            <v-icon size="16" color="#8a8a8a">
-              far fa-envelope
-            </v-icon>
-          </v-btn>
-        </div> -->
+            <v-btn text>
+              <v-icon size="16" color="#8a8a8a">
+                fab fa-weixin
+              </v-icon>
+            </v-btn>
+            <v-divider vertical class="my-2" />
+            <v-btn text>
+              <v-icon size="16" color="#8a8a8a">
+                far fa-envelope
+              </v-icon>
+            </v-btn>
+          </div> -->
       </div>
     </div>
     <transition
@@ -174,7 +183,6 @@
         >
       </div>
     </transition>
-
     <v-dialog
       v-model="keyboardDialog"
       width="700px"
@@ -239,6 +247,8 @@ export default {
       elLeft: 0, // 小球初始位置
       elTop: 0,
       dropImage: '', // 点击小球获取当前商品图片
+      shopDark: false,
+      phoneDark: false,
     }
   },
   computed: {
@@ -399,12 +409,31 @@ export default {
     clearItem() {
       this.selectedMap = {}
     },
+    back() {
+      this.$router.back()
+    },
     toDetail(productId) {
       // 是否已选中，number类型
       const active = +!!this.selectedMap[productId]
       this.$router.push(`/template/education/detail/${productId}?active=${active}`)
       this.$root.$off(events.TOGGLE_ACTIVE, this.toggleItem)
       this.$root.$on(events.TOGGLE_ACTIVE, this.toggleItem)
+    },
+    changeTab() {
+      this.tab = TABS.SHOPPING_CART
+      // this.shopDark = true
+      // this.phoneDark = false
+    },
+    changeTabList() {
+      this.tab = TABS.LIST
+      // this.shopDark = false
+      // this.phoneDark = false
+    },
+    showPhone() {
+      this.keyboardDialog = true
+      this.phone = ''
+      // this.shopDark = false
+      // this.phoneDark = true
     },
   },
 }
