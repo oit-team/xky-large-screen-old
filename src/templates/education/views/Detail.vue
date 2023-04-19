@@ -246,6 +246,9 @@ export default {
     if (!this.isDialog) this.setTime()
   },
 
+  beforeDestroy() {
+    clearTimeout(timer)
+  },
   methods: {
     getVideoFrame,
     getSmallImage,

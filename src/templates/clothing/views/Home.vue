@@ -639,11 +639,6 @@ export default {
     clearTimeout(this.darwerTimer)
   },
 
-  beforeDestroy() {
-    clearTimeout(this.timer)
-    clearTimeout(this.darwerTimer)
-  },
-
   methods: {
     getSmallImage,
     setSwiperOptions() {
@@ -842,7 +837,6 @@ export default {
       // })
     },
     saveScrollRecord(scrollLeft) {
-      this.resetTimer()
       if (this.$refs.shoppingCartList)
         scrollRecord.shoppingCartList = scrollLeft ?? this.$refs.shoppingCartList.scrollLeft
 
