@@ -12,7 +12,7 @@
               class="flex flex-col overflow-hidden"
             >
               <!-- 列表单个感兴趣卡片 -->
-              <ItemCard :item="item" :active="hasItem(item.productId)"></ItemCard>
+              <ItemCard :item="item" :active="hasItem(item.productId)" @minus="minusItem(item)"></ItemCard>
             </div>
           </div>
         </swiper-slide>
@@ -96,7 +96,7 @@
           >
             <!--              :outlined="!shopDark" -->
             <!--              :dark="shopDark" -->
-            感兴趣
+            我想吃
           </v-btn>
         </v-badge>
         <div class="flex justify-around mt-2">
@@ -142,6 +142,31 @@
           <!--            :dark="phoneDark" -->
           联系我们
         </v-btn>
+        <div class="flex justify-around w-full mt-4">
+          <div>
+            <v-icon size="14" color="#8a8a8a">
+              fas fa-phone
+            </v-icon>
+          </div>
+          <v-divider
+            vertical
+            class="my-1"
+          ></v-divider>
+          <div>
+            <v-icon size="14" color="#8a8a8a">
+              fab fa-weixin
+            </v-icon>
+          </div>
+          <v-divider
+            vertical
+            class="my-1"
+          ></v-divider>
+          <div>
+            <v-icon size="14" color="#8a8a8a">
+              fas fa-envelope
+            </v-icon>
+          </div>
+        </div>
         <v-btn
           v-actions:back.click
           outlined
@@ -154,19 +179,6 @@
           </v-icon>
           返回
         </v-btn>
-        <!-- <div class="flex justify-around mt-2">
-            <v-btn text>
-              <v-icon size="16" color="#8a8a8a">
-                fab fa-weixin
-              </v-icon>
-            </v-btn>
-            <v-divider vertical class="my-2" />
-            <v-btn text>
-              <v-icon size="16" color="#8a8a8a">
-                far fa-envelope
-              </v-icon>
-            </v-btn>
-          </div> -->
       </div>
     </div>
     <transition
@@ -298,6 +310,9 @@ export default {
         setTimeout(() => this.loading = false)
       })
 
+      res.body.resultList.forEach((e) => {
+        e._number = 0
+      })
       this.list = res.body.resultList
     },
     clickItem(e) {
@@ -356,6 +371,9 @@ export default {
       this.selectedMap = {}
     },
     toggleItem(id, item, event) {
+      // console.log(id)
+      // console.log(item)
+      // console.log(event)
       if (this.selectedMap[id]) {
         this.removeItem(id)
       } else {
@@ -365,7 +383,14 @@ export default {
         this.dropImage = item.imgUrl
       }
     },
-
+    minusItem(item) {
+      if (item._number === 0) return
+      this.list.forEach((e) => {
+        if (item.productId === e.productId) {
+          e._number--
+        }
+      })
+    },
     // 飞入购物车动画之前
     beforeEnter(el) {
       el.style.transform = `translate3d(${this.elLeft + 50}px, ${this.elTop + 110}px, 0)`
