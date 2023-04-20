@@ -119,7 +119,6 @@ export default {
           this.guideDialog = false
           break
         case DETECT_STATUS.PROXIMITY:
-        case DETECT_STATUS.WATCHING:
           this.guideDialog = true
           break
       }

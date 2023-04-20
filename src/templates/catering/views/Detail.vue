@@ -48,6 +48,26 @@
             </div>
             <div class="w-[40px] h-[5px] my-2 rounded-md bg-black border-black"></div>
           </div>
+          <div class="w-full flex">
+            <div class="text-red-500">
+              ￥
+              <span class="text-2xl">
+                {{ getValue('productPrice') }}
+              </span>
+            </div>
+            <div class="flex ml-8">
+              推荐指数：
+              <v-rating
+                background-color="#eee"
+                color="#f44336"
+                hover
+                length="5"
+                readonly
+                size="12"
+                :value="4"
+              ></v-rating>
+            </div>
+          </div>
           <div class="text-xl flex-1 pt-1 pb-4 flex-col gap-4 overflow-y-auto">
             <p class="mb-[6px]">
               <span class="text-gray-500 mr-4">{{ getLabel('contactPhone') }}</span>{{ getValue('contactPhone', '暂无') }}
@@ -75,7 +95,7 @@
               <v-icon class="text-xs pr-2">
                 {{ isInterested ? 'fas fa-star' : 'far fa-star' }}
               </v-icon>
-              感兴趣
+              我想吃
             </v-btn>
             <v-btn
               elevation="2"
@@ -125,7 +145,7 @@
         <div class="overflow-y-auto">
           <div class="pt-6 my-2 border-t border-gray-400">
             <div class="text-3xl border-l-10 font-bold border-black px-4 py-1">
-              案例与课程
+              制作步骤
             </div>
             <div>
               <div v-if="data.detailsImgList?.length" class="flex-1 overflow-hidden flex">
@@ -133,6 +153,14 @@
                   <v-item v-for="item of data.detailsImgList" v-slot="{ active, toggle }" :key="item">
                     <v-card v-actions:clickCourseItem.click class="rounded-xl shadow-none overflow-hidden w-300px" :class="active" @click="toggle(), preview(item)">
                       <v-img :src="item" class="h-full aspect-4/5"></v-img>
+                      <!--                      <div class="bg-white w-full"> -->
+                      <!--                        <div class="text-center w-full"> -->
+                      <!--                          第一步 -->
+                      <!--                        </div> -->
+                      <!--                        <div> -->
+                      <!--                          {{ item }} -->
+                      <!--                        </div> -->
+                      <!--                      </div> -->
                     </v-card>
                   </v-item>
                 </v-item-group>
@@ -145,7 +173,7 @@
           <!-- 精彩瞬间 -->
           <div class="pt-6 my-2 border-t border-gray-400">
             <div class="text-3xl border-l-10 font-bold border-black px-4 py-1">
-              精彩瞬间
+              直击现场
             </div>
             <div>
               <div v-if="data.videoList?.length" class="flex-1 overflow-hidden flex">
