@@ -19,12 +19,12 @@
           </div>
         </div>
         <div class="flex px-3 gap-3 leading-none pb-2 text-sm">
-          <span v-if="item.meatAndVegetable !== null">{{ item.meatAndVegetable }}</span>
+          <span v-if="item.meatAndVegetable !== 'null'">{{ item.meatAndVegetable }}</span>
           <v-divider
-            v-if="item.meatAndVegetable !== null"
+            v-if="item.meatAndVegetable !== 'null'"
             vertical
           ></v-divider>
-          <span v-if="item.productMaterials !== null">{{ item.productMaterials }}</span>
+          <span v-if="item.productMaterials !== 'null'">{{ item.productMaterials }}</span>
           <!--          <template v-for="(tag, i) of tags"> -->
           <!--            <span :key="tag"> -->
           <!--              {{ tag }} -->
@@ -64,7 +64,7 @@
           </vc-icon>
         </div>
       </div>
-      <div class="ml-auto text-sm">
+      <div class="ml-auto text-sm" @click="$emit('click', item)">
         了解更多
         <v-icon class="text-white text-lg ml-1">
           fas fa-angle-double-right
@@ -85,18 +85,20 @@ export default {
     }
   },
   computed: {
-    tags() {
-      return this.item?.productProjects ? JSON.parse(this.item.productProjects) : []
-    },
+    // tags() {
+    //   return this.item?.productProjects ? JSON.parse(this.item.productProjects) : []
+    // },
   },
   mounted() {
   },
   methods: {
     toggle(e, item) {
+      const el = e.target.closest('.product-item')
       const event = {
-        elLeft: e.target.getBoundingClientRect().left,
-        elTop: e.target.getBoundingClientRect().top,
+        elLeft: el.getBoundingClientRect().left,
+        elTop: el.getBoundingClientRect().top,
       }
+      console.log('点击了单项加号', item.productId, item, event)
       this.$emit('toggle', item.productId, item, event)
     },
   },

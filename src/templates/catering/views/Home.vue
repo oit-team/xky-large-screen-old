@@ -1,5 +1,5 @@
 <template>
-  <VueActions data="educationPage" class="aspect-9/16 overflow-hidden flex flex-col">
+  <VueActions data="cateringPage" class="aspect-9/16 overflow-hidden flex flex-col">
     <Banner />
 
     <main class="flex flex-col flex-1 overflow-hidden">
@@ -12,7 +12,7 @@
               class="flex flex-col overflow-hidden"
             >
               <!-- 列表单个感兴趣卡片 -->
-              <ItemCard :item="item" :active="hasItem(item.productId)" @minus="minusItem(item)"></ItemCard>
+              <ItemCard :item="item" :active="hasItem(item.productId)" @minus="minusItem(item)" @toggle="toggleItem" @click="toDetail(item.productId)"></ItemCard>
             </div>
           </div>
         </swiper-slide>
@@ -94,8 +94,6 @@
             block
             @click="changeTab"
           >
-            <!--              :outlined="!shopDark" -->
-            <!--              :dark="shopDark" -->
             我想吃
           </v-btn>
         </v-badge>
@@ -222,7 +220,6 @@ import Banner from '../components/Banner'
 import Footer from '../components/Footer'
 import ItemCard from '../components/ItemCard'
 import Keyboard from '../components/Keyboard'
-import * as events from '../enums/events'
 import { getProductAll, getProductParent, insertGoodsPhoneRelation } from '@/api/product'
 
 const TABS = {
@@ -273,9 +270,6 @@ export default {
         direction: 'vertical',
         slidesPerView: 3,
         loop: this.list.length > 9,
-        on: {
-          click: throttle(this.clickItem, 300, { leading: true, trailing: false }),
-        },
       }
     },
     listChunk() {
@@ -311,7 +305,7 @@ export default {
       })
 
       res.body.resultList.forEach((e) => {
-        e._number = 0
+        e._number = this.selectedMap[e.productId] ? this.selectedMap[e.productId]._number : 0
       })
       this.list = res.body.resultList
     },
@@ -371,25 +365,26 @@ export default {
       this.selectedMap = {}
     },
     toggleItem(id, item, event) {
-      // console.log(id)
-      // console.log(item)
-      // console.log(event)
+      this.dropImage = item.imgUrl
       if (this.selectedMap[id]) {
-        this.removeItem(id)
+        this.selectedMap[id]._number++
       } else {
-        item ??= this.list.find(item => item.productId === +id)
-        this.addItem(id, item)
-        this.flyList.push(true)
-        this.dropImage = item.imgUrl
+        this.addItem(id, { ...item })
       }
+      this.elLeft = event.elLeft
+      this.elTop = event.elTop
+      const currentItem = this.list.find(el => el.productId === +id)
+      currentItem._number++
+      this.flyList.push(true)
     },
+
     minusItem(item) {
       if (item._number === 0) return
-      this.list.forEach((e) => {
-        if (item.productId === e.productId) {
-          e._number--
-        }
-      })
+      if (this.selectedMap[item.productId]) {
+        this.selectedMap[item.productId]._number--
+      }
+      const currentItem = this.list.find(el => el.productId === item.productId)
+      currentItem._number--
     },
     // 飞入购物车动画之前
     beforeEnter(el) {
@@ -441,24 +436,16 @@ export default {
       // 是否已选中，number类型
       const active = +!!this.selectedMap[productId]
       this.$router.push(`/template/catering/detail/${productId}?active=${active}`)
-      this.$root.$off(events.TOGGLE_ACTIVE, this.toggleItem)
-      this.$root.$on(events.TOGGLE_ACTIVE, this.toggleItem)
     },
     changeTab() {
       this.tab = TABS.SHOPPING_CART
-      // this.shopDark = true
-      // this.phoneDark = false
     },
     changeTabList() {
       this.tab = TABS.LIST
-      // this.shopDark = false
-      // this.phoneDark = false
     },
     showPhone() {
       this.keyboardDialog = true
       this.phone = ''
-      // this.shopDark = false
-      // this.phoneDark = true
     },
   },
 }
