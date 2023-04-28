@@ -60,6 +60,18 @@ const routes = [
     path: '/template/catering/detail/:productId',
     component: () => import('@/templates/catering/views/Detail.vue'),
   },
+
+  /**
+   * 商场
+   */
+  {
+    path: '/template/suppermarket',
+    component: () => import('@/templates/suppermarket/views/Home.vue'),
+    meta: {
+      cache: false,
+    },
+  },
+
   /**
    * 商场互动
    */

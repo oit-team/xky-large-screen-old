@@ -48,41 +48,41 @@
             </div>
             <div class="w-[40px] h-[5px] my-2 rounded-md bg-black border-black"></div>
           </div>
-          <div class="w-full flex">
+          <div class="w-full flex items-center">
             <div class="text-red-500">
               ￥
               <span class="text-2xl">
                 {{ getValue('productPrice') }}
               </span>
             </div>
-            <div class="flex ml-8">
+            <div class="flex items-center ml-8">
               推荐指数：
               <v-rating
+                v-model="cateringRate"
                 background-color="#eee"
                 color="#f44336"
                 hover
                 length="5"
                 readonly
-                size="12"
-                :value="4"
+                size="14"
               ></v-rating>
             </div>
           </div>
           <div class="text-xl flex-1 pt-1 pb-4 flex-col gap-4 overflow-y-auto">
             <p class="mb-[6px]">
-              <span class="text-gray-500 mr-4">{{ getLabel('contactPhone') }}</span>{{ getValue('contactPhone', '暂无') }}
+              <span class="text-gray-500 mr-4">{{ getLabel('meatAndVegetable') }}</span>{{ getValue('meatAndVegetable', '暂无') }}
             </p>
             <p class="mb-[6px]">
-              <span class="text-gray-500 mr-4">{{ getLabel('employmentTime') }}</span>{{ getValue('employmentTime', '暂无') }}
+              <span class="text-gray-500 mr-4">{{ getLabel('productFlavor') }}</span>{{ getValue('productFlavor', '暂无') }}
             </p>
             <p class="flex mb-[6px]">
-              <span class="whitespace-nowrap text-gray-500 mr-4">{{ getLabel('honor') }}</span><span v-html="getValue('honor', '暂无')"></span>
+              <span class="whitespace-nowrap text-gray-500 mr-4">{{ getLabel('productTypeName') }}</span><span v-html="getValue('productTypeName', '暂无')"></span>
             </p>
             <p class="flex mb-[6px]">
-              <span class="whitespace-nowrap text-gray-500 mr-4">{{ getLabel('personalSignature') }}</span><span v-html="getValue('personalSignature', '暂无')"></span>
+              <span class="whitespace-nowrap text-gray-500 mr-4">{{ getLabel('productName') }}</span><span v-html="getValue('productName', '暂无')"></span>
             </p>
             <p class="flex mb-[6px]">
-              <span class="whitespace-nowrap text-gray-500 mr-4"> {{ getLabel('detailedIntroduction') }}</span><span v-html="getValue('detailedIntroduction', '暂无')"></span>
+              <span class="whitespace-nowrap text-gray-500 mr-4"> {{ getLabel('productMaterials') }}</span><span v-html="getValue('productMaterials', '暂无')"></span>
             </p>
           </div>
           <div class="flex gap-4 justify-start mt-6">
@@ -260,6 +260,7 @@ export default {
         value => (value && value.length === 11) || '请输入正确的手机号',
       ],
       currentProductId: null,
+      cateringRate: 4,
     }
   },
   created() {
