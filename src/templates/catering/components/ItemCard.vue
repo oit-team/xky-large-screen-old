@@ -98,7 +98,6 @@ export default {
         elLeft: el.getBoundingClientRect().left,
         elTop: el.getBoundingClientRect().top,
       }
-      console.log('点击了单项加号', item.productId, item, event)
       this.$emit('toggle', item.productId, item, event)
     },
   },
