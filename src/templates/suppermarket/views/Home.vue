@@ -63,7 +63,7 @@
           </div>
         </v-item>
       </v-item-group>
-      <!-- <div class="flex flex-col items-center pt-6 px-5">
+      <div class="flex flex-col items-center pt-6 px-5">
         <v-btn
           variant="tonal"
           block
@@ -75,7 +75,7 @@
           </v-icon>
           返回
         </v-btn>
-      </div> -->
+      </div>
     </div>
   </VueActions>
 </template>
@@ -151,17 +151,16 @@ export default {
         storeId: sessionStorage.getItem('brandId'),
         floorMapId: this.currentImgInfo.floorMapId,
       })
-      this.industryCategoryList = res.body.industryCategoryList
       this.industryCategoryList = [
         {
-          key: '',
+          industryCategory: '0',
           dictitemDisplayName: '全部',
           imgUrl: 'assets/img/jewellery/all.png',
         },
         ...res.body.industryCategoryList,
       ]
-      this.currentTabInfo = res.body.industryCategoryList[0]
-      this.nowIndex = res.body.industryCategoryList[0].industryCategory
+      this.currentTabInfo = this.industryCategoryList[0]
+      this.nowIndex = 0
       this.getShopsList()
     },
 

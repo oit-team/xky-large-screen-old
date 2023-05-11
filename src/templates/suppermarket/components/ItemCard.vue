@@ -6,11 +6,10 @@
     <!-- 单项卡片 -->
     <div class="flex-1 relative bg-gray overflow-hidden">
       <v-carousel
-        :show-arrows="false"
-        :continuous="true"
-        hide-delimiter-background
         cycle
-        height="300"
+        hide-delimiter-background
+        :show-arrows="false"
+        height="320"
       >
         <v-carousel-item
           v-for="item, index in shopItem?.top5"
