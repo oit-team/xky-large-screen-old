@@ -211,7 +211,7 @@ export default {
       this.lock()
       this.$refs.permission.close()
       this.$router.push({
-        path: `/template/${this.brandType === 0 ? this.detailPage : 'shangchang'}`,
+        path: `/template/${this.detailPage}`,
         query: {
           brandId: sessionStorage.getItem('brandId'),
           devId: sessionStorage.getItem('devId'),

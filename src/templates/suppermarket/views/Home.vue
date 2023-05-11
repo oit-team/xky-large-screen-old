@@ -2,7 +2,7 @@
   <VueActions data="marketPage" class="aspect-9/16 overflow-hidden flex flex-col">
     <Banner />
     <main class="ml-5 flex flex-col flex-1 overflow-hidden">
-      <div class="w-80vw h-40vw border-[#F9F9FB] relative mb-8">
+      <div v-if="floorList.length > 0" class="w-80vw h-40vw border-[#F9F9FB] relative">
         <img
           class="w-full h-full"
           :src="currentImgInfo.mapUrl"
@@ -17,7 +17,7 @@
         <div class="flex w-full absolute bottom-0 left-0 p-1 border bg-black bg-opacity-30">
           <div
             v-for="item, index in floorList"
-            :key="item.floorMapId"
+            :key="index"
             :class="nowFloor === index ? 'bg-white rounded text-black' : ''"
             class="px-2 text-white text-center font-bold bg-opacity-30 mr-2"
             @click="changeImage(item, index)"
@@ -26,9 +26,12 @@
           </div>
         </div>
       </div>
-      <div v-if="!loading && shopList.length > 0" class="flex-1 w-80vw grid-cols-3 overflow-hidden flex">
-        <v-item-group class="h-full max-w-80vw inline-grid grid-rows-2 grid-flow-col gap-x-5 py-4 px-2 items-center overflow-x-auto">
-          <v-item v-for="item of shopList" :key="item.floorMapId">
+      <div v-else class="w-80vw h-40vw border-[#aaa] border-b relative mb-8 grid place-content-center text-2xl text-gray-600">
+        暂无楼层信息
+      </div>
+      <div v-if="!loading && shopList.length > 0" class="w-80vw grid-cols-3 overflow-hidden flex mt-4">
+        <v-item-group class="max-w-80vw inline-grid grid-rows-2 grid-flow-col gap-x-5 gap-y-8 py-4 px-2 items-center overflow-x-auto">
+          <v-item v-for="item, index of shopList" :key="index">
             <ItemCard class="rounded shadow-lg shadow-none overflow-hidden w-270px" :shop-item="item" />
           </v-item>
         </v-item-group>
@@ -50,6 +53,7 @@
             :class="nowIndex === index ? 'active' : ''"
             @click="changeTab(item, index)"
           >
+            <v-img class="h-30px w-30px flex-grow-0" :src="item.imgUrl" />
             <div class="text-gray-500 text-sm flex-1">
               <div class="py-1 px-3 rounded w-full" style="text-align-last: justify">
                 {{ item.dictitemDisplayName }}
@@ -59,8 +63,7 @@
           </div>
         </v-item>
       </v-item-group>
-
-      <div class="flex flex-col items-center pt-6 px-5">
+      <!-- <div class="flex flex-col items-center pt-6 px-5">
         <v-btn
           variant="tonal"
           block
@@ -72,7 +75,7 @@
           </v-icon>
           返回
         </v-btn>
-      </div>
+      </div> -->
     </div>
   </VueActions>
 </template>
@@ -126,16 +129,16 @@ export default {
     changeImage(item, index) {
       this.nowFloor = index
       this.currentImgInfo = item
-      this.getShopsList(item, '')
+      this.getIndustryCategories()
     },
     changeTab(item, index) {
       this.nowIndex = index
       this.currentTabInfo = item
-      this.getShopsList('', item)
+      this.getShopsList()
     },
     async getNavigationMap() {
       const res = await getNavigationMap({
-        storeId: 316,
+        storeId: sessionStorage.getItem('brandId'),
       })
       this.floorList = res.body.floorMapList
       this.currentImgInfo = this.floorList[0]
@@ -144,19 +147,29 @@ export default {
 
     async getIndustryCategories() {
       const res = await getIndustryCategories({
-        storeId: 316,
+        brandId: sessionStorage.getItem('brandId'),
+        storeId: sessionStorage.getItem('brandId'),
         floorMapId: this.currentImgInfo.floorMapId,
       })
       this.industryCategoryList = res.body.industryCategoryList
+      this.industryCategoryList = [
+        {
+          key: '',
+          dictitemDisplayName: '全部',
+          imgUrl: 'assets/img/jewellery/all.png',
+        },
+        ...res.body.industryCategoryList,
+      ]
       this.currentTabInfo = res.body.industryCategoryList[0]
-      this.getShopsList('', this.currentTabInfo)
+      this.nowIndex = res.body.industryCategoryList[0].industryCategory
+      this.getShopsList()
     },
 
-    async getShopsList(floorItem, tabItem) {
+    async getShopsList() {
       this.loading = true
       const res = await getShopsList({
-        industryCategory: tabItem ? tabItem.industryCategory : this.currentTabInfo.industryCategory,
-        floorMapId: floorItem ? floorItem.floorMapId : this.currentImgInfo.floorMapId,
+        industryCategory: this.currentTabInfo.industryCategory,
+        floorMapId: this.currentImgInfo.floorMapId,
       }).finally(() => {
         setTimeout(() => this.loading = false)
       })
@@ -171,6 +184,10 @@ export default {
   .v-application--wrap{
     overflow: auto;
     height: 100vh;
+  }
+  .v-btn--icon.v-size--small{
+    width: 0.6vw;
+    height: 0.6vw;
   }
 
 }
