@@ -191,6 +191,10 @@ export default {
   .v-carousel__controls__item .v-btn__content > i{
       font-size: 10px;
   }
+
+  .swiper-pagination-bullet-active{
+    background: #1E1E1E;
+  }
 }
 .active{
   color: blue;
