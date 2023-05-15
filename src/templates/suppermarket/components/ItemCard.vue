@@ -1,24 +1,22 @@
 <template>
   <v-card
     v-ripple="false"
-    class="market-item h-87% flex flex-col border-none overflow-hidden"
+    class="market-item h-85% flex flex-col border-none overflow-hidden"
   >
     <!-- 单项卡片 -->
     <div class="flex-1 relative bg-gray overflow-hidden">
-      <v-carousel
-        cycle
-        hide-delimiter-background
-        :show-arrows="false"
-        height="320"
-      >
-        <v-carousel-item
-          v-for="item, index in shopItem?.top5"
-          :key="index"
-          :src="item?.imgUrl"
-          contain
-        >
-        </v-carousel-item>
-      </v-carousel>
+      <swiper class="h-90" :options="swiperOption" @touchmove.native.prevent>
+        <swiper-slide v-for="(item, index) of shopItem?.top5" :key="index">
+          <div class="w-full h-full flex items-center">
+            <img class="w-full" :src="item?.imgUrl" contain />
+          </div>
+        </swiper-slide>
+        <div
+          v-show="shopItem?.top5.length > 1"
+          slot="pagination"
+          class="swiper-pagination"
+        />
+      </swiper>
       <div class="relative flex flex-col bg-white px-2 py-4 border-box">
         <div class="absolute -top-9 right-0 bg-black bg-opacity-20 p-2 z-100 text-white">
           {{ shopItem.floorNum }}-{{ shopItem.houseNum }}
@@ -57,7 +55,13 @@
 </template>
 
 <script>
+import 'swiper/css/swiper.css'
+import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 export default {
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
   props: {
     shopItem: Object,
   },
@@ -66,6 +70,20 @@ export default {
     }
   },
   computed: {
+    swiperOption() {
+      return {
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        loop: this.shopItem?.top5.length > 1,
+        pagination: {
+          el: '.swiper-pagination',
+        },
+      }
+    },
+  },
+  created() {
   },
   mounted() {
   },
