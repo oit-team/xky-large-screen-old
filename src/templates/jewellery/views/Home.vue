@@ -867,13 +867,14 @@ export default {
     },
     back() {
       clearTimeout(this.timer)
-      this.$router.push({
-        path: '/carousel',
-        query: {
-          brandId: sessionStorage.getItem('brandId'),
-          devId: sessionStorage.getItem('devId'),
-        },
-      })
+      this.$router.back()
+      // this.$router.push({
+      //   path: '/carousel',
+      //   query: {
+      //     brandId: sessionStorage.getItem('brandId'),
+      //     devId: sessionStorage.getItem('devId'),
+      //   },
+      // })
     },
   },
 }
