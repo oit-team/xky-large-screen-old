@@ -2,7 +2,7 @@
   <VueActions data="marketPage" class="aspect-9/16 overflow-hidden flex flex-col">
     <Banner />
     <main class="ml-5 flex flex-col flex-1 overflow-hidden">
-      <div v-if="floorList.length > 0" class="w-80vw h-40vw border-[#F9F9FB] relative">
+      <div v-if="floorList.length > 0" class="w-80vw h-40vw border-[#F9F9FB] relative" @touchmove.native.prevent>
         <img
           class="w-full h-full"
           :src="currentImgInfo.mapUrl"
@@ -63,12 +63,12 @@
           </div>
         </v-item>
       </v-item-group>
-      <div class="flex flex-col items-center pt-6 px-5">
+      <div class="flex flex-col items-center pt-3 px-2">
         <v-btn
-          variant="tonal"
+          outlined
           block
           class="mt-4"
-          @click="back()"
+          @click="back"
         >
           <v-icon class="text-xs pr-2">
             fas fa-angle-double-left
@@ -180,7 +180,7 @@ export default {
 
 <style lang='scss' scoped>
 ::v-deep{
-  .v-application--wrap{
+  #app .v-application--wrap{
     overflow: auto;
     height: 100vh;
   }
@@ -188,7 +188,9 @@ export default {
     width: 0.6vw;
     height: 0.6vw;
   }
-
+  .v-carousel__controls__item .v-btn__content > i{
+      font-size: 10px;
+  }
 }
 .active{
   color: blue;
