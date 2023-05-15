@@ -108,4 +108,20 @@ const router = new VueRouter({
   routes,
 })
 
+let homePage = ''
+let timer
+const DURATION = 1 * 60 * 1000
+
+router.afterEach((to, from) => {
+  if (from === START_LOCATION)
+    homePage = to.path
+
+  clearTimeout(timer)
+  if (to.path !== homePage) {
+    timer = setTimeout(() => {
+      router.push(homePage)
+    }, DURATION)
+  }
+})
+
 export default router
