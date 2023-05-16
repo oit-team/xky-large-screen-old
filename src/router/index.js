@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter, { START_LOCATION } from 'vue-router'
 
 Vue.use(VueRouter)
 
@@ -108,20 +108,28 @@ const router = new VueRouter({
   routes,
 })
 
-let homePage = ''
+let homeRoute
 let timer
 const DURATION = 1 * 60 * 1000
 
+function setBackPage() {
+  clearTimeout(timer)
+  timer = setTimeout(() => {
+    router.push(homeRoute.fullPath)
+  }, DURATION)
+}
+
+document.body.addEventListener('click', () => {
+  setBackPage()
+}, {
+  passive: true,
+})
+
 router.afterEach((to, from) => {
   if (from === START_LOCATION)
-    homePage = to.path
+    homeRoute = to
 
-  clearTimeout(timer)
-  if (to.path !== homePage) {
-    timer = setTimeout(() => {
-      router.push(homePage)
-    }, DURATION)
-  }
+  setBackPage()
 })
 
 export default router
