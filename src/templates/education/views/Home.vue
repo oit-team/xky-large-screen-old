@@ -59,7 +59,7 @@
     <Footer class="z-100 w-full" />
 
     <!-- 健身类购物车 感兴趣 -->
-    <div class="absolute right-0 top-1/5 w-150px">
+    <div class="absolute right-0 top-1/5 w-150px shadow-lg rounded-md">
       <v-item-group v-model="selectedType" class="flex flex-col gap-2 bg-white rounded-r-md" mandatory>
         <v-item v-for="item of typeList" v-slot="{ active, toggle }" :key="item.typeId" :value="item.key ?? item.typeName">
           <div
@@ -79,7 +79,7 @@
         </v-item>
       </v-item-group>
 
-      <div class="flex flex-col items-center pt-6 px-5">
+      <div class="flex flex-col items-center pt-6 pb-2 px-5 mb-4">
         <v-badge
           class="z-10 flex-1 w-full"
           :content="Object.keys(selectedMap).length || '0'"
@@ -143,6 +143,7 @@
           联系我们
         </v-btn>
         <v-btn
+          v-if="showBack"
           v-actions:back.click
           outlined
           block
@@ -249,6 +250,7 @@ export default {
       dropImage: '', // 点击小球获取当前商品图片
       shopDark: false,
       phoneDark: false,
+      showBack: false,
     }
   },
   computed: {
@@ -280,6 +282,7 @@ export default {
     },
   },
   created() {
+    this.showBack = this.$route.query.showBack
     this.getProductParent()
     this.getProductAll()
   },
