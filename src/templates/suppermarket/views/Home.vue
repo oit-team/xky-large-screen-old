@@ -45,7 +45,7 @@
     <Preview ref="previewRef" />
 
     <!-- 右侧导航栏 -->
-    <div class="absolute right-0 top-1/3 w-150px">
+    <div class="absolute right-0 top-1/3 w-150px shadow-lg rounded-md">
       <v-item-group v-model="selectedType" class="flex flex-col gap-2 bg-white rounded-r-md" mandatory>
         <v-item v-for="item, index of industryCategoryList" :key="index" :value="item.dictitemDisplayName">
           <div
@@ -63,8 +63,9 @@
           </div>
         </v-item>
       </v-item-group>
-      <div class="flex flex-col items-center pt-3 px-2">
+      <div class="flex flex-col items-center pt-6 pb-2 px-2">
         <v-btn
+          v-if="showBack"
           outlined
           block
           class="mt-4"
@@ -107,9 +108,11 @@ export default {
       floorList: [],
       industryCategoryList: [],
       shopList: [],
+      showBack: false,
     }
   },
   created() {
+    this.showBack = this.$route.query?.showBack
     this.getNavigationMap()
   },
   mounted() {
@@ -149,7 +152,7 @@ export default {
       const res = await getIndustryCategories({
         brandId: sessionStorage.getItem('brandId'),
         storeId: sessionStorage.getItem('brandId'),
-        floorMapId: this.currentImgInfo.floorMapId,
+        floorMapId: this.currentImgInfo?.floorMapId,
       })
       this.industryCategoryList = [
         {
@@ -167,8 +170,8 @@ export default {
     async getShopsList() {
       this.loading = true
       const res = await getShopsList({
-        industryCategory: this.currentTabInfo.industryCategory,
-        floorMapId: this.currentImgInfo.floorMapId,
+        industryCategory: this.currentTabInfo?.industryCategory,
+        floorMapId: this.currentImgInfo?.floorMapId,
       }).finally(() => {
         setTimeout(() => this.loading = false)
       })
