@@ -6,7 +6,7 @@
         <keep-alive>
           <v-fade-transition v-if="$route.meta?.cache" origin="center center" leave-absolute>
             <keep-alive>
-              <router-view />
+              <router-view :key="$route.fullPath" />
             </keep-alive>
           </v-fade-transition>
         </keep-alive>

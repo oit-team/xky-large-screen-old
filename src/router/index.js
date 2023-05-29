@@ -68,7 +68,7 @@ const routes = [
     path: '/template/suppermarket',
     component: () => import('@/templates/suppermarket/views/Home.vue'),
     meta: {
-      cache: false,
+      cache: true,
     },
   },
 

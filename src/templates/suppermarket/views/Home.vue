@@ -90,7 +90,7 @@ import { getIndustryCategories, getNavigationMap, getShopsList } from '@/api/mar
 
 const timer = null
 export default {
-  name: 'Home',
+  name: 'Suppermarket',
   components: {
     Banner,
     Footer,
@@ -116,6 +116,10 @@ export default {
     this.getNavigationMap()
   },
   mounted() {
+  },
+  activated() {
+    // @deprecated 清空选择的商品
+    this.$store.commit('selectProduct', null)
   },
   methods: {
     back() {

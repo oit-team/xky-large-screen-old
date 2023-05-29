@@ -599,6 +599,7 @@ export default {
   },
 
   async activated() {
+    this.initSelectProduct()
     this.setScrollRecord()
     this.closeOverlay()
     await this.$nextTick()
@@ -700,8 +701,7 @@ export default {
           this.page++
 
           // 选中的商品
-          if (isEmpty(this.$store.state.selectedProduct))
-            this.$store.commit('selectProduct', this.collocationList[0])
+          this.initSelectProduct()
         }
       })
         .finally(() => {
@@ -710,6 +710,11 @@ export default {
             this.loading = false
           }, 1000)
         })
+    },
+    // 初始化选中商品
+    initSelectProduct() {
+      if (isEmpty(this.$store.state.selectedProduct))
+        this.$store.commit('selectProduct', this.collocationList[0])
     },
     // 获取当前选择商品详情
     async getProductById(id) {
