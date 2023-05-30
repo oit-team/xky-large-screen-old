@@ -151,12 +151,19 @@
               <div v-if="data.videoList?.length" class="flex-1 overflow-hidden flex">
                 <v-item-group class="h-full max-w-full inline-grid grid-rows-1 grid-flow-col gap-x-4 py-4 px-2 items-center overflow-x-auto">
                   <v-item v-for="item of data.videoList" v-slot="{ active, toggle }" :key="item">
-                    <v-card v-actions:clickSplendidMomentItem.click class="rounded-xl shadow-none overflow-hidden relative w-300px" :class="active" @click="toggle(), preview(item)">
-                      <v-img :src="getVideoFrame(item)" class="h-full aspect-4/5"></v-img>
-                      <v-icon class="absolute top-1/2 left-1/2 z-10 text-white text-5xl transform -translate-x-1/2 -translate-y-1/2">
-                        fas fa-play
-                      </v-icon>
-                    </v-card>
+                    <div>
+                      <!-- 资源为视频时 -->
+                      <v-card v-if="getMediumType(item) === 'video'" v-actions:clickSplendidMomentItem.click class="rounded-xl shadow-none overflow-hidden relative w-300px" :class="active" @click="toggle(), preview(item)">
+                        <v-img :src="getVideoFrame(item)" class="h-full aspect-4/5"></v-img>
+                        <v-icon class="absolute top-1/2 left-1/2 z-10 text-white text-5xl transform -translate-x-1/2 -translate-y-1/2">
+                          fas fa-play
+                        </v-icon>
+                      </v-card>
+                      <!-- 资源为图片时 -->
+                      <v-card v-if="getMediumType(item) === 'image'" v-actions:clickCourseItem.click class="rounded-xl shadow-none overflow-hidden w-300px" :class="active" @click="toggle(), preview(item)">
+                        <v-img :src="item" class="h-full aspect-4/5"></v-img>
+                      </v-card>
+                    </div>
                   </v-item>
                 </v-item-group>
               </div>
@@ -193,6 +200,7 @@
 </template>
 
 <script>
+import mime from 'mime'
 import Banner from '../components/Banner.vue'
 import Footer from '../components/Footer.vue'
 import Keyboard from '../components/Keyboard'
@@ -250,6 +258,7 @@ export default {
     clearTimeout(timer)
   },
   methods: {
+    mime,
     getVideoFrame,
     getSmallImage,
     async getProductById() {
@@ -259,6 +268,12 @@ export default {
       })
       this.data = res.body
       this.goodAtInfo = this.getValue('productTypeName').split(',')
+    },
+    // 获取媒介类型
+    getMediumType(src) {
+      const arr = src.split('.')
+      const type = arr[arr.length - 1]
+      return mime.getType(type).split('/')[0]
     },
     async getBrandNameCard() {
       const res = await getBrandNameCard({
