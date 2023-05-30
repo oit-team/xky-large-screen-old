@@ -31,6 +31,7 @@ module.exports = {
       },
       '/api': {
         target: 'http://192.168.9.67:9092',
+        // target: 'http://xky.gaodanyi.com:8093/api',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '',

@@ -464,7 +464,7 @@ let promise = null
 let timer = null
 
 export default {
-  name: 'Jewellery',
+  // name: 'Clothing',
 
   components: {
     // ClothingPriceCard,
@@ -619,6 +619,7 @@ export default {
   },
 
   async activated() {
+    this.initSelectProduct()
     await this.getBrandNameCard()
     this.setScrollRecord()
     this.closeOverlay()
@@ -724,8 +725,7 @@ export default {
           this.page++
 
           // 选中的商品
-          if (isEmpty(this.$store.state.selectedProduct))
-            this.$store.commit('selectProduct', this.collocationList[0])
+          this.initSelectProduct()
         }
       })
         .finally(() => {
@@ -734,6 +734,10 @@ export default {
             this.loading = false
           }, 1000)
         })
+    },
+    initSelectProduct() {
+      if (isEmpty(this.$store.state.selectedProduct))
+        this.$store.commit('selectProduct', this.collocationList[0])
     },
     // 获取当前选择商品详情
     async getProductById(id) {
