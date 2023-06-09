@@ -1,12 +1,37 @@
 <template>
   <div class="grid place-content-center h-full bg-gray-100 lucky-wrap">
-    <div class="w-full flex justify-center">
-      <div class="page-top w-[90%] h-200px mb-5rem">
-      </div>
-    </div>
     <div class="flex flex-col gap-10">
-      <!--      px-5 pt-5 -->
-      <div class="rounded-3xl  relative -mt-8 border_bg">
+      <div class="w-full flex justify-center">
+        <div class="page-top w-[90%] h-200px">
+        </div>
+      </div>
+      <div class="flex justify-center max-w-80vw overflow-x-auto min-h-10">
+        <v-item-group v-model="activityId" mandatory class="flex gap-5">
+          <v-item v-slot="{ active, toggle }" :value="0">
+            <v-btn
+              x-large
+              color="white"
+              class="h-auto"
+              :outlined="!active"
+              @click="toggle"
+            >
+              每日抽奖
+            </v-btn>
+          </v-item>
+          <v-item v-for="item of activities" v-slot="{ active, toggle }" :key="item" :value="item.id">
+            <v-btn
+              x-large
+              color="white"
+              class="h-auto border border-solid"
+              :outlined="!active"
+              @click="toggle"
+            >
+              <span class="max-w-16em whitespace-normal">{{ item.activityName }}</span>
+            </v-btn>
+          </v-item>
+        </v-item-group>
+      </div>
+      <div class="rounded-3xl  relative border_bg">
         <v-btn
           class="absolute -right-14 -top-14"
           fab
@@ -144,6 +169,7 @@ import {
   getLuckyDrawConfig,
   getResetPrizeInfo,
 } from '@/api/lucky'
+import { post } from '@/api'
 
 let timer
 
@@ -166,6 +192,8 @@ export default {
     countdown: 0,
     optionalList: [],
     oneTimer: null,
+    activities: [],
+    activityId: null,
   }),
 
   computed: {
@@ -173,7 +201,7 @@ export default {
       return {
         width: '70vw',
         height: '70vw',
-        prizes: this.prizes,
+        prizes: this.activityId ? this.activityPrizes : this.prizes,
         blocks: [
           {
             padding: '10px',
@@ -207,11 +235,40 @@ export default {
         },
       }
     },
+    activityPrizes() {
+      const pos = [
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+        { x: 2, y: 0 },
+        { x: 2, y: 1 },
+        { x: 2, y: 2 },
+        { x: 1, y: 2 },
+        { x: 0, y: 2 },
+        { x: 0, y: 1 },
+      ]
+
+      return pos.map((posItem, index) => {
+        return {
+          ...posItem,
+          data: index,
+          borderRadius: '10px',
+          imgs: [
+            {
+              src: '/assets/prize/box.png',
+              top: '5%',
+              width: '80%',
+              height: '80%',
+            },
+          ],
+        }
+      })
+    },
   },
 
   created() {
     this.getLuckyDrawConfig()
     this.getJackpotCount()
+    this.getActivities()
     setInterval(this.getJackpotCount, 30000)
   },
 
@@ -228,16 +285,26 @@ export default {
       this.luckyResult = data
 
       const promise = async () => {
-        const info = await getAwardInfo({
-          devId: sessionStorage.getItem('devId'),
-          startNum: data.startNum,
-          endNum: data.endNum,
-        })
-        this.jackpotInfo = info.body.jackpotInfo
-        this.raffleRecord = info.body.raffleRecord
-        await Promise.all([this.getAwardInfoQrCode(info.body.content), this.getJackpotInfoList()])
-        this.startCountdown(this.jackpotInfo.validTime * 60)
-        this.setTimer()
+        if (this.activityId) {
+          const res = await post('/jackpot/jackpotInfo/getJackPotInfoForActivity', {
+            devId: sessionStorage.getItem('devId'),
+            activityId: this.activityId,
+          })
+          this.jackpotInfo = res.body.jackpotInfo
+          this.raffleRecord = res.body.raffleRecord
+          await this.getAwardInfoQrCode(res.body.content)
+          this.startCountdown(this.jackpotInfo.validTime * 60)
+        } else {
+          const res = await getAwardInfo({
+            devId: sessionStorage.getItem('devId'),
+            startNum: data.startNum,
+            endNum: data.endNum,
+          })
+          this.jackpotInfo = res.body.jackpotInfo
+          this.raffleRecord = res.body.raffleRecord
+          await Promise.all([this.getAwardInfoQrCode(res.body.content), this.getJackpotInfoList()])
+          this.startCountdown(this.jackpotInfo.validTime * 60)
+        }
       }
 
       promise()
@@ -249,7 +316,11 @@ export default {
         })
     },
     start() {
-      this.setTimer()
+      if (!this.activityId) {
+        const check = this.prizes.every(item => item.data.countNum > 0)
+        if (!check)
+          return this.$message.error('暂无奖品，请联系商家')
+      }
       this.$refs.lucky.play()
       setTimeout(() => {
         // 假设后端返回的中奖索引是0
@@ -357,10 +428,16 @@ export default {
       this.$router.back()
     },
     setTimer() {
-      clearTimeout(this.oneTimer)
-      this.oneTimer = setTimeout(() => {
-        this.$router.back()
-      }, 60000)
+      // clearTimeout(this.oneTimer)
+      // this.oneTimer = setTimeout(() => {
+      //   this.$router.back()
+      // }, 60000)
+    },
+    async getActivities() {
+      const res = await post('/jackpot/jackpotInfo/getActivities', {
+        devId: sessionStorage.getItem('devId'),
+      })
+      this.activities = res.body.activities
     },
   },
 }
