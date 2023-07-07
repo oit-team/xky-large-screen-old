@@ -57,7 +57,7 @@
           @click="toHome"
         >
           <vc-img src="/assets/img/guide/2.png" size="130px"></vc-img>
-          <div>了解更多</div>
+          <div>{{ industryName }}</div>
         </div>
       </div>
     </v-overlay>
@@ -69,7 +69,7 @@
 <script>
 import { sendCommandToDevice } from '@/api/common'
 import { enterCarouselPage } from '@/api/frame'
-import { getAdvertsInfo } from '@/api/product'
+import { getAdvertsInfo, getIndustryExtend } from '@/api/product'
 import PageCarousel from '@/components/business/Carousel'
 import Permission from '@/components/business/Permission.vue'
 import ProductPicker from '@/components/business/ProductPicker'
@@ -106,6 +106,7 @@ export default {
     detailPage: '',
     brandInfo: {},
     brandType: null, // 1 商场 0 店铺
+    industryName: '',
   }),
   created() {
     // this.getData()
@@ -120,6 +121,7 @@ export default {
           break
         case DETECT_STATUS.PROXIMITY:
           this.guideDialog = true
+          // this.getIndustryExtend()
           break
       }
     }
@@ -154,6 +156,13 @@ export default {
         })
       }
     },
+    // 获取动态行业名称
+    async getIndustryExtend() {
+      const res = await getIndustryExtend({
+        brandId: sessionStorage.getItem('brandId'),
+      })
+      this.industryName = JSON.parse(res.body.industryExtend).largeScreen.name
+    },
     async getAdvertsInfo() {
       const res = await getAdvertsInfo(sessionStorage.getItem('devId'))
       this.showEmpty = false
@@ -168,6 +177,7 @@ export default {
       this.options = JSON.parse(rotationRules)
       this.resources = resEntityMap
       this.advertsStyleMap = advertsStyleMap
+      this.getIndustryExtend()
       this.$refs.picker.changeList()
       this.unlock()
     },

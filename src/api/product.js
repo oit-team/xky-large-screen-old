@@ -68,3 +68,11 @@ export function getBrandNameCard(params) {
 export function insertGoodsPhoneRelation(params) {
   return post('/liveBroadcast/adverts/insertGoodsPhoneRelation\n', params)
 }
+
+/**
+ * 根据brandId获取动态行业名称
+ */
+export function getIndustryExtend(params) {
+  return post('/system/industryConf/getIndustryExtend', params)
+}
+
