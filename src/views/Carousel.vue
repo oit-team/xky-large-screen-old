@@ -203,7 +203,7 @@ export default {
     },
     toLucky() {
       this.lock()
-      this.$router.push('/lucky')
+      this.$router.push(`/lucky?t=${Date.now()}`)
     },
     async sendCommandToDevice() {
       this.lock()

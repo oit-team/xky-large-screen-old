@@ -5,7 +5,7 @@
       <v-responsive :aspect-ratio="9 / 16">
         <keep-alive>
           <v-fade-transition v-if="$route.meta?.cache" origin="center center" leave-absolute>
-            <keep-alive>
+            <keep-alive :max="20">
               <router-view :key="$route.fullPath" />
             </keep-alive>
           </v-fade-transition>
